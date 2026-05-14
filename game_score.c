@@ -41,7 +41,7 @@ void game_score_label_create(lv_obj_t *scr)
 void game_init_start(void)
 {
     game_score = 0;
-    game_time  = 30;
+    game_time  = 60;
     game_over  = 0;
 }
 
