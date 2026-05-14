@@ -2,7 +2,7 @@
 #include "lv_port_disp_template.h"
 #include "lv_port_indev_template.h"
 #include "game.h"
-int a=0;
+
 bac bg;
 extern lv_obj_t * scr_menu; 
 extern lv_obj_t * scr_game;
