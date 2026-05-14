@@ -3,7 +3,7 @@
 #include "lv_port_indev_template.h"
 #include "game.h"
 
-bac bg;
+bac bg ;
 extern lv_obj_t * scr_menu; 
 extern lv_obj_t * scr_game;
 extern int read_file_to_array(const char* filename, uint8_t* buffer, uint32_t max_size);
