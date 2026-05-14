@@ -7,7 +7,6 @@ lv_img_dsc_t cell_struct[5];    //方块图片数据结构体定义
 
 extern int read_file_to_array(const char* filename, uint8_t* buffer, uint32_t max_size);
 extern bac bg;
-int i=0;
 void game_sqr_src_load(){       //根据主题读取方块的五种图片
     for(int i=0;i<5;i++){
 	    cell_buffer[i]=sdram_malloc(CELL_SIZE);   
