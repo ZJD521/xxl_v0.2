@@ -1,3 +1,3 @@
 @echo off
 cd /d "%~dp0"
-"E:\Git\bin\bash.exe"
+"D:\Git\bin\bash.exe"
