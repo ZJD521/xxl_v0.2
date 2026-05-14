@@ -149,7 +149,9 @@ void swap_ready_cb(lv_anim_t *a);     //交换动画完成的回调
 
 void fall_anim_ready_cb(lv_anim_t* a);   //下落动画完成回调
 
-void game_timer_cb(lv_timer_t* timer);
+void game_score_label_create(lv_obj_t *scr);
+
+void game_init_start(void);
 
 void game_end_show(void);
 
