@@ -7,7 +7,7 @@ extern void btn_start_cb(lv_event_t*e);
 extern void btn_choose_cb(lv_event_t*e);
 extern void btn_def_cb(lv_event_t*e);
 extern void btn_ice_cb(lv_event_t*e);
-
+extern lv_obj_t * scr_game;
    //开始按钮定义                      
 lv_obj_t * btn_start ;
 
@@ -86,10 +86,16 @@ void game_btn_theme_ice_load(){
 
 
 }
-void game_btn_exit_load(){        
-    btn_exit = lv_btn_create(scr_menu);
-	  lv_obj_set_size(btn_exit,256,100);
+void game_btn_exit_load(lv_obj_t*scr){        
+    btn_exit = lv_btn_create(scr);
+	if(scr==scr_menu){
+		lv_obj_set_size(btn_exit,256,100);
   	lv_obj_align(btn_exit,LV_ALIGN_CENTER,0,150); //下移150
+	}
+	else if(scr==scr_game){
+		lv_obj_set_size(btn_exit,128,50);
+		lv_obj_align(btn_exit,LV_ALIGN_CENTER,430,150); 
+	}
 	  lv_obj_add_event_cb(btn_exit,btn_exit_cb,LV_EVENT_ALL,NULL);
 	  lv_obj_t *lb_exit=lv_label_create(btn_exit);
 	  lv_label_set_text(lb_exit,"EXIT");
@@ -98,7 +104,11 @@ void game_btn_exit_load(){
     lv_obj_set_style_bg_color(btn_exit, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
 	  lv_obj_set_style_text_color(btn_exit, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_exit);
+	if(scr==scr_menu)
     lv_obj_set_style_text_font(lb_exit , &lv_font_montserrat_40, 0);
+	else
+	  lv_obj_set_style_text_font(lb_exit , &lv_font_montserrat_30, 0);
+
 
 
 }

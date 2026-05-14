@@ -1,5 +1,7 @@
 #include "game.h"
 
+char buf[60];
+
 uint16_t game_score = 0;
 uint16_t high_score = 0;
 uint16_t game_time  = 60;
@@ -14,6 +16,7 @@ lv_obj_t *game_end_title;
 lv_obj_t *game_end_score;
 lv_obj_t *btn_back_main;
 
+
 void btn_back_main_cb(lv_event_t *e);
 void game_timer_cb(lv_timer_t* timer);
 
@@ -26,7 +29,7 @@ void game_score_label_create(lv_obj_t *scr)
     lv_obj_align(label_score, LV_ALIGN_TOP_LEFT, 20, 100);
 
     label_time = lv_label_create(scr);
-    lv_label_set_text(label_time, "Time: 60");
+    lv_label_set_text(label_time, "Time: 30");
     lv_obj_set_style_text_color(label_time, lv_color_hex(0x00FF00), 0);
 	  lv_obj_set_style_text_font(label_time, &lv_font_montserrat_40, 0);
     lv_obj_align(label_time, LV_ALIGN_TOP_LEFT, 20, 200);

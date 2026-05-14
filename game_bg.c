@@ -2,7 +2,7 @@
 #include "lv_port_disp_template.h"
 #include "lv_port_indev_template.h"
 #include "game.h"
-
+lv_timer_t * gametime;
 bac bg ;
 extern lv_obj_t * scr_menu; 
 extern lv_obj_t * scr_game;
@@ -43,13 +43,14 @@ void game_bg_load(lv_obj_t *scr ){       //加载背景
 
 void screen_cb(lv_event_t*e)
 {
+	  game_btn_exit_load(scr_game);
     game_bg_load(scr_game);
     game_score_label_create(scr_game);
     game_init_start();
 
     // 启动倒计时
-    lv_timer_create(game_timer_cb, 1000, NULL);
-
+    gametime = lv_timer_create(game_timer_cb, 1000, NULL);
+    
     game_sqr_src_load();
     game_sqr_field_init(scr_game);
 }
