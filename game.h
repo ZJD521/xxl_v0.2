@@ -68,7 +68,9 @@ typedef enum {   //当前状态
 
 //相关函数
 
-//加载
+//加载;
+void game_init(void);
+
 void game_bg_load(lv_obj_t * scr);  //加载默认背景
 
 void game_sqr_field_init(lv_obj_t* scr);   //加载游戏场，创建方块对象
@@ -83,7 +85,7 @@ void game_btn_theme_default_load(void);     //加载动物主题按钮
 
 void game_btn_theme_ice_load(void);         //加载蔬果主题按钮 
 
-void game_btn_exit_load(void);        //加载返回按钮
+void game_btn_exit_load(lv_obj_t*scr);        //加载返回按钮
 
 cell_type safe_type(uint8_t x, uint8_t y);  //返回不与周围相同的方块类型
 
