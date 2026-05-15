@@ -40,5 +40,8 @@ void game_init(){
 	  game_bg_load(scr_menu);
     game_btn_start_load();
     game_btn_choose_load();
+	  game_btn_theme_default_load();
+	  game_btn_theme_ice_load();
+	  game_btn_exit_load(scr_menu);
 	  game_init_fall_system();
 }

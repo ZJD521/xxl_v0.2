@@ -15,7 +15,7 @@ lv_obj_t *game_end_bg;
 lv_obj_t *game_end_title;
 lv_obj_t *game_end_score;
 lv_obj_t *btn_back_main;
-
+extern lv_timer_t * gametime;
 
 void btn_back_main_cb(lv_event_t *e);
 void game_timer_cb(lv_timer_t* timer);
@@ -90,7 +90,6 @@ void game_end_show(void)
     lv_obj_align(game_end_title, LV_ALIGN_CENTER, 0, -50);
 
     game_end_score = lv_label_create(game_end_bg);
-    char buf[60];
     sprintf(buf, "Score: %d\nBest Record: %d", game_score, high_score);
     lv_label_set_text(game_end_score, buf);
     lv_obj_set_style_text_color(game_end_score, lv_color_white(), 0);
@@ -112,18 +111,18 @@ void btn_back_main_cb(lv_event_t *e)
     lv_obj_del(game_end_bg);
     game_cleanup_all();
     lv_scr_load(scr_menu);
+    lv_obj_clear_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
+		lv_obj_clear_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
 }
 
 // 清理资源，不清除最高分
 void game_cleanup_all(void)
 {
-    lv_timer_pause(NULL);
-    lv_obj_clean(scr_game);
 
     status = NORMAL;
     game_over = 0;
     game_score = 0;
-    game_time = 60;
+    game_time = 30;
 
     for(uint8_t i = 0; i < GRID_COLS; i++){
         for(uint8_t j = 0; j < GRID_ROWS; j++){
