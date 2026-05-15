@@ -78,35 +78,34 @@ void btn_ice_cb(lv_event_t*e){   ////标记主题并切屏进入游戏
 	 
 }
 void btn_exit_cb(lv_event_t*e){    //返回
-	  lv_event_code_t code = lv_event_get_code(e); 
-	 if(code == LV_EVENT_CLICKED&&lv_scr_act()==scr_menu){
-		lv_obj_add_flag(btn_ice,LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(btn_def,LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
-		 
-    lv_obj_clear_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
-		lv_obj_clear_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
-		
-		}
-	else if(code == LV_EVENT_CLICKED&&lv_scr_act()==scr_game){
-		 lv_obj_set_parent(btn_exit,scr_menu);
-		 lv_obj_add_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
-		 lv_obj_set_size(btn_exit,256,100);
-  	 lv_obj_align(btn_exit,LV_ALIGN_CENTER,0,150); //下移150
-		
-		 game_over = 1;
+    lv_event_code_t code = lv_event_get_code(e); 
+    if(code == LV_EVENT_CLICKED && lv_scr_act() == scr_menu){
+        lv_obj_add_flag(btn_ice, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(btn_def, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(btn_exit, LV_OBJ_FLAG_HIDDEN);
+        
+        lv_obj_clear_flag(btn_start, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
+    }
+    else if(code == LV_EVENT_CLICKED && lv_scr_act() == scr_game){
+        // 1. 停止游戏
+        game_over = 1;
+        
+        // 2. 清理定时器
+        if (gametime != NULL) {
             lv_timer_del(gametime);
+            gametime = NULL;
+        }
 
-            if(game_score > high_score)
-            {
-                high_score = game_score;
-                sprintf(buf, "High: %d", high_score);
-                lv_label_set_text(label_high, buf);
-            }
-	  game_end_show();
-    	}
-	
-		
-	 
-
+        // 3. 更新最高分
+        if(game_score > high_score) {
+            char buff[20];
+            high_score = game_score;
+            sprintf(buff, "High: %d", high_score);
+            lv_label_set_text(label_high, buff);
+        }
+        
+        // 4. 显示结束界面
+        game_end_show();
+    }
 }

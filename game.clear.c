@@ -90,6 +90,10 @@ uint8_t game_check_clear(void) {
 
 
 void game_do_clear(lv_timer_t* timer) {
+	if (game_over == 1) { // 熔断判断
+        lv_timer_del(timer); 
+        return;
+    }
 	if(game_check_clear()){
     for(uint8_t y = 0; y < GRID_ROWS; y++) {
         for(uint8_t x = 0; x < GRID_COLS; x++) {

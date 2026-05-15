@@ -1,6 +1,5 @@
 #include "game.h"
 
-char buf[60];
 
 uint16_t game_score = 0;
 uint16_t high_score = 0;
@@ -16,9 +15,12 @@ lv_obj_t *game_end_title;
 lv_obj_t *game_end_score;
 lv_obj_t *btn_back_main;
 extern lv_timer_t * gametime;
+extern lv_obj_t * btn_exit;
 
 void btn_back_main_cb(lv_event_t *e);
 void game_timer_cb(lv_timer_t* timer);
+
+
 
 void game_score_label_create(lv_obj_t *scr)
 {
@@ -54,20 +56,21 @@ void game_timer_cb(lv_timer_t* timer)
     {
         game_time--;
 
-        char buf[20];
-        sprintf(buf, "Time: %d", game_time);
-        lv_label_set_text(label_time, buf);
+        char buff[20];
+        sprintf(buff, "Time: %d", game_time);
+        lv_label_set_text(label_time, buff);
 
         if(game_time <= 0)
         {
             game_over = 1;
+					  gametime=NULL;
             lv_timer_del(timer);
 
             if(game_score > high_score)
             {
                 high_score = game_score;
-                sprintf(buf, "High: %d", high_score);
-                lv_label_set_text(label_high, buf);
+                sprintf(buff, "High: %d", high_score);
+                lv_label_set_text(label_high, buff);
             }
 
             game_end_show();
@@ -77,6 +80,8 @@ void game_timer_cb(lv_timer_t* timer)
 
 void game_end_show(void)
 {
+	  char buf[60];
+    lv_anim_del_all();
     game_end_bg = lv_obj_create(lv_scr_act());
     lv_obj_set_size(game_end_bg, LV_HOR_RES, LV_VER_RES);
     lv_obj_set_style_bg_color(game_end_bg, lv_color_black(), 0);
@@ -105,27 +110,58 @@ void game_end_show(void)
     lv_obj_center(lab);
 }
 
-// 返回按钮回调（完整保留！）
 void btn_back_main_cb(lv_event_t *e)
 {
-    lv_obj_del(game_end_bg);
+    lv_event_code_t code = lv_event_get_code(e);
+    if(code != LV_EVENT_CLICKED) return;
+    lv_obj_set_parent(btn_exit,scr_menu);
+    // 1. 直接删除结束界面（如果存在）
+    if(game_end_bg != NULL) {
+        lv_obj_del(game_end_bg);
+        game_end_bg = NULL;
+    }
+    
+    // 2. 清理游戏资源
     game_cleanup_all();
+    
+    // 3. 恢复主菜单按钮状态
+    lv_obj_clear_flag(btn_start, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(btn_def, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(btn_ice, LV_OBJ_FLAG_HIDDEN);
+    
+    // 4. 重置Exit按钮
+    lv_obj_set_parent(btn_exit, scr_menu);
+    lv_obj_set_size(btn_exit, 256, 100);
+    lv_obj_align(btn_exit, LV_ALIGN_CENTER, 0, 150);
+    lv_obj_add_flag(btn_exit, LV_OBJ_FLAG_HIDDEN);
+    
+    // 5. 切换回主菜单
     lv_scr_load(scr_menu);
-    lv_obj_clear_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
-		lv_obj_clear_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
 }
 
-// 清理资源，不清除最高分
 void game_cleanup_all(void)
 {
-
+    // 1. 清理定时器
+    if(gametime != NULL) {
+        lv_timer_del(gametime);
+        gametime = NULL;
+    }
+    
+    // 2. 清理游戏界面
+    if(scr_game != NULL && lv_obj_is_valid(scr_game)) {
+        lv_obj_clean(scr_game);
+    }
+    
+    // 3. 重置游戏状态
     status = NORMAL;
     game_over = 0;
     game_score = 0;
     game_time = 30;
-
-    for(uint8_t i = 0; i < GRID_COLS; i++){
-        for(uint8_t j = 0; j < GRID_ROWS; j++){
+    
+    // 4. 重置坐标映射
+    for(uint8_t i = 0; i < GRID_COLS; i++) {
+        for(uint8_t j = 0; j < GRID_ROWS; j++) {
             coord_map[i][j] = NULL;
         }
     }
