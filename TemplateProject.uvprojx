@@ -425,11 +425,6 @@
               <FilePath>.\gam_sqr_check.c</FilePath>
             </File>
             <File>
-              <FileName>game.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\game.c</FilePath>
-            </File>
-            <File>
               <FileName>game.clear.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game.clear.c</FilePath>

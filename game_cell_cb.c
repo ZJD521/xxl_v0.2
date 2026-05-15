@@ -188,7 +188,7 @@ void swap_ready_cb(lv_anim_t * a) {   //交换完成回调
         anim_count = 0;
         ani * data = (ani *)lv_anim_get_user_data(a); 
 
-        // 1. 找到两个方块在cell数组中的索引
+        // 找到两个方块在cell数组中的索引
         uint8_t i1 = 0, j1 = 0, i2 = 0, j2 = 0;
         bool found1 = false, found2 = false;
         
@@ -204,7 +204,7 @@ void swap_ready_cb(lv_anim_t * a) {   //交换完成回调
         }
         
         if(found1 && found2) {
-            // 2. 交换坐标
+            //  交换坐标
             swap_cell_coordinates(i1, j1, i2, j2);
             lv_obj_move_to_index(coord_map[i1][j1]->img, GRID_COLS * GRID_ROWS * 5);
             lv_obj_move_to_index(coord_map[i2][j2]->img, GRID_COLS * GRID_ROWS * 5 + 1);
@@ -248,7 +248,7 @@ void swap_cell_coordinates(uint8_t i1, uint8_t j1, uint8_t i2, uint8_t j2) {  //
     uint8_t old_x2 = cell[i2][j2].x;
     uint8_t old_y2 = cell[i2][j2].y;
     
-    // 1. 交换实际坐标值
+    // 交换实际坐标值
     uint8_t temp_x = cell[i1][j1].x;
     uint8_t temp_y = cell[i1][j1].y;
     cell[i1][j1].x = cell[i2][j2].x;
@@ -256,11 +256,11 @@ void swap_cell_coordinates(uint8_t i1, uint8_t j1, uint8_t i2, uint8_t j2) {  //
     cell[i2][j2].x = temp_x;
     cell[i2][j2].y = temp_y;
     
-    // 2. 清除旧映射
+    //  清除旧映射
     coord_map[old_x1][old_y1] = NULL;
     coord_map[old_x2][old_y2] = NULL;
     
-    // 3. 设置新映射
+    // 设置新映射
     coord_map[cell[i1][j1].x][cell[i1][j1].y] = &cell[i1][j1];
     coord_map[cell[i2][j2].x][cell[i2][j2].y] = &cell[i2][j2];
 }
@@ -271,10 +271,10 @@ void clear_coord_map_at(uint8_t x, uint8_t y) {  //清除索引
 }
 
 void update_coord_map_for_single_cell(sqr* cell, uint8_t old_x, uint8_t old_y) {  //更新索引
-    // 1. 清除旧位置
+    //  清除旧位置
     clear_coord_map_at(old_x, old_y);
     
-    // 2. 设置新位置
+    // 设置新位置
     if(cell->x < GRID_COLS && cell->y < GRID_ROWS) {
         coord_map[cell->x][cell->y] = cell;
     }

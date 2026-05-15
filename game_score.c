@@ -31,7 +31,7 @@ void game_score_label_create(lv_obj_t *scr)
     lv_obj_align(label_score, LV_ALIGN_TOP_LEFT, 20, 100);
 
     label_time = lv_label_create(scr);
-    lv_label_set_text(label_time, "Time: 30");
+    lv_label_set_text(label_time, "Time: 60");
     lv_obj_set_style_text_color(label_time, lv_color_hex(0x00FF00), 0);
 	  lv_obj_set_style_text_font(label_time, &lv_font_montserrat_40, 0);
     lv_obj_align(label_time, LV_ALIGN_TOP_LEFT, 20, 200);
@@ -115,51 +115,51 @@ void btn_back_main_cb(lv_event_t *e)
     lv_event_code_t code = lv_event_get_code(e);
     if(code != LV_EVENT_CLICKED) return;
     lv_obj_set_parent(btn_exit,scr_menu);
-    // 1. 直接删除结束界面（如果存在）
+    // 删除结束界面
     if(game_end_bg != NULL) {
         lv_obj_del(game_end_bg);
         game_end_bg = NULL;
     }
     
-    // 2. 清理游戏资源
+    //清理游戏资源
     game_cleanup_all();
     
-    // 3. 恢复主菜单按钮状态
+    // 恢复主菜单按钮状态
     lv_obj_clear_flag(btn_start, LV_OBJ_FLAG_HIDDEN);
     lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(btn_def, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(btn_ice, LV_OBJ_FLAG_HIDDEN);
     
-    // 4. 重置Exit按钮
+    // 重置Exit按钮
     lv_obj_set_parent(btn_exit, scr_menu);
     lv_obj_set_size(btn_exit, 256, 100);
     lv_obj_align(btn_exit, LV_ALIGN_CENTER, 0, 150);
     lv_obj_add_flag(btn_exit, LV_OBJ_FLAG_HIDDEN);
     
-    // 5. 切换回主菜单
+    // 切换回主菜单
     lv_scr_load(scr_menu);
 }
 
 void game_cleanup_all(void)
 {
-    // 1. 清理定时器
+    //  清理定时器
     if(gametime != NULL) {
         lv_timer_del(gametime);
         gametime = NULL;
     }
     
-    // 2. 清理游戏界面
+    //  清理游戏界面
     if(scr_game != NULL && lv_obj_is_valid(scr_game)) {
         lv_obj_clean(scr_game);
     }
     
-    // 3. 重置游戏状态
+    // 重置游戏状态
     status = NORMAL;
     game_over = 0;
     game_score = 0;
-    game_time = 30;
+    game_time = 60;
     
-    // 4. 重置坐标映射
+    //  重置坐标映射
     for(uint8_t i = 0; i < GRID_COLS; i++) {
         for(uint8_t j = 0; j < GRID_ROWS; j++) {
             coord_map[i][j] = NULL;

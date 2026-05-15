@@ -88,16 +88,16 @@ void btn_exit_cb(lv_event_t*e){    //返回
         lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
     }
     else if(code == LV_EVENT_CLICKED && lv_scr_act() == scr_game){
-        // 1. 停止游戏
+        // 停止游戏
         game_over = 1;
         
-        // 2. 清理定时器
+        // 清理定时器
         if (gametime != NULL) {
             lv_timer_del(gametime);
             gametime = NULL;
         }
 
-        // 3. 更新最高分
+        // 更新最高分
         if(game_score > high_score) {
             char buff[20];
             high_score = game_score;
@@ -105,7 +105,7 @@ void btn_exit_cb(lv_event_t*e){    //返回
             lv_label_set_text(label_high, buff);
         }
         
-        // 4. 显示结束界面
+        // 显示结束界面
         game_end_show();
     }
 }
