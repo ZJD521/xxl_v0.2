@@ -92,6 +92,10 @@ void fall_anim_ready_cb(lv_anim_t* a) {  //下落动画回调
 }
 
 void game_refill(lv_timer_t* timer){  //重填函数
+	if (game_over == 1) { // 熔断判断
+        lv_timer_del(timer); 
+        return;
+    }
   falling_cell_count=0;
   for(uint8_t x = 0; x < GRID_COLS; x++) {
         for(int8_t read_y = GRID_ROWS - 1; read_y >= 0; read_y--){
@@ -139,6 +143,10 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成新方块
     game_fall_one(coord_map[x][y], y);
 }
 void fall_complete_check(lv_timer_t* timer) {
+		if (game_over == 1) { // 熔断判断
+        lv_timer_del(timer); 
+        return;
+    }
     // 如果还有下落的方块，继续等待
     if(falling_cell_count > 0) {
         lv_timer_reset(timer);

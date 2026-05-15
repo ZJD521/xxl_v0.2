@@ -20,23 +20,28 @@ int main()
 		lv_init();
 		lv_port_disp_init();
 		lv_port_indev_init();
+	  game_init();
+		
+
+    lv_obj_add_event_cb(scr_game,screen_cb,LV_EVENT_SCREEN_LOAD_START,NULL);//注册屏幕加载回调
+		while(1){
+		lv_task_handler();    
+    delay_us(2000);      
+
+    
+}
+	}
+void game_init(){
 	  scr_menu = lv_obj_create(NULL); 
     scr_game = lv_obj_create(NULL);
-   	lv_obj_add_event_cb(scr_game,screen_cb,LV_EVENT_SCREEN_LOAD_START,NULL);//注册屏幕加载回调
+   	
 
   	lv_scr_load(scr_menu);
 	  game_bg_load(scr_menu);
     game_btn_start_load();
     game_btn_choose_load();
+	  game_btn_theme_default_load();
+	  game_btn_theme_ice_load();
+	  game_btn_exit_load(scr_menu);
 	  game_init_fall_system();
-		
-
-
-		while(1){
-		lv_task_handler();    
-    delay_us(1000);      
-
-    
 }
-	}
-
