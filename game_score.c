@@ -37,9 +37,11 @@ void game_score_label_create(lv_obj_t *scr)
     lv_obj_align(label_time, LV_ALIGN_TOP_LEFT, 20, 200);
 
     label_high = lv_label_create(scr);
-    lv_label_set_text(label_high, "");
-    lv_obj_set_style_text_color(label_high, lv_color_hex(0x00FF00), 0);
-	  lv_obj_set_style_text_font(label_high, &lv_font_montserrat_20, 0);
+	  char buff[20];
+    sprintf(buff, "High: %d", high_score);
+    lv_label_set_text(label_high, buff);
+    lv_obj_set_style_text_color(label_high, lv_color_hex(0xFFFFFF), 0);
+	  lv_obj_set_style_text_font(label_high, &lv_font_montserrat_40, 0);
     lv_obj_align(label_high, LV_ALIGN_TOP_LEFT, 20, 300);
 }
 
@@ -69,8 +71,7 @@ void game_timer_cb(lv_timer_t* timer)
             if(game_score > high_score)
             {
                 high_score = game_score;
-                sprintf(buff, "High: %d", high_score);
-                lv_label_set_text(label_high, buff);
+            
             }
 
             game_end_show();
