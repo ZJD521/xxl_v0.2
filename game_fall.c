@@ -35,12 +35,13 @@ void game_fall_all(void) {
 		
     
     // 使用定时器检查下落完成
-    lv_timer_t* timer = lv_timer_create(fall_complete_check, duration+10, NULL);
-    lv_timer_set_repeat_count(timer, 1);
+    lv_timer_t* ftimer = lv_timer_create(fall_complete_check, duration+10, NULL);
+    lv_timer_set_repeat_count(ftimer, 1);
 		if (find_count==0){
+			lv_timer_del(ftimer);
 			status=FALLING;
-		  lv_timer_t* timer = lv_timer_create(game_refill, duration*2+5, NULL);
-      lv_timer_set_repeat_count(timer, 1);
+		  lv_timer_t* rtimer = lv_timer_create(game_refill, duration*2+5, NULL);
+      lv_timer_set_repeat_count(rtimer, 1);
 		}
 }
 
@@ -55,6 +56,7 @@ void game_fall_one(sqr* cell, uint8_t target_y) {
         cell->y = target_y;
         if(old_x != cell->x || old_y != cell->y) {
             coord_map[old_x][old_y] = del;
+					
             coord_map[cell->x][cell->y] = cell;
         }
     
