@@ -22,21 +22,21 @@ void game_timer_cb(lv_timer_t* timer);
 
 
 
-void game_score_label_create(lv_obj_t *scr)//有关标签创建
+void game_score_label_create(lv_obj_t *scr)
 {
-    label_score = lv_label_create(scr);//分数
+    label_score = lv_label_create(scr);
     lv_label_set_text(label_score, "Score: 0");
     lv_obj_set_style_text_color(label_score, lv_color_hex(0xFFFC29), 0);
 	  lv_obj_set_style_text_font(label_score, &lv_font_montserrat_40, 0);
     lv_obj_align(label_score, LV_ALIGN_TOP_LEFT, 20, 100);
 
-    label_time = lv_label_create(scr);//时间
+    label_time = lv_label_create(scr);
     lv_label_set_text(label_time, "Time: 60");
     lv_obj_set_style_text_color(label_time, lv_color_hex(0x00FF00), 0);
 	  lv_obj_set_style_text_font(label_time, &lv_font_montserrat_40, 0);
     lv_obj_align(label_time, LV_ALIGN_TOP_LEFT, 20, 200);
 
-    label_high = lv_label_create(scr);//最高分
+    label_high = lv_label_create(scr);
 	  char buff[20];
     sprintf(buff, "High: %d", high_score);
     lv_label_set_text(label_high, buff);
@@ -46,13 +46,13 @@ void game_score_label_create(lv_obj_t *scr)//有关标签创建
 }
 
 void game_init_data(void)
-{//数据初始化
+{
     game_score = 0;
     game_time  = 60;
     game_over  = 0;
 }
 
-void game_timer_cb(lv_timer_t* timer)//每秒回调
+void game_timer_cb(lv_timer_t* timer)
 {
     if(game_over == 0)
     {
@@ -79,11 +79,9 @@ void game_timer_cb(lv_timer_t* timer)//每秒回调
     }
 }
 
-void game_end_show(void)  //弹出结束界面
+void game_end_show(void)
 {
 	  char buf[60];
-    game_fall_stop_all();   //停掉下落链，避免带入下一局
-    status = NORMAL;
     lv_anim_del_all();
     game_end_bg = lv_obj_create(lv_scr_act());
     lv_obj_set_size(game_end_bg, LV_HOR_RES, LV_VER_RES);
@@ -143,27 +141,26 @@ void btn_back_main_cb(lv_event_t *e)
     lv_scr_load(scr_menu);
 }
 
-void game_cleanup_all(void)  //清理本局资源
+void game_cleanup_all(void)
 {
-    game_fall_stop_all();   //停掉下落检测定时器
-    //清理倒计时
+    //  清理定时器
     if(gametime != NULL) {
         lv_timer_del(gametime);
         gametime = NULL;
     }
     
-    //清理游戏界面
+    //  清理游戏界面
     if(scr_game != NULL && lv_obj_is_valid(scr_game)) {
         lv_obj_clean(scr_game);
     }
     
-    //重置游戏状态
+    // 重置游戏状态
     status = NORMAL;
     game_over = 0;
     game_score = 0;
     game_time = 60;
     
-    //重置坐标映射
+    //  重置坐标映射
     for(uint8_t i = 0; i < GRID_COLS; i++) {
         for(uint8_t j = 0; j < GRID_ROWS; j++) {
             coord_map[i][j] = NULL;

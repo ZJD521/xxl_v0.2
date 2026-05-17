@@ -5,7 +5,7 @@
  lv_obj_t *frame[GRID_COLS][GRID_ROWS];
 extern lv_img_dsc_t cell_struct[5];
 
-//检查是否会形成3个连续（按数组下标查邻居，开局时与逻辑格一致）
+// 检查是否会形成 3 个连续
 static uint8_t is_bad(uint8_t x, uint8_t y, cell_type t)
 {
     // 左两个
@@ -41,7 +41,7 @@ static uint8_t is_bad(uint8_t x, uint8_t y, cell_type t)
     return 0;
 }
 
-//生成安全颜色
+// 生成安全颜色
 cell_type safe_type(uint8_t x, uint8_t y)
 {
     cell_type t;

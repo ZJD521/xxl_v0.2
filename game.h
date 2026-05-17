@@ -126,8 +126,6 @@ void clear_coord_map_at(uint8_t x, uint8_t y);    //清除单个索引
 
 void game_init_fall_system(void);     //初始化下落系统
 
-void game_fall_stop_all(void);      //停止下落链（局间清理用）
-
 void game_fall_all(void);   //下落函数
 
 void game_fall_one(sqr* cell, uint8_t target_y);  //下落单个方块

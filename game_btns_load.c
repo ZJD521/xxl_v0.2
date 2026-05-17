@@ -94,11 +94,10 @@ void game_btn_exit_load(lv_obj_t*scr){
 		lv_obj_set_size(btn_exit,256,100);
   	lv_obj_align(btn_exit,LV_ALIGN_CENTER,0,150); //下移150
 	}
-	else if(scr==scr_game){//改变位置
+	else if(scr==scr_game){
 		lv_obj_set_size(btn_exit,128,50);
 		lv_obj_align(btn_exit,LV_ALIGN_CENTER,430,150); 
 	}
-	
 	  lv_obj_add_event_cb(btn_exit,btn_exit_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_exit=lv_label_create(btn_exit);
 	  lv_label_set_text(lb_exit,"EXIT");
@@ -109,7 +108,7 @@ void game_btn_exit_load(lv_obj_t*scr){
 	  lv_obj_center(lb_exit);
 	if(scr==scr_menu)
     lv_obj_set_style_text_font(lb_exit , &lv_font_montserrat_40, 0);
-	else//改变字号
+	else
 	  lv_obj_set_style_text_font(lb_exit , &lv_font_montserrat_30, 0);
 	
 		lv_obj_add_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);

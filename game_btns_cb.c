@@ -88,10 +88,10 @@ void btn_exit_cb(lv_event_t*e){    //返回
         lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
     }
     else if(code == LV_EVENT_CLICKED && lv_scr_act() == scr_game){
+        // 停止游戏
         game_over = 1;
-        game_fall_stop_all();   //中途退出时停掉下落链
         
-        //清理倒计时
+        // 清理定时器
         if (gametime != NULL) {
             lv_timer_del(gametime);
             gametime = NULL;
