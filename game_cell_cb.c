@@ -174,9 +174,9 @@ void cell_swap_exec(sqr * cell_a , sqr * cell_b){   //交换图片位置和网�
 
 
 
-void swap_ready_cb(lv_anim_t * a) {   //交换完成回调
+void swap_ready_cb(lv_anim_t * a) {   //交换完成回调（两路动画各触发一次）
     static uint8_t anim_count = 0; 
-    static uint8_t swap_count = 1;
+    static uint8_t swap_count = 1;   //弹回交换时跳过首轮回调
     
     if (swap_count == 0) {
         swap_count++;
@@ -210,10 +210,10 @@ void swap_ready_cb(lv_anim_t * a) {   //交换完成回调
             lv_obj_move_to_index(coord_map[i2][j2]->img, GRID_COLS * GRID_ROWS * 5 + 1);
             if (status == NORMAL) {
                 if(game_check_clear()) {
-                    game_do_clear(NULL);
+                    game_do_clear(NULL);  //有效交换，进入消除
                     swap_count++; 
                 } else {
-                    // 交换回来
+                    //无效交换，弹回
                     swap_cell_coordinates(i2, j2, i1, j1);
                     swap_count = 0;
                     cell_swap_exec(data->cell_b, data->cell_a);

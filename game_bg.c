@@ -42,9 +42,10 @@ void game_bg_load(lv_obj_t *scr ){       //加载背景
 	  lv_obj_move_background(bg.img);         //移动到底层
 }
 
-void screen_cb(lv_event_t*e)
+void screen_cb(lv_event_t*e)    //游戏屏幕加载回调
 {
-	  
+    game_fall_stop_all();       //新局开始前再清一次下落链
+    game_init_fall_system();
     game_bg_load(scr_game);
     game_score_label_create(scr_game);
     game_init_data();

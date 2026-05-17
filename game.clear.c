@@ -7,7 +7,7 @@ static uint8_t clear_flag[GRID_COLS][GRID_ROWS] = {0};
 
 
 
-uint8_t game_check_clear(void) {  //标记可消除的方块
+uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag
     uint8_t ret = 0;
     cell_type t;
     
@@ -90,8 +90,8 @@ uint8_t game_check_clear(void) {  //标记可消除的方块
 
 
 void game_do_clear(lv_timer_t* timer) {  //消除执行
-	if (game_over == 1) { // 熔断判断
-        lv_timer_del(timer); 
+	if (game_over == 1) { //熔断判断
+        if(timer) lv_timer_del(timer);
         return;
     }
 	if(game_check_clear()){
@@ -119,10 +119,10 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
 						
         }
     }
-		game_fall_all();
+		game_fall_all();    //标记为DEL后触发下落
   }
   else
-		status=NORMAL;
+		status=NORMAL;      //无可消除，恢复可操作
 	
 	
 }
