@@ -79,9 +79,11 @@ void game_timer_cb(lv_timer_t* timer)
     }
 }
 
-void game_end_show(void)
+void game_end_show(void)  //弹出结束界面
 {
 	  char buf[60];
+    game_fall_stop_all();   //停掉下落链，避免带入下一局
+    status = NORMAL;
     lv_anim_del_all();
     game_end_bg = lv_obj_create(lv_scr_act());
     lv_obj_set_size(game_end_bg, LV_HOR_RES, LV_VER_RES);
@@ -141,9 +143,10 @@ void btn_back_main_cb(lv_event_t *e)
     lv_scr_load(scr_menu);
 }
 
-void game_cleanup_all(void)
+void game_cleanup_all(void)  //清理本局资源
 {
-    //  清理定时器
+    game_fall_stop_all();   //停掉下落检测定时器
+    //清理倒计时
     if(gametime != NULL) {
         lv_timer_del(gametime);
         gametime = NULL;
