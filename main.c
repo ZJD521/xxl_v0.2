@@ -31,7 +31,7 @@ int main()
     
 }
 	}
-void game_init(){
+void game_init(){ //游戏初始化
 	  scr_menu = lv_obj_create(NULL); 
     scr_game = lv_obj_create(NULL);
    	

@@ -45,7 +45,7 @@ void game_score_label_create(lv_obj_t *scr)
     lv_obj_align(label_high, LV_ALIGN_TOP_LEFT, 20, 300);
 }
 
-void game_init_start(void)
+void game_init_data(void)
 {
     game_score = 0;
     game_time  = 60;

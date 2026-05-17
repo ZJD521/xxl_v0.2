@@ -89,6 +89,14 @@ void game_btn_exit_load(lv_obj_t*scr);        //加载返回按钮
 
 cell_type safe_type(uint8_t x, uint8_t y);  //返回不与周围相同的方块类型
 
+void game_score_label_create(lv_obj_t *scr);  //创建分数标签
+
+void game_init_data(void);  //数据初始化
+
+void game_end_show(void);  //游戏结束
+
+void game_cleanup_all(void);  //清理本局资源
+
 
 //交换
 
@@ -151,15 +159,9 @@ void swap_ready_cb(lv_anim_t *a);     //交换动画完成的回调
 
 void fall_anim_ready_cb(lv_anim_t* a);   //下落动画完成回调
 
-void game_score_label_create(lv_obj_t *scr);
 
-void game_init_start(void);
 
-void game_end_show(void);
-
-void game_cleanup_all(void);
-
-void game_timer_cb(lv_timer_t* timer);
+void game_timer_cb(lv_timer_t* timer);  //定时器回调
 
 //全局变量
 
