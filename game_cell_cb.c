@@ -103,7 +103,7 @@ void cell_swap_x(sqr * cell_a , sqr * cell_b){  //横向交换
     lv_anim_set_var(&a_x, a->cell_a->img);
     lv_anim_set_exec_cb(&a_x, (lv_anim_exec_xcb_t)lv_obj_set_x);
     lv_anim_set_values(&a_x, cell_a_x, cell_b_x);
-    lv_anim_set_time(&a_x, duration);
+    lv_anim_set_time(&a_x, duration/2);
     lv_anim_set_path_cb(&a_x, lv_anim_path_bounce);	//固有动画格式
 	
 	  lv_anim_t b_x;
@@ -111,7 +111,7 @@ void cell_swap_x(sqr * cell_a , sqr * cell_b){  //横向交换
     lv_anim_set_var(&b_x, a->cell_b->img);
     lv_anim_set_exec_cb(&b_x, (lv_anim_exec_xcb_t)lv_obj_set_x);
     lv_anim_set_values(&b_x, cell_b_x, cell_a_x);
-    lv_anim_set_time(&b_x, duration);
+    lv_anim_set_time(&b_x, duration/2);
     lv_anim_set_path_cb(&b_x, lv_anim_path_bounce);  	//固有动画格式
 		
 		lv_anim_set_user_data(&a_x, a);
@@ -140,7 +140,7 @@ void cell_swap_y(sqr * cell_a , sqr * cell_b){  //纵向交换
     lv_anim_set_var(&a_y, a->cell_a->img);
     lv_anim_set_exec_cb(&a_y, (lv_anim_exec_xcb_t)lv_obj_set_y);        //固有动画格式
     lv_anim_set_values(&a_y, cell_a_y, cell_b_y);
-    lv_anim_set_time(&a_y, duration);
+    lv_anim_set_time(&a_y, duration/2);
     lv_anim_set_path_cb(&a_y, lv_anim_path_bounce);	
 	
 	  lv_anim_t b_y;
@@ -148,7 +148,7 @@ void cell_swap_y(sqr * cell_a , sqr * cell_b){  //纵向交换
     lv_anim_set_var(&b_y, a->cell_b->img);
     lv_anim_set_exec_cb(&b_y, (lv_anim_exec_xcb_t)lv_obj_set_y);           //固有动画格式
     lv_anim_set_values(&b_y, cell_b_y, cell_a_y);
-    lv_anim_set_time(&b_y, duration);
+    lv_anim_set_time(&b_y, duration/2);
     lv_anim_set_path_cb(&b_y, lv_anim_path_bounce);  	
 		
 		lv_anim_set_user_data(&a_y, a);
