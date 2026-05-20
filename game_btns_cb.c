@@ -10,28 +10,28 @@ extern lv_obj_t * btn_mode;
 extern lv_obj_t * btn_theme;
 extern lv_obj_t * btn_time;
 extern lv_obj_t * btn_step;
+extern lv_obj_t * btn_level[5];
 extern bac bg;
 extern lv_obj_t * scr_menu; 
 extern lv_obj_t * scr_game;
 extern lv_timer_t * gametime;
 extern char buf[60];
+extern uint16_t game_level;
 
 bool game_mode = false;//游戏模式，false为时间模式，true为步数模式
 
-void btn_start_cb(lv_event_t*e){  //直接切屏进入游戏
-	  lv_event_code_t code = lv_event_get_code(e); 
-	  if(code == LV_EVENT_CLICKED){
-	  srand(lv_tick_get());
-
-	  lv_scr_load(scr_game);
-		lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
-			
-		lv_obj_set_size(btn_exit,128,50);  
-		lv_obj_align(btn_exit,LV_ALIGN_CENTER,430,150); 
- 		lv_obj_set_parent(btn_exit,scr_game);
-
+void btn_start_cb(lv_event_t*e){  //开始游戏
+	lv_event_code_t code = lv_event_get_code(e); 
+	if(code == LV_EVENT_CLICKED){
+		srand(lv_tick_get());
+	    lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
+	    lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
+		for (int i=0;i<5;i++){
+			lv_obj_clear_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
 		}
+	    lv_obj_clear_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
+
+	}
 		
 	 
 
@@ -90,7 +90,9 @@ void btn_exit_cb(lv_event_t*e){    //返回
         lv_obj_add_flag(btn_time, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(btn_step, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(btn_theme, LV_OBJ_FLAG_HIDDEN);
-        
+        for (int i=0;i<5;i++){
+			lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
+		}
         lv_obj_clear_flag(btn_start, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
     }
@@ -162,6 +164,23 @@ void btn_theme_cb(lv_event_t*e){  //主题按钮
 
 		lv_obj_clear_flag(btn_def,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_clear_flag(btn_ice,LV_OBJ_FLAG_HIDDEN);
+		
+	}
+}
+void btn_level_cb(lv_event_t*e){
+	lv_event_code_t code = lv_event_get_code(e); 
+	if(code == LV_EVENT_CLICKED){
+		int level_choose=(int)lv_event_get_user_data(e);
+		game_level=level_choose;
+		for (int i=0;i<5;i++){
+			lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
+		}
+		lv_scr_load(scr_game);
+		lv_obj_set_size(btn_exit,128,50);  
+		lv_obj_align(btn_exit,LV_ALIGN_CENTER,430,150); 
+ 		lv_obj_set_parent(btn_exit,scr_game);
+
+		
 		
 	}
 }

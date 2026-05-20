@@ -37,16 +37,16 @@ void game_init(){ //游戏初始化
    	
 
   	lv_scr_load(scr_menu);
-	  game_bg_load(scr_menu);
+	game_bg_load(scr_menu);
     game_btn_start_load();
     game_btn_choose_load();
-	  
-	  game_btn_theme_default_load();
-	  game_btn_theme_ice_load();
-	  game_btn_theme_load();
-	  game_btn_mode_load();
-	  game_btn_time_load();
-	  game_btn_step_load();
-	  game_btn_exit_load(scr_menu);
-	  game_init_fall_system();
+	game_btn_level_load();
+	game_btn_theme_default_load();
+	game_btn_theme_ice_load();
+	game_btn_theme_load();
+	game_btn_mode_load();
+	game_btn_time_load();
+	game_btn_step_load();
+	game_btn_exit_load(scr_menu);
+	game_init_fall_system();
 }

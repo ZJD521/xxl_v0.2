@@ -49,6 +49,8 @@ void screen_cb(lv_event_t*e)    //游戏屏幕加载回调
     game_bg_load(scr_game);
     game_score_label_create(scr_game);
     game_init_data();
+    game_level_data_init();
+    
     lv_obj_clear_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
     // 启动倒计时
     gametime = lv_timer_create(game_timer_cb, 1000, NULL);

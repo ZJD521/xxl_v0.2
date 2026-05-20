@@ -8,6 +8,7 @@ extern void btn_choose_cb(lv_event_t*e);
 extern void btn_def_cb(lv_event_t*e);
 extern void btn_ice_cb(lv_event_t*e);
 extern lv_obj_t * scr_game;
+extern lv_obj_t * btn_level[5];
    //开始按钮定义                      
 lv_obj_t * btn_start ;
 
@@ -188,4 +189,21 @@ void game_btn_theme_load(){
 	  lv_obj_center(lb_theme);
 	  lv_obj_set_style_text_font(lb_theme , &lv_font_montserrat_40, 0);
 		  lv_obj_add_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
+}
+void game_btn_level_load(){
+	for (int i=0;i<5;i++){
+		btn_level[i] = lv_btn_create(scr_menu);
+	  lv_obj_set_size(btn_level[i],70,70);
+  	lv_obj_align(btn_level[i],LV_ALIGN_CENTER,-280+2*i*70,0); 
+	lv_obj_add_event_cb(btn_level[i],btn_level_cb,LV_EVENT_CLICKED,(void*)(i+1));
+	  lv_obj_t *lb_level=lv_label_create(btn_level[i]);
+	  lv_label_set_text_fmt(lb_level,"%d",i+1);
+    lv_obj_set_style_bg_color(btn_level[i], lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_level[i], 10, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_level[i], lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+	  lv_obj_set_style_text_color(btn_level[i], lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+	  lv_obj_center(lb_level);
+	  lv_obj_set_style_text_font(lb_level , &lv_font_montserrat_30, 0);
+		  lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
+	}
 }

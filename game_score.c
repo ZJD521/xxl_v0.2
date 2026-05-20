@@ -3,9 +3,9 @@
 
 uint16_t game_score = 0;
 uint16_t high_score = 0;
-uint16_t game_time  = 60;
-uint16_t game_step = 20;
-uint16_t game_goal = 1000;
+extern uint16_t game_time ;
+extern uint16_t game_step ;
+extern uint16_t game_goal ;
 uint8_t  game_over  = 0;
 
 lv_obj_t *label_score;
@@ -38,7 +38,7 @@ void game_score_label_create(lv_obj_t *scr)
   if(game_mode == false)
     {
     label_time = lv_label_create(scr);
-    lv_label_set_text(label_time, "Time:60");
+    lv_label_set_text(label_time, "Time:");
     lv_obj_set_style_text_color(label_time, lv_color_hex(0x00FF00), 0);
 	  lv_obj_set_style_text_font(label_time, &lv_font_montserrat_40, 0);
     lv_obj_align(label_time, LV_ALIGN_TOP_LEFT, 20, 200);
@@ -70,9 +70,9 @@ void game_score_label_create(lv_obj_t *scr)
 void game_init_data(void)
 {
     game_score = 0;
-    game_time  = 60;
+    
     game_over  = 0;
-    game_step  = 20;
+    
 }
 
 void game_timer_cb(lv_timer_t* timer)
@@ -213,7 +213,7 @@ void game_cleanup_all(void)  //清理本局资源
     status = NORMAL;
     game_over = 0;
     game_score = 0;
-    game_time = 60;
+    game_time = 0;
     
     //  重置坐标映射
     for(uint8_t i = 0; i < GRID_COLS; i++) {

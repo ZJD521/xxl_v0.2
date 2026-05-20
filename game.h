@@ -68,8 +68,12 @@ typedef enum {   //当前状态
 
 //相关函数
 
-//加载;
+
+//初始化
 void game_init(void);
+void game_level_data_init(void);
+//加载;
+
 
 void game_bg_load(lv_obj_t * scr);  //加载默认背景
 
@@ -79,13 +83,23 @@ void game_sqr_src_load(void);        //导入方块皮肤
 
 void game_btn_start_load(void);    //加载开始按钮
 
-void game_btn_choose_load(void);   //加载选择按钮
+void game_btn_choose_load(void);   //加载选项按钮
+
+void game_btn_mode_load(void);   //选择模式
+
+void game_btn_time_load(void);  //选择时间限制
+
+void game_btn_step_load(void);  //选择步数限制
+
+void game_btn_theme_load(void); //选择主题
 
 void game_btn_theme_default_load(void);     //加载动物主题按钮
 
 void game_btn_theme_ice_load(void);         //加载蔬果主题按钮 
 
 void game_btn_exit_load(lv_obj_t*scr);        //加载返回按钮
+
+void game_btn_level_load(void);//关卡选择按钮
 
 cell_type safe_type(uint8_t x, uint8_t y);  //返回不与周围相同的方块类型
 
@@ -161,6 +175,8 @@ void btn_ice_cb(lv_event_t*e);   //“蔬果主题”按钮
 
 void btn_exit_cb(lv_event_t*e); //返回按钮
 
+void btn_level_cb(lv_event_t*e);//选择关卡按钮
+
 void screen_cb(lv_event_t*e);    //游戏屏幕加载回调
 
 void cell_cb(lv_event_t*e);      //单个方块回调
@@ -215,12 +231,18 @@ extern uint16_t game_score; // 当前得分
 extern uint16_t high_score;    // 开机内最高得分
 extern uint16_t game_time;     // 剩余时间
 extern uint8_t  game_over;     // 游戏是否结束标志
+extern uint16_t game_step; //剩余步数
+extern uint16_t game_goal;  //目标分数
+extern uint16_t game_level;
 
 extern lv_obj_t *label_score;
 extern lv_obj_t *label_time;
 extern lv_obj_t *label_high;
+extern lv_obj_t *label_step;
+extern lv_obj_t *label_goal;
 
 extern lv_obj_t *game_end_bg;
 extern lv_obj_t *game_end_title;
 extern lv_obj_t *game_end_score;
 extern lv_obj_t *btn_back_main; //弹窗
+
