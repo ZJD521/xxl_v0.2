@@ -145,11 +145,19 @@ void game_create_new_cell(uint8_t x, uint8_t y);  //生成单个重填方块
 
 void btn_start_cb(lv_event_t*e); //“开始游戏”按钮
 
-void btn_choose_cb(lv_event_t*e);  //“选择主题”按钮
+void btn_choose_cb(lv_event_t*e);  //“选项”按钮
+
+void btn_mode_cb(lv_event_t*e); //“模式”按钮
+
+void btn_time_cb(lv_event_t*e); //“时间模式”按钮
+
+void btn_step_cb(lv_event_t*e); //“步数模式”按钮
+
+void btn_theme_cb(lv_event_t*e); //“主题”按钮
 
 void btn_def_cb(lv_event_t*e);   //“动物主题”按钮
 
-void btn_ice_cb(lv_event_t*e);   //“植物主题”按钮
+void btn_ice_cb(lv_event_t*e);   //“蔬果主题”按钮
 
 void btn_exit_cb(lv_event_t*e); //返回按钮
 

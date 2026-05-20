@@ -19,8 +19,18 @@ lv_obj_t * btn_def ;
 
   //蔬果主题按钮定义                      
 lv_obj_t * btn_ice ;
+
 //返回按钮定义
 lv_obj_t* btn_exit;
+//模式按钮定义
+lv_obj_t* btn_mode;
+//时间按钮定义
+lv_obj_t* btn_time;
+//步数按钮定义
+lv_obj_t* btn_step;
+//主题按钮定义
+lv_obj_t* btn_theme;
+
 
 void game_btn_start_load(){        //加载开始按钮
 	
@@ -115,4 +125,67 @@ void game_btn_exit_load(lv_obj_t*scr){
 
 
 
+}
+void game_btn_mode_load(){        
+    btn_mode = lv_btn_create(scr_menu);
+	  lv_obj_set_size(btn_mode,256,100);
+  	lv_obj_align(btn_mode,LV_ALIGN_CENTER,0,-150); //上移150
+	lv_obj_add_event_cb(btn_mode,btn_mode_cb,LV_EVENT_CLICKED,NULL);
+	  lv_obj_t *lb_mode=lv_label_create(btn_mode);
+	  lv_label_set_text(lb_mode,"MODE");
+    lv_obj_set_style_bg_color(btn_mode, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_mode, 10, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_mode, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+	  lv_obj_set_style_text_color(btn_mode, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+	  lv_obj_center(lb_mode);
+    lv_obj_set_style_text_font(lb_mode , &lv_font_montserrat_40, 0);
+		lv_obj_add_flag(btn_mode,LV_OBJ_FLAG_HIDDEN);
+
+
+}
+
+void game_btn_time_load(){        
+    btn_time = lv_btn_create(scr_menu);
+	  lv_obj_set_size(btn_time,256,100);
+  	lv_obj_align(btn_time,LV_ALIGN_CENTER,0,-150); //上移150
+	lv_obj_add_event_cb(btn_time,btn_time_cb,LV_EVENT_CLICKED,NULL);
+	  lv_obj_t *lb_time=lv_label_create(btn_time);
+	  lv_label_set_text(lb_time,"TIME");
+    lv_obj_set_style_bg_color(btn_time, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_time, 10, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_time, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+	  lv_obj_set_style_text_color(btn_time, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+	  lv_obj_center(lb_time);
+	  lv_obj_set_style_text_font(lb_time , &lv_font_montserrat_40, 0);
+		  lv_obj_add_flag(btn_time,LV_OBJ_FLAG_HIDDEN);
+}
+void game_btn_step_load(){        
+    btn_step = lv_btn_create(scr_menu);
+	  lv_obj_set_size(btn_step,256,100);
+  	lv_obj_align(btn_step,LV_ALIGN_CENTER,0,0); 
+	lv_obj_add_event_cb(btn_step,btn_step_cb,LV_EVENT_CLICKED,NULL);
+	  lv_obj_t *lb_step=lv_label_create(btn_step);
+	  lv_label_set_text(lb_step,"STEP");
+    lv_obj_set_style_bg_color(btn_step, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_step, 10, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_step, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+	  lv_obj_set_style_text_color(btn_step, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+	  lv_obj_center(lb_step);
+	  lv_obj_set_style_text_font(lb_step , &lv_font_montserrat_40, 0);
+		  lv_obj_add_flag(btn_step,LV_OBJ_FLAG_HIDDEN);
+}
+void game_btn_theme_load(){        
+    btn_theme = lv_btn_create(scr_menu);
+	  lv_obj_set_size(btn_theme,256,100);
+  	lv_obj_align(btn_theme,LV_ALIGN_CENTER,0,0); 
+	lv_obj_add_event_cb(btn_theme,btn_theme_cb,LV_EVENT_CLICKED,NULL);
+	  lv_obj_t *lb_theme=lv_label_create(btn_theme);
+	  lv_label_set_text(lb_theme,"THEME");
+    lv_obj_set_style_bg_color(btn_theme, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_theme, 10, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_theme, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+	  lv_obj_set_style_text_color(btn_theme, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+	  lv_obj_center(lb_theme);
+	  lv_obj_set_style_text_font(lb_theme , &lv_font_montserrat_40, 0);
+		  lv_obj_add_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
 }
