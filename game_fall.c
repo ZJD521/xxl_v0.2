@@ -20,7 +20,7 @@ static uint8_t fall_all_active = 0;
 
 
 
-//删除并清空下落检测定时器
+//删除并清空下落检测定时器（game over时候，多少秒检查一次）
 
 static void fall_check_timer_del(void)
 
@@ -38,7 +38,7 @@ static void fall_check_timer_del(void)
 
 
 
-//登记新的下落检测定时器（同时删掉旧的，防止局间残留）
+//登记新的下落检测定时器（重新打开，游戏开始时候）
 
 static void fall_check_timer_bind(lv_timer_t * timer)
 
@@ -52,7 +52,7 @@ static void fall_check_timer_bind(lv_timer_t * timer)
 
 
 
-//判断棋盘是否还有空格需要重填
+//判断棋盘是否还有空格需要重填（只是判断）
 
 static uint8_t game_need_refill(void)
 
@@ -76,7 +76,7 @@ static uint8_t game_need_refill(void)
 
 
 
-static void col_start_timer_del(void)
+static void col_start_timer_del(void)  //方块消除定时器
 
 {
 

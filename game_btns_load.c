@@ -35,17 +35,17 @@ lv_obj_t* btn_theme;
 
 void game_btn_start_load(){        //加载开始按钮
 	
-    btn_start = lv_btn_create(scr_menu);
-	  lv_obj_set_size(btn_start,256,100);
+    btn_start = lv_btn_create(scr_menu);  //在菜单界面创建按钮
+	  lv_obj_set_size(btn_start,256,100);  //按钮大小
 	  lv_obj_align(btn_start,LV_ALIGN_CENTER,-200,0); //右移200
-	  lv_obj_add_event_cb(btn_start,btn_start_cb,LV_EVENT_CLICKED,NULL);
-	  lv_obj_t *lb_start=lv_label_create(btn_start);
-	  lv_label_set_text(lb_start,"START");
+	  lv_obj_add_event_cb(btn_start,btn_start_cb,LV_EVENT_CLICKED,NULL);  //绑定回调（clicked）会执行
+	  lv_obj_t *lb_start=lv_label_create(btn_start);  //加个标签
+	  lv_label_set_text(lb_start,"START");  //id
     lv_obj_set_style_bg_color(btn_start, lv_color_hex(0xFFC107), LV_PART_MAIN);//按钮颜色
-    lv_obj_set_style_radius(btn_start, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(btn_start, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_radius(btn_start, 10, LV_PART_MAIN);  //设置按钮圆角（半径10）
+    lv_obj_set_style_bg_color(btn_start, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);  //设置按钮被按下时的颜色
 	  lv_obj_set_style_text_color(btn_start, lv_color_hex(0xFFFFFF), LV_PART_MAIN);//字体颜色
-	  lv_obj_center(lb_start); //居中
+	  lv_obj_center(lb_start); //文字在按钮中居中
     lv_obj_set_style_text_font(lb_start , &lv_font_montserrat_40, 0);  //字体大小40
 }
 void game_btn_choose_load(){        
@@ -78,7 +78,7 @@ void game_btn_theme_default_load(){
 	  lv_obj_set_style_text_color(btn_def, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_def);
     lv_obj_set_style_text_font(lb_def , &lv_font_montserrat_40, 0);
- 		lv_obj_add_flag(btn_def,LV_OBJ_FLAG_HIDDEN);
+ 		lv_obj_add_flag(btn_def,LV_OBJ_FLAG_HIDDEN);  //开始的时候隐藏
 
 
 }

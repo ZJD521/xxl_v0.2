@@ -5,6 +5,53 @@
  lv_obj_t *frame[GRID_COLS][GRID_ROWS];
 extern lv_img_dsc_t cell_struct[5];
 
+
+void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
+{
+    int col, row;
+
+    for(row=0; row<GRID_ROWS; row++)
+    {
+        for(col=0; col<GRID_COLS; col++)
+        {
+            // 设置格子参数
+            
+            frame[col][row] = lv_obj_create(scr);  // 创建格子背景
+            lv_obj_set_size(frame[col][row], CELL_LENG, CELL_LENG); // 大小：正方形
+            lv_obj_set_style_border_color(frame[col][row], lv_color_hex(0x888888), 0); // 边框灰色
+            lv_obj_set_style_border_width(frame[col][row], 1, 0); // 边框宽度1
+            lv_obj_set_style_border_opa(frame[col][row], LV_OPA_50, 0); // 边框半透明
+            lv_obj_set_style_bg_color(frame[col][row], lv_color_hex(0x333333), 0); // 背景深灰
+            lv_obj_set_style_bg_opa(frame[col][row], LV_OPA_30, 0); // 背景半透明
+            lv_obj_clear_flag(frame[col][row], LV_OBJ_FLAG_SCROLLABLE); // 禁止滚动
+            lv_obj_set_pos(frame[col][row], FIELD_X + col*CELL_LENG, FIELD_Y + row*CELL_LENG); // 摆放位置
+            lv_obj_clear_flag(frame[col][row], LV_OBJ_FLAG_CLICKABLE); // 格子不能点击
+            lv_obj_move_to_index(frame[col][row],1); // 放在下层
+
+            
+            cell_type t = safe_type(col, row);
+            cell[col][row].type = t;
+
+            // 方块图片
+            cell[col][row].img = lv_img_create(scr);
+            lv_img_set_src(cell[col][row].img, &cell_struct[t]);
+            lv_obj_set_pos(cell[col][row].img, FIELD_X + col*CELL_LENG, FIELD_Y + row*CELL_LENG);
+
+          
+            lv_obj_add_flag(cell[col][row].img, LV_OBJ_FLAG_CLICKABLE);
+            lv_obj_move_foreground(cell[col][row].img);
+            lv_obj_set_user_data(cell[col][row].img, &cell[col][row]);
+						lv_obj_move_to_index(cell[col][row].img,GRID_ROWS*row+col+GRID_COLS*GRID_ROWS);
+            cell[col][row].x = col;
+            cell[col][row].y = row;
+						
+            lv_obj_add_event_cb(cell[col][row].img, cell_cb, LV_EVENT_ALL, &cell[col][row]);
+						
+        }
+    }
+		game_init_coord_map();  
+}
+
 //检查是否会形成3个连续（按数组下标查邻居，开局时与逻辑格一致）
 static uint8_t is_bad(uint8_t x, uint8_t y, cell_type t)
 {
@@ -28,15 +75,7 @@ static uint8_t is_bad(uint8_t x, uint8_t y, cell_type t)
         if(cell[x][y-1].type == t && cell[x][y+1].type == t)
             return 1;
 
-    // 防 L 型（2×2 里 3 个同色）
-    if(x>0 && y>0)
-    {
-        int cnt = 0;
-        if(cell[x-1][y].type == t) cnt++;
-        if(cell[x][y-1].type == t) cnt++;
-        if(cell[x-1][y-1].type == t) cnt++;
-        if(cnt >= 2) return 1;
-    }
+   
 
     return 0;
 }
@@ -45,60 +84,15 @@ static uint8_t is_bad(uint8_t x, uint8_t y, cell_type t)
 cell_type safe_type(uint8_t x, uint8_t y)
 {
     cell_type t;
-    int try = 0;
+    int try = 0;  //尝试换一个颜色
 
     while(try < 30)
     {
-        t = rand() % 5;
-        if(!is_bad(x,y,t)) return t;
+			t = rand() % 5;  //t是随机的五种方块
+			if(!is_bad(x,y,t)) return t;   //如果不是bad，就用它
         try++;
     }
 
     return (t+1)%5;
 }
 
-
-void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
-{
-    int col, row;
-
-    for(row=0; row<GRID_ROWS; row++)
-    {
-        for(col=0; col<GRID_COLS; col++)
-        {
-            // 背景框
-            
-            frame[col][row] = lv_obj_create(scr);
-            lv_obj_set_size(frame[col][row], CELL_LENG, CELL_LENG);
-            lv_obj_set_style_border_color(frame[col][row], lv_color_hex(0x888888), 0);
-            lv_obj_set_style_border_width(frame[col][row], 1, 0);
-            lv_obj_set_style_border_opa(frame[col][row], LV_OPA_50, 0);
-            lv_obj_set_style_bg_color(frame[col][row], lv_color_hex(0x333333), 0);
-            lv_obj_set_style_bg_opa(frame[col][row], LV_OPA_30, 0);
-            lv_obj_clear_flag(frame[col][row], LV_OBJ_FLAG_SCROLLABLE);
-            lv_obj_set_pos(frame[col][row], FIELD_X + col*CELL_LENG, FIELD_Y + row*CELL_LENG);
-            lv_obj_clear_flag(frame[col][row], LV_OBJ_FLAG_CLICKABLE);
-      			lv_obj_move_to_index(frame[col][row],1);
-
-            
-            cell_type t = safe_type(col, row);
-            cell[col][row].type = t;
-
-            // 方块图片
-            cell[col][row].img = lv_img_create(scr);
-            lv_img_set_src(cell[col][row].img, &cell_struct[t]);
-            lv_obj_set_pos(cell[col][row].img, FIELD_X + col*CELL_LENG, FIELD_Y + row*CELL_LENG);
-
-          
-            lv_obj_add_flag(cell[col][row].img, LV_OBJ_FLAG_CLICKABLE);
-            lv_obj_move_foreground(cell[col][row].img);
-            lv_obj_set_user_data(cell[col][row].img, &cell[col][row]);
-						lv_obj_move_to_index(cell[col][row].img,GRID_ROWS*row+col+GRID_COLS*GRID_ROWS);
-            cell[col][row].x = col;
-            cell[col][row].y = row;
-            lv_obj_add_event_cb(cell[col][row].img, cell_cb, LV_EVENT_ALL, &cell[col][row]);
-						
-        }
-    }
-		game_init_coord_map();  
-}

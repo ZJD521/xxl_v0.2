@@ -36,10 +36,10 @@ void game_init(){ //游戏初始化
     scr_game = lv_obj_create(NULL);
    	
 
-  	lv_scr_load(scr_menu);
+  lv_scr_load(scr_menu);
 	game_bg_load(scr_menu);
-    game_btn_start_load();
-    game_btn_choose_load();
+  game_btn_start_load();
+  game_btn_choose_load();
 	game_btn_level_load();
 	game_btn_theme_default_load();
 	game_btn_theme_ice_load();

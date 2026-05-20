@@ -235,11 +235,11 @@ extern uint16_t game_step; //剩余步数
 extern uint16_t game_goal;  //目标分数
 extern uint16_t game_level;
 
-extern lv_obj_t *label_score;
-extern lv_obj_t *label_time;
-extern lv_obj_t *label_high;
-extern lv_obj_t *label_step;
-extern lv_obj_t *label_goal;
+extern lv_obj_t *label_score;  //得分标签
+extern lv_obj_t *label_time;   //时间标签
+extern lv_obj_t *label_high;  //最高分标签
+extern lv_obj_t *label_step;  //步数标签
+extern lv_obj_t *label_goal;   //目标分数标签
 
 extern lv_obj_t *game_end_bg;
 extern lv_obj_t *game_end_title;

@@ -20,14 +20,14 @@ extern uint16_t game_level;
 
 bool game_mode = false;//游戏模式，false为时间模式，true为步数模式
 
-void btn_start_cb(lv_event_t*e){  //开始游戏
-	lv_event_code_t code = lv_event_get_code(e); 
-	if(code == LV_EVENT_CLICKED){
+void btn_start_cb(lv_event_t*e){  //开始游戏，和start键交互就会调用这个函数
+	lv_event_code_t code = lv_event_get_code(e);  //获取事件发生类型 
+	if(code == LV_EVENT_CLICKED){ //点击则会执行
 		srand(lv_tick_get());
-	    lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
-	    lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
-		for (int i=0;i<5;i++){
-			lv_obj_clear_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
+	    lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN); //隐藏start
+	    lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);  //隐藏option
+		for (int i=0;i<5;i++){  //显示5个难度按钮
+			lv_obj_clear_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);  //清除隐藏
 		}
 	    lv_obj_clear_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
 
@@ -39,7 +39,6 @@ void btn_start_cb(lv_event_t*e){  //开始游戏
 void btn_choose_cb(lv_event_t*e){  //加载两个主题按钮
 	  lv_event_code_t code = lv_event_get_code(e); 
 	  if(code == LV_EVENT_CLICKED){
-	  srand(lv_tick_get());
 		lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
 			
@@ -96,7 +95,7 @@ void btn_exit_cb(lv_event_t*e){    //返回
         lv_obj_clear_flag(btn_start, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
     }
-    else if(code == LV_EVENT_CLICKED && lv_scr_act() == scr_game){
+    else if(code == LV_EVENT_CLICKED && lv_scr_act() == scr_game ){
         game_over = 1;
         game_fall_stop_all();   //中途退出时停掉下落链
         
@@ -118,10 +117,9 @@ void btn_exit_cb(lv_event_t*e){    //返回
         game_end_show();
     }
 }
-void btn_mode_cb(lv_event_t*e){  //加载两个模式按钮
+void btn_mode_cb(lv_event_t*e){  //显示两个模式按钮
 	lv_event_code_t code = lv_event_get_code(e); 
 	if(code == LV_EVENT_CLICKED){
-	srand(lv_tick_get());
 	  lv_obj_add_flag(btn_mode,LV_OBJ_FLAG_HIDDEN);
 	  lv_obj_add_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
 		  

@@ -420,16 +420,6 @@
               <FilePath>.\read_file_to_array.c</FilePath>
             </File>
             <File>
-              <FileName>gam_sqr_check.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gam_sqr_check.c</FilePath>
-            </File>
-            <File>
-              <FileName>game.clear.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\game.clear.c</FilePath>
-            </File>
-            <File>
               <FileName>game.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\game.h</FilePath>
@@ -440,19 +430,34 @@
               <FilePath>.\game_bg.c</FilePath>
             </File>
             <File>
-              <FileName>game_btns_cb.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\game_btns_cb.c</FilePath>
-            </File>
-            <File>
               <FileName>game_btns_load.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game_btns_load.c</FilePath>
             </File>
             <File>
+              <FileName>game_btns_cb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game_btns_cb.c</FilePath>
+            </File>
+            <File>
               <FileName>game_cell_cb.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game_cell_cb.c</FilePath>
+            </File>
+            <File>
+              <FileName>game_sqr_src.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game_sqr_src.c</FilePath>
+            </File>
+            <File>
+              <FileName>gam_sqr_check.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gam_sqr_check.c</FilePath>
+            </File>
+            <File>
+              <FileName>game.clear.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game.clear.c</FilePath>
             </File>
             <File>
               <FileName>game_fall.c</FileName>
@@ -465,9 +470,9 @@
               <FilePath>.\game_score.c</FilePath>
             </File>
             <File>
-              <FileName>game_sqr_src.c</FileName>
+              <FileName>game_level.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\game_sqr_src.c</FilePath>
+              <FilePath>.\game_level.c</FilePath>
             </File>
           </Files>
         </Group>
