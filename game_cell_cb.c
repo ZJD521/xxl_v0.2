@@ -2,6 +2,8 @@
 extern sqr cell[GRID_COLS][GRID_ROWS];
 sqr* coord_map[GRID_COLS][GRID_ROWS] = {NULL};//坐标-方块查找索引
 state status=NORMAL;
+extern bool game_mode;
+extern uint16_t game_step;
 void cell_cb(lv_event_t * e) {      //方块回调
     lv_event_code_t code = lv_event_get_code(e); 
 	  if(game_over) 
@@ -39,15 +41,18 @@ void cell_cb(lv_event_t * e) {      //方块回调
             uint8_t y0 = current_cell->y; 
 
             
-          
-					  sqr*lat=NULL;
+            
+			sqr*lat=NULL;
             if(abs(diff_y) < abs(diff_x)){        // 水平滑动 
                 if(diff_x > 0 && x0 < GRID_COLS - 1) { 
                     // 向右交换
 									  lat=coord_map[x0+1][y0];
 									  if (lat)
                       cell_swap_exec(current_cell, lat);
-										  
+                      if(game_mode == true)
+                      {
+                          game_step--;
+                      }				  
 										  
 										else
 											return;
@@ -57,7 +62,10 @@ void cell_cb(lv_event_t * e) {      //方块回调
                     lat=coord_map[x0-1][y0];
 									  if (lat)
                       cell_swap_exec(current_cell, lat); 
-										  
+                      if(game_mode == true)
+                      {
+                          game_step--;
+                      }				  
 										else
 											return;
                 }
@@ -67,7 +75,10 @@ void cell_cb(lv_event_t * e) {      //方块回调
                     lat=coord_map[x0][y0+1];
 									  if (lat)
                       cell_swap_exec(current_cell, lat); 
-											
+                      if(game_mode == true)
+                      {
+                          game_step--;
+                      }					
 										else
 											return;
                 } 
@@ -75,7 +86,10 @@ void cell_cb(lv_event_t * e) {      //方块回调
                     lat=coord_map[x0][y0-1];
 									  if (lat)
                       cell_swap_exec(current_cell, lat); 
-											
+                      if(game_mode == true)
+                      {
+                          game_step--;
+                      }					
 										else
 											return;
                 }

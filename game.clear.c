@@ -104,7 +104,7 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
 
                     // 刷新当前得分
                    char buf[20];
-                   sprintf(buf, "Score: %d", game_score);
+                   sprintf(buf, "Score:%d", game_score);
                    lv_label_set_text(label_score, buf);
                  }
                 // 先删除图像，再设置类型
