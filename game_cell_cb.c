@@ -4,6 +4,7 @@ sqr* coord_map[GRID_COLS][GRID_ROWS] = {NULL};//坐标-方块查找索引
 state status=NORMAL;
 extern bool game_mode;
 extern uint16_t game_step;
+extern bool game_level_map[5][8][7];
 void cell_cb(lv_event_t * e) {      //方块回调
     lv_event_code_t code = lv_event_get_code(e); 
 	  if(game_over) 
@@ -247,6 +248,10 @@ void swap_ready_cb(lv_anim_t * a) {   //交换完成回调（两路动画各触�
 void game_init_coord_map(void) {
     for(uint8_t i = 0; i < GRID_COLS; i++) {
         for(uint8_t j = 0; j < GRID_ROWS; j++) {
+            if (game_level_map[game_level-1][i][j]==0){
+                coord_map[i][j]=NULL;
+                continue;
+            }
             coord_map[i][j] = &cell[i][j];  // 直接映射
             cell[i][j].x = i;  // 确保初始坐标正确
             cell[i][j].y = j;

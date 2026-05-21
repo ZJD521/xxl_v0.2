@@ -346,7 +346,7 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
 
     
 
-    cell_type t = safe_type(x, y);
+    cell_type t = safe_type(x, y,rand()%5);
 
     
 

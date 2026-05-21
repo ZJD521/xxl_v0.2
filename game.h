@@ -101,7 +101,7 @@ void game_btn_exit_load(lv_obj_t*scr);        //加载返回按钮
 
 void game_btn_level_load(void);//关卡选择按钮
 
-cell_type safe_type(uint8_t x, uint8_t y);  //返回不与周围相同的方块类型
+cell_type safe_type(uint8_t x, uint8_t y,cell_type t);  //返回不与周围相同的方块类型
 
 void game_score_label_create(lv_obj_t *scr);  //创建分数标签
 
