@@ -14,7 +14,9 @@ void cell_cb(lv_event_t * e) {      //方块回调
 
     // 获取当前对象的数据指针 
     sqr* current_cell = (sqr*)lv_event_get_user_data(e); 
-    
+    if (!coord_map[current_cell->x][current_cell->y]){
+        return;
+    }
     // 保存起始点 
     static lv_point_t start_point; 
     
@@ -41,58 +43,65 @@ void cell_cb(lv_event_t * e) {      //方块回调
             uint8_t x0 = current_cell->x; 
             uint8_t y0 = current_cell->y; 
 
-            
-            
+
 			sqr*lat=NULL;
             if(abs(diff_y) < abs(diff_x)){        // 水平滑动 
                 if(diff_x > 0 && x0 < GRID_COLS - 1) { 
                     // 向右交换
-									  lat=coord_map[x0+1][y0];
-									  if (lat)
+					lat=coord_map[x0+1][y0];
+					if (lat)
                       cell_swap_exec(current_cell, lat);
-                      if(game_mode == true)
-                      {
-                          game_step--;
-                      }				  
+                    else
+                      return;
+                    if(game_mode == true)
+                    {
+                        game_step--;
+                    }				  
 										  
-										else
-											return;
+					else
+						return;
                 } 
-								else if(diff_x < 0 && x0 > 0) { 
+				else if(diff_x < 0 && x0 > 0) { 
                     // 向左交换
                     lat=coord_map[x0-1][y0];
-									  if (lat)
+					if (lat)
                       cell_swap_exec(current_cell, lat); 
-                      if(game_mode == true)
+                    else
+                        return;
+                    if(game_mode == true)
                       {
                           game_step--;
                       }				  
-										else
-											return;
+					else
+						return;
                 }
             } 
-						else {      // 垂直滑动
+			else {      // 垂直滑动
                 if(diff_y > 0 && y0 < GRID_ROWS - 1) { //向下交换
                     lat=coord_map[x0][y0+1];
-									  if (lat)
+					if (lat)
                       cell_swap_exec(current_cell, lat); 
-                      if(game_mode == true)
+                    else
+                        return;
+                    if(game_mode == true)
                       {
                           game_step--;
                       }					
-										else
-											return;
+					else
+						return;
                 } 
-								else if(diff_y < 0 && y0 > 0) {       //向上交换
+				else if(diff_y < 0 && y0 > 0) {       //向上交换
                     lat=coord_map[x0][y0-1];
-									  if (lat)
-                      cell_swap_exec(current_cell, lat); 
-                      if(game_mode == true)
+					if (lat)
+                      cell_swap_exec(current_cell, lat);
+                    else
+                        return; 
+                    if(game_mode == true)
                       {
                           game_step--;
                       }					
-										else
-											return;
+					else
+						return;
                 }
          
             }

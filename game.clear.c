@@ -97,8 +97,10 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
 	if(game_check_clear()){
     for(uint8_t y = 0; y < GRID_ROWS; y++) {
         for(uint8_t x = 0; x < GRID_COLS; x++) {
+            if (!coord_map[x][y])
+                continue;
             if(clear_flag[x][y] && coord_map[x][y]) {
-							  if(clear_flag[x][y] && coord_map[x][y] && game_over == 0)
+				if(clear_flag[x][y] && coord_map[x][y] && game_over == 0)
                 {
                    game_score += 10;
 
@@ -109,8 +111,8 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
                  }
                 // 先删除图像，再设置类型
                 if(coord_map[x][y]->img) {
-                   lv_obj_add_flag(coord_map[x][y]->img,LV_OBJ_FLAG_HIDDEN);
-									 lv_obj_invalidate(coord_map[x][y]->img);
+                    lv_obj_add_flag(coord_map[x][y]->img,LV_OBJ_FLAG_HIDDEN);
+					lv_obj_invalidate(coord_map[x][y]->img);
                 }
                 coord_map[x][y]->type = DEL;
                 
@@ -119,7 +121,7 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
 						
         }
     }
-		game_fall_all();    //标记为DEL后触发下落
+		//game_fall_all();    //标记为DEL后触发下落
   }
   else
 		status=NORMAL;      //无可消除，恢复可操作
