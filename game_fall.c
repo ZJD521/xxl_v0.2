@@ -92,7 +92,7 @@ static void col_start_timer_del(void)  //方块消除定时器
 
 
 
-static void fall_all_continue_cb(lv_timer_t * t)
+static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落
 
 {
 
@@ -166,15 +166,25 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
 
 
 
-        for(int8_t read_y = GRID_ROWS - 1; read_y >= 0; read_y--) {
-
+        for(int8_t read_y = write_y; read_y >= 0; read_y--) {
+            if (!coord_map[x][write_y]){
+                write_y--;
+                continue;
+            }
+            if (!coord_map[x][read_y+1]&&read_y!=write_y){
+                if (!coord_map[x][read_y]){
+                    write_y=read_y-1;
+                    continue;
+                }
+            }
+            
             sqr* src_cell = coord_map[x][read_y];
 
 
 
             if(src_cell && src_cell->type != DEL) {
 
-                if(read_y != write_y) {
+                if(read_y != write_y&&coord_map[x][write_y]->type==DEL&&coord_map[x][read_y+1]) {
 
                     lv_coord_t current_y = lv_obj_get_y(src_cell->img);
 
@@ -239,7 +249,9 @@ void game_fall_one(sqr* cell, uint8_t target_y) {  //下落单个方块
     lv_coord_t start_y = lv_obj_get_y(cell->img);
 
     lv_coord_t target_pos_y = FIELD_Y + target_y * CELL_LENG;
-
+    if (!coord_map[cell->x][target_y] || !cell){
+        return;
+    }
     sqr * del = coord_map[cell->x][target_y];
 
     
@@ -339,7 +351,9 @@ void game_refill(lv_timer_t* timer){  //重填所有空方块
 
 
 void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
-
+    if (!coord_map[x][y]){
+        return;;
+    }
     lv_obj_del(coord_map[x][y]->img);
 
     sqr* new_cell = coord_map[x][y];
