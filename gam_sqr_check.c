@@ -31,7 +31,7 @@ void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
         for(row=0; row<GRID_ROWS; row++)
         {
             cell_type t=cell[col][row].type;
-            cell[col][row].type=safe_type(col,row,t);
+            cell[col][row].type=safe_type(col,row,t); //检查两遍防止三连
         }
     }
 

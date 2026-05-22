@@ -3,22 +3,21 @@ extern sqr cell[GRID_COLS][GRID_ROWS];
 sqr* coord_map[GRID_COLS][GRID_ROWS] = {NULL};//坐标-方块查找索引
 state status=NORMAL;
 extern bool game_mode;
-extern uint16_t game_step;
 extern bool game_level_map[5][8][7];
-void cell_cb(lv_event_t * e) {      //方块回调
+extern uint16_t game_step;
+void cell_cb(lv_event_t * e) {      //方块滑动回调
     lv_event_code_t code = lv_event_get_code(e); 
 	  if(game_over) 
 			return;
 		if(status!=NORMAL)   //非正常状态直接退出
 		  return;
 
-    // 获取当前对象的数据指针 
-    sqr* current_cell = (sqr*)lv_event_get_user_data(e); 
-    if (!coord_map[current_cell->x][current_cell->y]){
+    sqr* current_cell = (sqr*)lv_event_get_user_data(e); // 获取当前对象的数据指针 
+    if (!coord_map[current_cell->x][current_cell->y]){  //如果数据是空的，不处理
         return;
     }
-    // 保存起始点 
-    static lv_point_t start_point; 
+    
+    static lv_point_t start_point;  // 保存起始点
     
     if(code == LV_EVENT_PRESSED) { 
         lv_indev_t * indev = lv_indev_get_act();   
@@ -26,7 +25,7 @@ void cell_cb(lv_event_t * e) {      //方块回调
             lv_indev_get_point(indev, &start_point); //录入起点
         } 
     } 
-    else if(code == LV_EVENT_RELEASED) {     
+    else if(code == LV_EVENT_RELEASED) {    //手指松开，判断方向 
         
         lv_indev_t * indev = lv_indev_get_act(); 
         lv_point_t end_point;       
@@ -34,8 +33,8 @@ void cell_cb(lv_event_t * e) {      //方块回调
         if(indev) { 
             lv_indev_get_point(indev, &end_point);   //录入终点
             
-            lv_coord_t diff_x = end_point.x - start_point.x;    //计算位移
-            lv_coord_t diff_y = end_point.y - start_point.y; 
+            lv_coord_t diff_x = end_point.x - start_point.x;    
+            lv_coord_t diff_y = end_point.y - start_point.y; //计算位移，diffx：水平；diffy：竖直
             
 
             // 获取当前坐标

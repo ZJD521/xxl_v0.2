@@ -3,12 +3,15 @@
 #include "game.h"
 
 extern lv_obj_t * scr_menu; 
+extern lv_obj_t * scr_game;
+
+extern lv_obj_t * btn_level[5];
+
 extern void btn_start_cb(lv_event_t*e);
 extern void btn_choose_cb(lv_event_t*e);
 extern void btn_def_cb(lv_event_t*e);
 extern void btn_ice_cb(lv_event_t*e);
-extern lv_obj_t * scr_game;
-extern lv_obj_t * btn_level[5];
+
    //开始按钮定义                      
 lv_obj_t * btn_start ;
 
@@ -48,6 +51,7 @@ void game_btn_start_load(){        //加载开始按钮
 	  lv_obj_center(lb_start); //文字在按钮中居中
     lv_obj_set_style_text_font(lb_start , &lv_font_montserrat_40, 0);  //字体大小40
 }
+
 void game_btn_choose_load(){        
 	  btn_choose = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_choose,256,100);
