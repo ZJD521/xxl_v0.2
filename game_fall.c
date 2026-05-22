@@ -20,15 +20,15 @@ static uint8_t fall_all_active = 0;
 
 
 
-//删除并清空下落检测定时器（game over时候，多少秒检查一次）
+//删除并清空下落检测定时器
 
 static void fall_check_timer_del(void)
 
 {
 
-    if(fall_check_timer) {
+    if(fall_check_timer) {  //如果还在
 
-        lv_timer_del(fall_check_timer);
+        lv_timer_del(fall_check_timer);  //删掉
 
         fall_check_timer = NULL;
 
@@ -38,15 +38,15 @@ static void fall_check_timer_del(void)
 
 
 
-//登记新的下落检测定时器（重新打开，游戏开始时候）
+//登记新的下落检测定时器
 
 static void fall_check_timer_bind(lv_timer_t * timer)
 
 {
 
-    fall_check_timer_del();
+	fall_check_timer_del();   //引用上面的删除定时器
 
-    fall_check_timer = timer;
+    fall_check_timer = timer;   //创建新的
 
 }
 
@@ -62,7 +62,7 @@ static uint8_t game_need_refill(void)
 
         for(int8_t y = GRID_ROWS - 1; y >= 0; y--) {
 
-            if(coord_map[x][y] && coord_map[x][y]->type == DEL)
+            if(coord_map[x][y] && coord_map[x][y]->type == DEL)  //有del，则需要填补
 
                 return 1;
 
@@ -92,7 +92,7 @@ static void col_start_timer_del(void)  //方块消除定时器
 
 
 
-static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落
+static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落，延时下落
 
 {
 
@@ -104,7 +104,7 @@ static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落
 
 }
 
-static void refill_continue_cb(lv_timer_t * t)//用于控制异步重填
+static void refill_continue_cb(lv_timer_t * t)//用于控制异步重填，延时填补
 
 {
 
@@ -116,7 +116,7 @@ static void refill_continue_cb(lv_timer_t * t)//用于控制异步重填
 
 }
 
-void game_fall_stop_all(void)   //停止下落链，清零计数
+void game_fall_stop_all(void)   //停止下落链，清零计数，清空状态
 
 {
 
@@ -138,7 +138,7 @@ void game_init_fall_system(void)     //初始化下落系统
 
 {
 
-    game_fall_stop_all();
+	game_fall_stop_all();  //上面的函数
 
 }
 
@@ -146,11 +146,11 @@ void game_init_fall_system(void)     //初始化下落系统
 
 void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时在动）
 
-    uint8_t x;
+    uint8_t x;  //当前在处理第几列
 
-    uint8_t col_has_anim;
+    uint8_t col_has_anim;  //这一列有没有方块在下落
 
-    if(!fall_all_active) {
+    if(!fall_all_active) {  //处在下落状态
 
         status = FALLING;
 
@@ -158,7 +158,7 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
 
         next_fall_col = 0;
 
-        fall_all_active = 1;
+        fall_all_active = 1;  
 
         fall_check_timer_bind(lv_timer_create(fall_complete_check, duration + 10, NULL));
 
@@ -168,17 +168,17 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
 
 
 
-    for(x = next_fall_col; x < GRID_COLS; x++) {
+    for(x = next_fall_col; x < GRID_COLS; x++) {  //一列一列处理
 
-        uint8_t write_y = GRID_ROWS - 1;
+        uint8_t write_y = GRID_ROWS - 1;   
 
         col_has_anim = 0;
 
 
 
-        for(int8_t read_y = write_y; read_y >= 0; read_y--) {
-            if (!coord_map[x][write_y]){
-                write_y--;
+        for(int8_t read_y = write_y; read_y >= 0; read_y--) {  //从最底部开始填补
+            if (!coord_map[x][write_y]){  //如果这个位置没有方块
+                write_y--;  //标记落脚点
                 continue;
             }
             if (!coord_map[x][read_y+1]&&read_y!=write_y){

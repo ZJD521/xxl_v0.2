@@ -1,13 +1,13 @@
 #include "game.h"
 
-extern sqr cell[GRID_COLS][GRID_ROWS];
+extern sqr cell[GRID_COLS][GRID_ROWS];  
 extern lv_img_dsc_t cell_struct[5];
-extern sqr* coord_map[GRID_COLS][GRID_ROWS] ;
+extern sqr* coord_map[GRID_COLS][GRID_ROWS] ;  
 static uint8_t clear_flag[GRID_COLS][GRID_ROWS] = {0};
 
 
 
-uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag
+uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标记要被删除的格子
     uint8_t ret = 0;
     cell_type t;
     
@@ -94,12 +94,12 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
         if(timer) lv_timer_del(timer);
         return;
     }
-	if(game_check_clear()){
+	if(game_check_clear()){  //判断有没有能消除的
     for(uint8_t y = 0; y < GRID_ROWS; y++) {
         for(uint8_t x = 0; x < GRID_COLS; x++) {
-            if (!coord_map[x][y])
+            if (!coord_map[x][y])   //空的
                 continue;
-            if(clear_flag[x][y] && coord_map[x][y]) {
+            if(clear_flag[x][y] && coord_map[x][y]) {   //有东西并且要被消除
 				if(clear_flag[x][y] && coord_map[x][y] && game_over == 0)
                 {
                    game_score += 10;
@@ -114,7 +114,7 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
                     lv_obj_add_flag(coord_map[x][y]->img,LV_OBJ_FLAG_HIDDEN);
 					lv_obj_invalidate(coord_map[x][y]->img);
                 }
-                coord_map[x][y]->type = DEL;
+                coord_map[x][y]->type = DEL;   //标记被删除的地方为 del
                 
                 
             }

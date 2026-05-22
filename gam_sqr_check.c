@@ -10,7 +10,7 @@ extern bool game_level_map[5][8][7];
 void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
 {
     int col, row;
-    game_init_coord_map();  
+    game_init_coord_map();    //清空地图
     for(col=0; col<GRID_COLS; col++)
     {
         for(row=0; row<GRID_ROWS; row++)
@@ -35,7 +35,7 @@ void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
         }
     }
 
-    for(col=0; col<GRID_COLS; col++)
+    for(col=0; col<GRID_COLS; col++)  //把地图该空的地方空出来
     {
         for(row=0; row<GRID_ROWS; row++)
         {
