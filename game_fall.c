@@ -181,12 +181,11 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
                 write_y--;  //标记落脚点
                 continue;
             }
-            if (!coord_map[x][read_y+1]&&read_y!=write_y){
                 if (!coord_map[x][read_y]){
                     write_y=read_y-1;
                     continue;
                 }
-            }
+            
             
             sqr* src_cell = coord_map[x][read_y];
 
@@ -364,6 +363,9 @@ void game_refill(lv_timer_t* timer){  //重填所有空方块
     col_start_timer = lv_timer_create(refill_continue_cb, duration / 2, NULL);
 
     lv_timer_set_repeat_count(col_start_timer, 1);
+
+
+    
 }
 
 
@@ -467,8 +469,11 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
         lv_timer_set_repeat_count(ctimer, 1);
 
     } else {
-
+        
         status = NORMAL;
+        
+        
+        
 
     }
 
