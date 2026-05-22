@@ -104,7 +104,17 @@ static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落
 
 }
 
+static void refill_continue_cb(lv_timer_t * t)//用于控制异步重填
 
+{
+
+    col_start_timer = NULL;
+
+    lv_timer_del(t);
+    if (game_need_refill()){
+    game_refill(NULL);}
+
+}
 
 void game_fall_stop_all(void)   //停止下落链，清零计数
 
@@ -327,17 +337,20 @@ void game_refill(lv_timer_t* timer){  //重填所有空方块
     }
 
     falling_cell_count = 0;
-
+    uint8_t is_refilling;
     for(uint8_t x = 0; x < GRID_COLS; x++) {
-
+        is_refilling=0;
         for(int8_t read_y = GRID_ROWS - 1; read_y >= 0; read_y--){
 
             if (coord_map[x][read_y] && coord_map[x][read_y]->type == DEL){
 
                 game_create_new_cell(x, read_y);
-
+                is_refilling=1;
             }
 
+        }
+        if (is_refilling){
+            break;
         }
 
     }
@@ -346,6 +359,11 @@ void game_refill(lv_timer_t* timer){  //重填所有空方块
 
     lv_timer_set_repeat_count(fall_check_timer, -1);
 
+    col_start_timer_del();//异步重填
+
+    col_start_timer = lv_timer_create(refill_continue_cb, duration / 2, NULL);
+
+    lv_timer_set_repeat_count(col_start_timer, 1);
 }
 
 
