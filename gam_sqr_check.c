@@ -125,7 +125,7 @@ cell_type safe_type(uint8_t x, uint8_t y,cell_type t)
     
     int try = 0;  //尝试换一个颜色
 
-    while(1)
+    while(try<50)
     {
 			
 		if(!is_bad(x,y,t)) return t;   //如果不是bad，就用它
