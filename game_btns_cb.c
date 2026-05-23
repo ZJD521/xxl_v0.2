@@ -178,7 +178,7 @@ void btn_level_cb(lv_event_t*e){
 		}
 		lv_scr_load(scr_game);
 		lv_obj_set_size(btn_exit,128,50);  
-		lv_obj_align(btn_exit,LV_ALIGN_CENTER,430,150); 
+		lv_obj_align(btn_exit,LV_ALIGN_CENTER,430,180); 
  		lv_obj_set_parent(btn_exit,scr_game);
 
 		
