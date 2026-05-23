@@ -94,7 +94,7 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
         if(timer) lv_timer_del(timer);
         return;
     }
-	if(game_check_clear()){  //判断有没有能消除的
+	//在所有需要check的地方已经配套调用，此处直接执行消除
     for(uint8_t y = 0; y < GRID_ROWS; y++) {
         for(uint8_t x = 0; x < GRID_COLS; x++) {
             if (!coord_map[x][y])   //空的
@@ -123,11 +123,10 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
     }
 		game_fall_all();    //标记为DEL后触发下落
   }
-  else
-		status=NORMAL;      //无可消除，恢复可操作
+  
 	
 	
-}
+
 
 
 

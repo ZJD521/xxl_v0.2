@@ -6,6 +6,7 @@ uint16_t high_score = 0;
 extern uint16_t game_time ;
 extern uint16_t game_step ;
 extern uint16_t game_goal ;
+extern state status;
 uint8_t  game_over  = 0;
 
 lv_obj_t *label_score;
@@ -126,6 +127,7 @@ void game_timer_cb(lv_timer_t* timer)
     {
         game_end_show();
     }
+    
 }
 
 void game_end_show(void)  //弹出结束界面

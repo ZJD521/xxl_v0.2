@@ -73,25 +73,86 @@ void game_level_data_init(){
         case 2:
             game_step=30;
             game_time=71;
-            game_goal=1500;
+            game_goal=1300;
             break;
         case 3:
             game_step=35;
             game_time=81;
-            game_goal=2100;
+            game_goal=1600;
             break;
         case 4:
             game_step=40;
             game_time=91;
-            game_goal=2600;
+            game_goal=1900;
             break;
         case 5:
             game_step=40;
             game_time=101;
-            game_goal=3200;
+            game_goal=2000;
             break;
     }
 
 
 
 }
+bool deadlock_det(){  //用于检测死局。返回true则无法继续消除。
+    
+    for(uint8_t y = 0; y < GRID_ROWS; y++) {
+        for(uint8_t x = 0; x < GRID_COLS; x++) {
+            if (!coord_map[x][y])   //空的
+                continue;
+            if (x>=1&&coord_map[x-1][y]){
+                swap_cell_coordinates(x,y,x-1,y);
+                if (game_check_clear())//向左可消除
+                {
+                    swap_cell_coordinates(x,y,x-1,y);
+                    return false;
+                }
+                swap_cell_coordinates(x,y,x-1,y);
+            }
+            if (x<=GRID_COLS-2&&coord_map[x+1][y]){
+                swap_cell_coordinates(x,y,x+1,y);
+                if (game_check_clear())//向右可消除
+                {
+                    swap_cell_coordinates(x,y,x+1,y);
+                    return false;
+                }
+                swap_cell_coordinates(x,y,x+1,y);
+            }
+            if (y>=1&&coord_map[x][y-1]){
+                swap_cell_coordinates(x,y,x,y-1);
+                if (game_check_clear())//向上可消除
+                {
+                    swap_cell_coordinates(x,y,x,y-1);
+                    return false;
+                }
+                swap_cell_coordinates(x,y,x,y-1);
+            }
+            if (y<=GRID_ROWS-2&&coord_map[x][y+1]){
+                swap_cell_coordinates(x,y,x,y+1);
+                if (game_check_clear())//向下可消除
+                {
+                    swap_cell_coordinates(x,y,x,y+1);
+                    return false;
+                }
+                swap_cell_coordinates(x,y,x,y+1);
+            }
+        }
+    }
+    return true;
+}
+void game_deadlock(){  //触发死局时执行
+    for(uint8_t y = 0; y < GRID_ROWS; y++) {
+        for(uint8_t x = 0; x < GRID_COLS; x++) {
+            if (!coord_map[x][y])   //空的
+                continue;
+            if(coord_map[x][y]->img) {
+                lv_obj_add_flag(coord_map[x][y]->img,LV_OBJ_FLAG_HIDDEN);
+				lv_obj_invalidate(coord_map[x][y]->img);
+            }
+            coord_map[x][y]->type=DEL;
+        }
+    }
+    game_refill(NULL);
+}
+

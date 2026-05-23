@@ -24,10 +24,10 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
     
     static lv_point_t start_point;  // 保存起始点
     
-		uint8_t x0 = current_cell->x; 
-            uint8_t y0 = current_cell->y; 
-					
-					 if(cur_use_item != ITEM_NONE)
+	uint8_t x0 = current_cell->x; 
+    uint8_t y0 = current_cell->y; 
+	game_check_clear();
+	if(cur_use_item != ITEM_NONE)
     {
         switch(cur_use_item)
         {
