@@ -8,7 +8,7 @@ extern uint16_t game_step;
 extern void item_bomb_effect(uint8_t x,uint8_t y);
 extern void item_row_clear(uint8_t row);
 extern void item_col_clear(uint8_t col);
-
+extern state status;
 
 void cell_cb(lv_event_t * e) {      //方块滑动回调
     lv_event_code_t code = lv_event_get_code(e); 
@@ -76,8 +76,9 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                 if(diff_x > 0 && x0 < GRID_COLS - 1) { 
                     // 向右交换
 					lat=coord_map[x0+1][y0];
-					if (lat)
-                      cell_swap_exec(current_cell, lat);
+					if (lat){
+						status=SWAPPING;
+                      cell_swap_exec(current_cell, lat);}
                     else
                       return;
                     if(game_mode == true)
@@ -91,8 +92,9 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 				else if(diff_x < 0 && x0 > 0) { 
                     // 向左交换
                     lat=coord_map[x0-1][y0];
-					if (lat)
-                      cell_swap_exec(current_cell, lat); 
+					if (lat){
+						status=SWAPPING;
+                      cell_swap_exec(current_cell, lat);}
                     else
                         return;
                     if(game_mode == true)
@@ -106,8 +108,9 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 			else {      // 垂直滑动
                 if(diff_y > 0 && y0 < GRID_ROWS - 1) { //向下交换
                     lat=coord_map[x0][y0+1];
-					if (lat)
-                      cell_swap_exec(current_cell, lat); 
+					if (lat){
+						status=SWAPPING;
+                      cell_swap_exec(current_cell, lat);}
                     else
                         return;
                     if(game_mode == true)
@@ -119,8 +122,9 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                 } 
 				else if(diff_y < 0 && y0 > 0) {       //向上交换
                     lat=coord_map[x0][y0-1];
-					if (lat)
-                      cell_swap_exec(current_cell, lat);
+					if (lat){
+						status=SWAPPING;
+                      cell_swap_exec(current_cell, lat);}
                     else
                         return; 
                     if(game_mode == true)
@@ -231,6 +235,9 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
     
     if (swap_count == 0) {
         swap_count++;
+			status=NORMAL;  /*bug修复 修复了连续无效交换时概率错位的问题
+			或许根源在于anim被释放，导致第二次交换的回调函数无法被触发
+			将游戏状态在此处设为可操作  效果意外的好*/
         return;
     }
     
@@ -259,23 +266,25 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
             swap_cell_coordinates(i1, j1, i2, j2);
             lv_obj_move_to_index(coord_map[i1][j1]->img, GRID_COLS * GRID_ROWS * 5);
             lv_obj_move_to_index(coord_map[i2][j2]->img, GRID_COLS * GRID_ROWS * 5 + 1); //调整动画层级，防止遮挡
-            if (status == NORMAL) {
+					 
+           
                 if(game_check_clear()) {
                     game_do_clear(NULL);  //有效交换，进入消除
                     swap_count++; 
-                } else {
-                                          //无效交换，弹回
+									
+                } 
+								else {
+                    status=SWAPPING;                      //无效交换，弹回
                     swap_cell_coordinates(i2, j2, i1, j1);
                     swap_count = 0;
                     cell_swap_exec(data->cell_b, data->cell_a);
+
                 }
-            }
-						else{
-							lv_mem_free(data); 
-							return;}
+            
+						
         }
         
-        lv_mem_free(data);  // 防止内存泄漏
+       
     } 
 }
 
