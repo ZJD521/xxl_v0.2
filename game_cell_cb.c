@@ -5,6 +5,11 @@ state status=NORMAL;
 extern bool game_mode;
 extern bool game_level_map[5][8][7];
 extern uint16_t game_step;
+extern void item_bomb_effect(uint8_t x,uint8_t y);
+extern void item_row_clear(uint8_t row);
+extern void item_col_clear(uint8_t col);
+
+
 void cell_cb(lv_event_t * e) {      //方块滑动回调
     lv_event_code_t code = lv_event_get_code(e); 
 	  if(game_over) 
@@ -19,6 +24,30 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
     
     static lv_point_t start_point;  // 保存起始点
     
+		uint8_t x0 = current_cell->x; 
+            uint8_t y0 = current_cell->y; 
+					
+					 if(cur_use_item != ITEM_NONE)
+    {
+        switch(cur_use_item)
+        {
+            case ITEM_BOMB:
+                item_bomb_effect(x0,y0);
+                break;
+            case ITEM_ROW_CLEAR:
+                item_row_clear(y0);
+                break;
+            case ITEM_COL_CLEAR:
+                item_col_clear(x0);
+                break;
+            default:
+                break;
+        }
+        cur_use_item = ITEM_NONE;
+        game_do_clear(NULL);
+        return;
+    }
+
     if(code == LV_EVENT_PRESSED) { 
         lv_indev_t * indev = lv_indev_get_act();   
         if(indev) { 
@@ -39,8 +68,7 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 
             // 获取当前坐标
 
-            uint8_t x0 = current_cell->x; 
-            uint8_t y0 = current_cell->y; 
+            
 
 
 			sqr*lat=NULL;

@@ -182,3 +182,31 @@ void btn_level_cb(lv_event_t*e){
 		
 	}
 }
+void btn_item_bomb_cb(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code == LV_EVENT_CLICKED)
+    {
+        // 选中炸弹道具
+        cur_use_item = ITEM_BOMB;
+    }
+}
+void btn_item_row_cb(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code == LV_EVENT_CLICKED)
+    {
+        // 选中横排消除
+        cur_use_item = ITEM_ROW_CLEAR;
+    }
+}
+
+void btn_item_col_cb(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code == LV_EVENT_CLICKED)
+    {
+        // 选中竖列消除
+        cur_use_item = ITEM_COL_CLEAR;
+    }
+}

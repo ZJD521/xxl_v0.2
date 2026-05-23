@@ -3,7 +3,7 @@
 extern sqr cell[GRID_COLS][GRID_ROWS];  
 extern lv_img_dsc_t cell_struct[5];
 extern sqr* coord_map[GRID_COLS][GRID_ROWS] ;  
-static uint8_t clear_flag[GRID_COLS][GRID_ROWS] = {0};
+uint8_t clear_flag[GRID_COLS][GRID_ROWS] = {0};
 
 
 

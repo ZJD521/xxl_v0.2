@@ -474,6 +474,11 @@
               <FileType>1</FileType>
               <FilePath>.\game_level.c</FilePath>
             </File>
+            <File>
+              <FileName>game_tool.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game_tool.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

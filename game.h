@@ -66,6 +66,23 @@ typedef enum {   //当前状态
 	FALLING
 }state;
 
+// 全局新增
+#ifndef GAME_H
+#define GAME_H
+
+// 道具枚举
+typedef enum {
+    ITEM_NONE,
+    ITEM_BOMB,
+    ITEM_ROW_CLEAR,
+    ITEM_COL_CLEAR
+} ItemType;
+
+extern ItemType cur_use_item;
+
+#endif
+
+
 //相关函数
 
 
@@ -101,6 +118,12 @@ void game_btn_exit_load(lv_obj_t*scr);        //加载返回按钮
 
 void game_btn_level_load(void);//关卡选择按钮
 
+void game_btn_item_bomb_load(void);
+
+void game_btn_item_row_load(void);
+
+void game_btn_item_col_load(void); //道具按钮加载
+
 cell_type safe_type(uint8_t x, uint8_t y,cell_type t);  //返回不与周围相同的方块类型
 
 void game_score_label_create(lv_obj_t *scr);  //创建分数标签
@@ -110,6 +133,8 @@ void game_init_data(void);  //数据初始化
 void game_end_show(void);  //游戏结束
 
 void game_cleanup_all(void);  //清理本局资源
+
+
 
 
 //交换
@@ -154,7 +179,12 @@ void game_refill(lv_timer_t* timer);  //重填所有空方块
 
 void game_create_new_cell(uint8_t x, uint8_t y);  //生成单个重填方块
 
+//道具
+void bomb_effect(uint8_t x,uint8_t y);
 
+void row_clear_effect(uint8_t row);
+	
+void col_clear_effect(uint8_t col);
 //回调函数
 
 void btn_start_cb(lv_event_t*e); //“开始游戏”按钮
@@ -185,9 +215,9 @@ void swap_ready_cb(lv_anim_t *a);     //交换动画完成的回调
 
 void fall_anim_ready_cb(lv_anim_t* a);   //下落动画完成回调
 
-
-
 void game_timer_cb(lv_timer_t* timer);  //定时器回调
+
+
 
 //全局变量
 
@@ -227,6 +257,8 @@ extern sqr cell[GRID_COLS][GRID_ROWS];  //方块图片数组
  
 extern lv_obj_t *frame[GRID_COLS][GRID_ROWS];  //框架数组
 
+
+
 extern uint16_t game_score; // 当前得分
 extern uint16_t high_score;    // 开机内最高得分
 extern uint16_t game_time;     // 剩余时间
@@ -245,4 +277,8 @@ extern lv_obj_t *game_end_bg;
 extern lv_obj_t *game_end_title;
 extern lv_obj_t *game_end_score;
 extern lv_obj_t *btn_back_main; //弹窗
+
+extern lv_obj_t* btn_item_bomb;
+extern lv_obj_t *btn_item_row;
+extern lv_obj_t *btn_item_col; //道具按钮
 

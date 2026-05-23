@@ -78,7 +78,9 @@ void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
 						
         }
     }
-		
+		game_btn_item_bomb_load();
+    game_btn_item_row_load();
+    game_btn_item_col_load();
 }
 
 //检查是否会形成3个连续（按数组下标查邻居，开局时与逻辑格一致）
