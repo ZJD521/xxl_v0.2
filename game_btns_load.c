@@ -118,7 +118,7 @@ void game_btn_exit_load(lv_obj_t*scr){
 	}
 	else if(scr==scr_game){
 		lv_obj_set_size(btn_exit,128,50);
-		lv_obj_align(btn_exit,LV_ALIGN_CENTER,430,150); 
+		lv_obj_align(btn_exit, LV_ALIGN_BOTTOM_RIGHT, -10, -40); 
 	}
 	  lv_obj_add_event_cb(btn_exit,btn_exit_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_exit=lv_label_create(btn_exit);
@@ -221,13 +221,13 @@ void game_btn_level_load(){
 void game_btn_item_bomb_load(void)
 {
     btn_item_bomb = lv_btn_create(scr_game);
-    lv_obj_set_size(btn_item_bomb, 140, 60);
-    lv_obj_align(btn_item_bomb, LV_ALIGN_BOTTOM_RIGHT, -20, -420); // 右下角
+    lv_obj_set_size(btn_item_bomb, 100, 100);
+    lv_obj_align(btn_item_bomb, LV_ALIGN_BOTTOM_RIGHT, -20, -400); // 右下角
     lv_obj_add_event_cb(btn_item_bomb, btn_item_bomb_cb, LV_EVENT_CLICKED, NULL);
     lv_obj_t *lb_bomb = lv_label_create(btn_item_bomb);
     lv_label_set_text(lb_bomb, "BOMB");
     lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
-    lv_obj_set_style_radius(btn_item_bomb, 10, LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_item_bomb, 50, LV_PART_MAIN);
     lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xE02020), LV_PART_MAIN | LV_STATE_PRESSED);
     lv_obj_set_style_text_color(btn_item_bomb, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
     lv_obj_center(lb_bomb);
@@ -236,13 +236,13 @@ void game_btn_item_bomb_load(void)
 void game_btn_item_row_load(void)
 {
     btn_item_row = lv_btn_create(scr_game);
-    lv_obj_set_size(btn_item_row, 140, 60);
-    lv_obj_align(btn_item_row, LV_ALIGN_BOTTOM_RIGHT, -20, -350); // 炸弹下面
+    lv_obj_set_size(btn_item_row, 100, 100);
+    lv_obj_align(btn_item_row, LV_ALIGN_BOTTOM_RIGHT, -20, -280); // 炸弹下面
     lv_obj_add_event_cb(btn_item_row,btn_item_row_cb, LV_EVENT_CLICKED, NULL);
     lv_obj_t *lb_row = lv_label_create(btn_item_row);
     lv_label_set_text(lb_row, "ROW");
     lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x3742FA), LV_PART_MAIN);
-    lv_obj_set_style_radius(btn_item_row, 10, LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_item_row, 50, LV_PART_MAIN);
     lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x1927D0), LV_PART_MAIN | LV_STATE_PRESSED);
     lv_obj_set_style_text_color(btn_item_row, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
     lv_obj_center(lb_row);
@@ -251,13 +251,13 @@ void game_btn_item_row_load(void)
 void game_btn_item_col_load(void)
 {
 	  btn_item_col = lv_btn_create(scr_game);
-    lv_obj_set_size(btn_item_col, 140, 60);
-    lv_obj_align(btn_item_col, LV_ALIGN_BOTTOM_RIGHT, -20, -280); // 最底部
+    lv_obj_set_size(btn_item_col, 100, 100);
+    lv_obj_align(btn_item_col, LV_ALIGN_BOTTOM_RIGHT, -20, -160); // 最底部
     lv_obj_add_event_cb(btn_item_col, btn_item_col_cb, LV_EVENT_CLICKED, NULL);
     lv_obj_t *lb_col = lv_label_create(btn_item_col);
     lv_label_set_text(lb_col, "COL");
     lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x20B620), LV_PART_MAIN);
-    lv_obj_set_style_radius(btn_item_col, 10, LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_item_col, 50, LV_PART_MAIN);
     lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x0A9E0A), LV_PART_MAIN | LV_STATE_PRESSED);
     lv_obj_set_style_text_color(btn_item_col, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
     lv_obj_center(lb_col);

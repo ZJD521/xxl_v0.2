@@ -17,6 +17,9 @@ extern lv_obj_t * scr_game;
 extern lv_timer_t * gametime;
 extern char buf[60];
 extern uint16_t game_level;
+extern uint8_t item_bomb_used;
+extern uint8_t item_row_used;
+extern uint8_t item_col_used;
 
 bool game_mode = false;//游戏模式，false为时间模式，true为步数模式
 
@@ -187,8 +190,18 @@ void btn_item_bomb_cb(lv_event_t *e)
     lv_event_code_t code = lv_event_get_code(e);
     if (code == LV_EVENT_CLICKED)
     {
+			  if(item_bomb_used == 0)
+				{
         // 选中炸弹道具
         cur_use_item = ITEM_BOMB;
+			  item_bomb_used = 1;   // 标记已使用
+        lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+				lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+				}
+				else
+				{
+					return;
+				}
     }
 }
 void btn_item_row_cb(lv_event_t *e)
@@ -196,8 +209,18 @@ void btn_item_row_cb(lv_event_t *e)
     lv_event_code_t code = lv_event_get_code(e);
     if (code == LV_EVENT_CLICKED)
     {
+			if(item_row_used==0)
+			{
+				cur_use_item = ITEM_ROW_CLEAR;
+				item_row_used = 1;   // 标记已使用
+        lv_obj_add_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+				lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN);
+			}
         // 选中横排消除
-        cur_use_item = ITEM_ROW_CLEAR;
+        else
+				{
+					return;
+				}
     }
 }
 
@@ -206,7 +229,17 @@ void btn_item_col_cb(lv_event_t *e)
     lv_event_code_t code = lv_event_get_code(e);
     if (code == LV_EVENT_CLICKED)
     {
+			if(item_col_used==0)
+			{
+			   cur_use_item = ITEM_COL_CLEAR;
+				item_col_used = 1;   // 标记已使用
+        lv_obj_add_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+				lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+			}
         // 选中竖列消除
-        cur_use_item = ITEM_COL_CLEAR;
+        else
+				{
+					return;
+				}
     }
 }
