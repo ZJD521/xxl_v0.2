@@ -283,6 +283,8 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
             
 						
         }
+				lv_mem_free(data);
+				
         
        
     } 
@@ -306,6 +308,9 @@ void game_init_coord_map(void) {
 
 
 void swap_cell_coordinates(uint8_t i1, uint8_t j1, uint8_t i2, uint8_t j2) {  //交换索引
+    if (!coord_map[i1][j1]||!coord_map[i2][j2]){
+        return;
+    }
     // 保存旧坐标
     uint8_t old_x1 = cell[i1][j1].x;
     uint8_t old_y1 = cell[i1][j1].y;

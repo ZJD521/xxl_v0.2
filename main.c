@@ -23,7 +23,7 @@ int main()
 	  game_init();
 		
 
-    lv_obj_add_event_cb(scr_game,screen_cb,LV_EVENT_SCREEN_LOAD_START,NULL);//注册屏幕加载回调
+    lv_obj_add_event_cb(scr_game,screen_cb,LV_EVENT_SCREEN_LOADED,NULL);//注册屏幕加载回调
 		while(1){
 		lv_task_handler();    
     delay_us(2000);      

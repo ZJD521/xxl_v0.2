@@ -89,6 +89,13 @@ extern ItemType cur_use_item;
 //初始化
 void game_init(void);
 void game_level_data_init(void);
+
+//死局
+
+bool deadlock_det();
+
+void game_deadlock();
+
 //加载;
 
 
