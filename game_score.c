@@ -26,6 +26,7 @@ lv_obj_t *game_end_title;
 lv_obj_t *game_end_score;
 lv_obj_t *btn_back_main;
 extern lv_timer_t * gametime;
+extern lv_timer_t * tool;
 extern lv_obj_t * btn_exit;
 extern bool game_mode;
 
@@ -72,40 +73,7 @@ void game_score_label_create(lv_obj_t *scr)
     lv_obj_set_style_text_color(label_high, lv_color_hex(0xFFFFFF), 0);
 	  lv_obj_set_style_text_font(label_high, &lv_font_montserrat_40, 0);
     lv_obj_align(label_high, LV_ALIGN_TOP_LEFT, 20, 400);
-    if (status!=NORMAL){
-        if (btn_item_bomb && btn_item_col && btn_item_row){
-            if (!item_bomb_used){
-                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-			    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
-            }
-            if (!item_col_used){
-                lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-			    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
-            }
-            
-            if (!item_row_used){
-                lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-			    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
-            }
-            
-        }
-    }
-    else if (btn_item_bomb && btn_item_col && btn_item_row) {
-        if (!item_bomb_used){
-        lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
-        lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
-        }
-        if (!item_col_used){
-        lv_obj_add_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-        lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x3742FA), LV_PART_MAIN);
-        }
-        if (!item_row_used){
-        lv_obj_add_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-        lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x20B620), LV_PART_MAIN); 
-        }       
-    }
-    else
-    return;
+    
 }
 
 void game_init_data(void)
@@ -184,6 +152,7 @@ void game_timer_cb(lv_timer_t* timer)
         status=NORMAL; //恢复可操作状态
     }
     
+    
 }
 
 void game_end_show(void)  //弹出结束界面
@@ -261,7 +230,10 @@ void game_cleanup_all(void)  //清理本局资源
         lv_timer_del(gametime);
         gametime = NULL;
     }
-    
+    if(tool != NULL) {
+        lv_timer_del(tool);
+        tool = NULL;
+    }
     //  清理游戏界面
     if(scr_game != NULL && lv_obj_is_valid(scr_game)) {
         lv_obj_clean(scr_game);

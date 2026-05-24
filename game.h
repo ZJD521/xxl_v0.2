@@ -187,11 +187,13 @@ void game_refill(lv_timer_t* timer);  //重填所有空方块
 void game_create_new_cell(uint8_t x, uint8_t y);  //生成单个重填方块
 
 //道具
-void bomb_effect(uint8_t x,uint8_t y);
+void bomb_effect(uint8_t x,uint8_t y);//炸弹生效
 
-void row_clear_effect(uint8_t row);
+void row_clear_effect(uint8_t row);//行消
 	
-void col_clear_effect(uint8_t col);
+void col_clear_effect(uint8_t col);//列消
+
+
 //回调函数
 
 void btn_start_cb(lv_event_t*e); //“开始游戏”按钮
@@ -224,7 +226,7 @@ void fall_anim_ready_cb(lv_anim_t* a);   //下落动画完成回调
 
 void game_timer_cb(lv_timer_t* timer);  //定时器回调
 
-
+void tool_check_cb(lv_timer_t* timer);//道具可用状态
 
 //全局变量
 
@@ -289,3 +291,6 @@ extern lv_obj_t* btn_item_bomb;
 extern lv_obj_t *btn_item_row;
 extern lv_obj_t *btn_item_col; //道具按钮
 
+extern uint8_t item_bomb_used ;
+extern uint8_t item_row_used  ;
+extern uint8_t item_col_used  ;//道具状态
