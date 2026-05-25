@@ -193,7 +193,7 @@ void row_clear_effect(uint8_t row);//行消
 	
 void col_clear_effect(uint8_t col);//列消
 
-
+void tool_check();//道具可用状态
 //回调函数
 
 void btn_start_cb(lv_event_t*e); //“开始游戏”按钮
@@ -226,7 +226,7 @@ void fall_anim_ready_cb(lv_anim_t* a);   //下落动画完成回调
 
 void game_timer_cb(lv_timer_t* timer);  //定时器回调
 
-void tool_check_cb(lv_timer_t* timer);//道具可用状态
+
 
 //全局变量
 

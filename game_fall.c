@@ -113,6 +113,7 @@ static void refill_continue_cb(lv_timer_t * t)//用于控制异步重填，延�
     lv_timer_del(t);
     if (game_need_refill()){
     game_refill(NULL);}
+    tool_check();
 
 }
 
@@ -153,6 +154,8 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
     if(!fall_all_active) {  //处在下落状态
 
         status = FALLING;
+
+        tool_check();
 
         falling_cell_count = 0;
 
@@ -359,6 +362,7 @@ void game_refill(lv_timer_t* timer){  //重填所有空方块
     lv_timer_set_repeat_count(fall_check_timer, -1);
 
     col_start_timer_del();//异步重填
+    
 
     col_start_timer = lv_timer_create(refill_continue_cb, duration / 2, NULL);
 
@@ -470,10 +474,20 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
 
     } else {
         
-        status = NORMAL;
+        status=NORMAL;
+        status=FALLING;    /*暂时使用一个不可操作状态
+                            以避免使用虚拟交换中的数据*/
         
-        
-        
+        if (deadlock_det()){
+             tool_check();
+            game_deadlock();
+            
+        }
+        else{
+            status=NORMAL; //恢复可操作状态
+            tool_check();
+        }
+    
 
     }
 

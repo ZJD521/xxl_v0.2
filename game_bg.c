@@ -3,7 +3,6 @@
 #include "lv_port_indev_template.h"
 #include "game.h"
 lv_timer_t * gametime;
-lv_timer_t * tool;
 bac bg ;
 extern lv_obj_t * scr_menu; 
 extern lv_obj_t * scr_game;
@@ -58,7 +57,6 @@ void screen_cb(lv_event_t*e)    //游戏界面加载回调
     lv_obj_clear_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
     // 启动倒计时
     gametime = lv_timer_create(game_timer_cb, 1000, NULL);
-    tool = lv_timer_create(tool_check_cb,400,NULL);
     game_sqr_src_load();
     game_sqr_field_init(scr_game);
 }

@@ -40,7 +40,7 @@ void item_col_clear(uint8_t col)  //整列消除
 		item_col_used=1;
 }
 
-void tool_check_cb(lv_timer_t * timer){
+void tool_check( ){
     if (status!=NORMAL){
         if (btn_item_bomb && btn_item_col && btn_item_row){
             if (!item_bomb_used){

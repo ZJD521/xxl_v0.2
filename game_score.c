@@ -26,7 +26,6 @@ lv_obj_t *game_end_title;
 lv_obj_t *game_end_score;
 lv_obj_t *btn_back_main;
 extern lv_timer_t * gametime;
-extern lv_timer_t * tool;
 extern lv_obj_t * btn_exit;
 extern bool game_mode;
 
@@ -141,16 +140,6 @@ void game_timer_cb(lv_timer_t* timer)
         game_end_show();
     }
 
-    if (status==NORMAL){
-        status=FALLING;    /*暂时使用一个不可操作状态
-                            以避免使用虚拟交换中的数据*/
-        if (deadlock_det()){
-            
-            game_deadlock();
-            
-        }
-        status=NORMAL; //恢复可操作状态
-    }
     
     
 }
@@ -160,6 +149,7 @@ void game_end_show(void)  //弹出结束界面
 	  char buf[60];
     game_fall_stop_all();   //停掉下落链，避免带入下一局
     status = NORMAL;
+    tool_check();
     lv_anim_del_all();
     game_end_bg = lv_obj_create(lv_scr_act());
     lv_obj_set_size(game_end_bg, LV_HOR_RES, LV_VER_RES);
@@ -230,10 +220,7 @@ void game_cleanup_all(void)  //清理本局资源
         lv_timer_del(gametime);
         gametime = NULL;
     }
-    if(tool != NULL) {
-        lv_timer_del(tool);
-        tool = NULL;
-    }
+ 
     //  清理游戏界面
     if(scr_game != NULL && lv_obj_is_valid(scr_game)) {
         lv_obj_clean(scr_game);
@@ -241,6 +228,7 @@ void game_cleanup_all(void)  //清理本局资源
     
     // 重置游戏状态
     status = NORMAL;
+    tool_check();
     game_over = 0;
     game_score = 0;
     game_time = 0;

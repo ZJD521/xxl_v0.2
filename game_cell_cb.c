@@ -8,7 +8,7 @@ extern uint16_t game_step;
 extern void item_bomb_effect(uint8_t x,uint8_t y);
 extern void item_row_clear(uint8_t row);
 extern void item_col_clear(uint8_t col);
-extern state status;
+
 
 void cell_cb(lv_event_t * e) {      //方块滑动回调
     lv_event_code_t code = lv_event_get_code(e); 
@@ -78,6 +78,7 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 					lat=coord_map[x0+1][y0];
 					if (lat){
 						status=SWAPPING;
+                        tool_check();
                       cell_swap_exec(current_cell, lat);}
                     else
                       return;
@@ -94,6 +95,7 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                     lat=coord_map[x0-1][y0];
 					if (lat){
 						status=SWAPPING;
+                        tool_check();
                       cell_swap_exec(current_cell, lat);}
                     else
                         return;
@@ -110,6 +112,7 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                     lat=coord_map[x0][y0+1];
 					if (lat){
 						status=SWAPPING;
+                        tool_check();
                       cell_swap_exec(current_cell, lat);}
                     else
                         return;
@@ -124,6 +127,7 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                     lat=coord_map[x0][y0-1];
 					if (lat){
 						status=SWAPPING;
+                        tool_check();
                       cell_swap_exec(current_cell, lat);}
                     else
                         return; 
@@ -238,6 +242,7 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
 			status=NORMAL;  /*bug修复 修复了连续无效交换时概率错位的问题
 			或许根源在于anim被释放，导致第二次交换的回调函数无法被触发
 			将游戏状态在此处设为可操作  效果意外的好*/
+            tool_check();
         return;
     }
     
@@ -275,6 +280,7 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
                 } 
 								else {
                     status=SWAPPING;                      //无效交换，弹回
+                    tool_check();
                     swap_cell_coordinates(i2, j2, i1, j1);
                     swap_count = 0;
                     cell_swap_exec(data->cell_b, data->cell_a);
@@ -285,7 +291,21 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
         }
 				lv_mem_free(data);
 				
+        if (status==NORMAL){
+            status=FALLING;    /*暂时使用一个不可操作状态
+                            以避免使用虚拟交换中的数据*/
         
+            if (deadlock_det()){
+                tool_check();
+                game_deadlock();
+            
+            }
+            else{
+                status=NORMAL; //恢复可操作状态
+                tool_check();
+            }
+    }
+    
        
     } 
 }
