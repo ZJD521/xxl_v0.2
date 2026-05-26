@@ -141,7 +141,9 @@ void game_end_show(void);  //游戏结束
 
 void game_cleanup_all(void);  //清理本局资源
 
+char game_score_read();//读取最高分
 
+char game_score_write();//写入最高分
 
 
 //交换
@@ -269,7 +271,7 @@ extern lv_obj_t *frame[GRID_COLS][GRID_ROWS];  //框架数组
 
 
 extern uint16_t game_score; // 当前得分
-extern uint16_t high_score;    // 开机内最高得分
+extern uint16_t high_score;    // 本关最高得分
 extern uint16_t game_time;     // 剩余时间
 extern uint8_t  game_over;     // 游戏是否结束标志
 extern uint16_t game_step; //剩余步数

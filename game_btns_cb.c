@@ -195,8 +195,19 @@ void btn_item_bomb_cb(lv_event_t *e)
         // 选中炸弹道具
         cur_use_item = ITEM_BOMB;
 			  item_bomb_used = 1;   // 标记已使用
-        lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+        
+				lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
 				lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+			
+			
+				lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+				lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+			
+			
+			
+				lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+				lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+			
 				}
 				else
 				{
@@ -213,8 +224,19 @@ void btn_item_row_cb(lv_event_t *e)
 			{
 				cur_use_item = ITEM_ROW_CLEAR;
 				item_row_used = 1;   // 标记已使用
-        lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-				lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN);
+        
+				lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+				lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+			
+			
+				lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+				lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+			
+			
+			
+				lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+				lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+			
 			}
         // 选中横排消除
         else
@@ -233,8 +255,19 @@ void btn_item_col_cb(lv_event_t *e)
 			{
 			   cur_use_item = ITEM_COL_CLEAR;
 				item_col_used = 1;   // 标记已使用
-        lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+        
+				lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+				lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+			
+			
+				lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
 				lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+			
+			
+			
+				lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+				lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+			
 			}
         // 选中竖列消除
         else
@@ -243,3 +276,4 @@ void btn_item_col_cb(lv_event_t *e)
 				}
     }
 }
+

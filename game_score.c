@@ -6,6 +6,7 @@ uint16_t high_score = 0;
 extern uint16_t game_time ;
 extern uint16_t game_step ;
 extern uint16_t game_goal ;
+extern uint16_t game_level;
 extern state status;
 extern uint8_t item_bomb_used;
 extern uint8_t item_row_used;
@@ -67,7 +68,10 @@ void game_score_label_create(lv_obj_t *scr)
     
     label_high = lv_label_create(scr);
 	  char buff[20];
+      high_score=0;
+      game_score_read();
     sprintf(buff, "High:%d", high_score);
+    
     lv_label_set_text(label_high, buff);
     lv_obj_set_style_text_color(label_high, lv_color_hex(0xFFFFFF), 0);
 	  lv_obj_set_style_text_font(label_high, &lv_font_montserrat_40, 0);
@@ -131,6 +135,7 @@ void game_timer_cb(lv_timer_t* timer)
             if(game_score > high_score)
             {
                 high_score = game_score;
+                game_score_write();
             }
             game_end_show();
         }
@@ -145,7 +150,7 @@ void game_timer_cb(lv_timer_t* timer)
 }
 
 void game_end_show(void)  //弹出结束界面
-{
+{   
 	  char buf[60];
     game_fall_stop_all();   //停掉下落链，避免带入下一局
     status = NORMAL;
@@ -156,6 +161,8 @@ void game_end_show(void)  //弹出结束界面
     lv_obj_set_style_bg_color(game_end_bg, lv_color_black(), 0);
     lv_obj_set_style_bg_opa(game_end_bg, 180, 0);
     lv_obj_clear_flag(game_end_bg, LV_OBJ_FLAG_SCROLLABLE);
+
+    game_score_write();
 
     game_end_title = lv_label_create(game_end_bg);
     if(game_score<game_goal)
@@ -239,4 +246,48 @@ void game_cleanup_all(void)  //清理本局资源
             coord_map[i][j] = NULL;
         }
     }
+}
+char game_score_read(){
+    FIL file;
+	FRESULT res;
+    UINT bytes_read;
+    const char *filename[5]={"0:score_1.bin","0:score_2.bin","0:score_3.bin","0:score_4.bin","0:score_5.bin"};
+    res = f_open(&file, filename[game_level-1], FA_READ);
+    if (res != FR_OK) {
+        f_mount(NULL, "", 0);
+        return 1;
+    }
+    FSIZE_t file_size = f_size(&file);
+
+    res = f_read(&file, &high_score, file_size, &bytes_read);
+    if (res != FR_OK || bytes_read != file_size) {
+        f_close(&file);
+        f_mount(NULL, "", 0);
+        return 2;
+    }
+    f_close(&file);
+    
+    return 0;
+}
+char game_score_write(){
+    FIL file;
+	FRESULT res;
+    UINT bytes_write;
+    const char *filename[5]={"0:score_1.bin","0:score_2.bin","0:score_3.bin","0:score_4.bin","0:score_5.bin"};
+    res = f_open(&file, filename[game_level-1], FA_WRITE | FA_CREATE_ALWAYS);
+    if (res != FR_OK) {
+        f_mount(NULL, "", 0);
+        return 1;
+    }
+    
+
+    res = f_write(&file, &high_score, sizeof (uint16_t), &bytes_write);
+    if (res != FR_OK || bytes_write != sizeof (uint16_t)) {
+        f_close(&file);
+        f_mount(NULL, "", 0);
+        return 2;
+    }
+    f_close(&file);
+    
+    return 0;
 }
