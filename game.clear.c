@@ -123,7 +123,7 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
 						
         }
     }
-		game_fall_all();    //标记为DEL后触发下落
+		game_fall_all();
   }
   
 	

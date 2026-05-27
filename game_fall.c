@@ -102,9 +102,128 @@ static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落，延
 
     lv_timer_del(t);
 
-    game_fall_all();
+    uint8_t x;  //当前在处理第几列
+
+    uint8_t col_has_anim;  //这一列有没有方块在下落
+
+    if(!fall_all_active) {  //处在下落状态
+
+        status = FALLING;
+
+        if (btn_item_bomb && btn_item_col && btn_item_row){
+            if (!item_bomb_used){
+                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+			    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+            }
+            if (!item_col_used){
+                lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+			    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+            }
+            
+            if (!item_row_used){
+                lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+			    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+            }
+            
+        }
+
+        falling_cell_count = 0;
+
+        next_fall_col = 0;
+
+        fall_all_active = 1;  
+
+        fall_check_timer_bind(lv_timer_create(fall_complete_check, duration + 10, NULL));
+
+        lv_timer_set_repeat_count(fall_check_timer, -1);
+
+    }
+
+
+
+    for(x = next_fall_col; x < GRID_COLS; x++) {  //一列一列处理
+
+        uint8_t write_y = GRID_ROWS - 1;   
+
+        col_has_anim = 0;
+
+
+
+        for(int8_t read_y = write_y; read_y >= 0; read_y--) {  //从最底部开始填补
+            if (!coord_map[x][write_y]){  //如果这个位置没有方块
+                write_y--;  //标记落脚点
+                continue;
+            }
+                if (!coord_map[x][read_y]){
+                    write_y=read_y-1;
+                    continue;
+                }
+            
+            
+            sqr* src_cell = coord_map[x][read_y];
+
+
+
+            if(src_cell && src_cell->type != DEL) {
+
+                if(read_y != write_y&&coord_map[x][write_y]->type==DEL&&coord_map[x][read_y+1]) {
+
+                    lv_coord_t current_y = lv_obj_get_y(src_cell->img);
+
+                    lv_coord_t target_y_pos = FIELD_Y + write_y * CELL_LENG;
+
+
+
+                    if(current_y != target_y_pos) {
+
+                        game_fall_one(src_cell, write_y);
+
+                        col_has_anim = 1;
+
+                    }
+
+                }
+
+                write_y--;
+
+            }
+
+        }
+
+
+
+        if(col_has_anim)
+
+            break;
+
+    }
+
+
+
+    if(x >= GRID_COLS) {
+
+        fall_all_active = 0;
+
+        next_fall_col = 0;
+
+        return;
+
+    }
+
+
+
+    next_fall_col = x + 1;
+
+    col_start_timer_del();
+
+    col_start_timer = lv_timer_create(fall_all_continue_cb, duration / 2, NULL);
+
+    lv_timer_set_repeat_count(col_start_timer, 1);
 
 }
+
+
+
 
 static void refill_continue_cb(lv_timer_t * t)//用于控制异步重填，延时填补
 
