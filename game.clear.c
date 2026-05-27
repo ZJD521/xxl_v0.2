@@ -42,6 +42,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                     if(coord_map[i][y]->type == t) {
                         clear_flag[i][y] = 1;
                         count++;
+                        game_score+=10;
                     } else {
                         break; // 遇到不同类型的方块，停止检查
                     }
@@ -73,6 +74,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                     if(coord_map[x][i]->type == t) {
                         clear_flag[x][i] = 1;
                         count++;
+                        game_score+=10;
                     } else {
                         break; // 遇到不同类型的方块，停止检查
                     }
