@@ -78,7 +78,22 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 					lat=coord_map[x0+1][y0];
 					if (lat){
 						status=SWAPPING;
-                        tool_check();
+                        if (btn_item_bomb && btn_item_col && btn_item_row){
+                            if (!item_bomb_used){
+                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+                                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                            }
+                            if (!item_col_used){
+                                lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+                            }
+                            
+                            if (!item_row_used){
+                                lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+                            }
+                            
+                        }
                       cell_swap_exec(current_cell, lat);}
                     else
                       return;
@@ -95,7 +110,22 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                     lat=coord_map[x0-1][y0];
 					if (lat){
 						status=SWAPPING;
-                        tool_check();
+                        if (btn_item_bomb && btn_item_col && btn_item_row){
+                            if (!item_bomb_used){
+                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+                                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                            }
+                            if (!item_col_used){
+                                lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+                            }
+                            
+                            if (!item_row_used){
+                                lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+                            }
+                            
+                        }
                       cell_swap_exec(current_cell, lat);}
                     else
                         return;
@@ -112,7 +142,22 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                     lat=coord_map[x0][y0+1];
 					if (lat){
 						status=SWAPPING;
-                        tool_check();
+                        if (btn_item_bomb && btn_item_col && btn_item_row){
+                            if (!item_bomb_used){
+                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+                                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                            }
+                            if (!item_col_used){
+                                lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+                            }
+                            
+                            if (!item_row_used){
+                                lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+                            }
+                            
+                        }
                       cell_swap_exec(current_cell, lat);}
                     else
                         return;
@@ -127,7 +172,22 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                     lat=coord_map[x0][y0-1];
 					if (lat){
 						status=SWAPPING;
-                        tool_check();
+                        if (btn_item_bomb && btn_item_col && btn_item_row){
+                            if (!item_bomb_used){
+                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+                                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                            }
+                            if (!item_col_used){
+                                lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+                            }
+                            
+                            if (!item_row_used){
+                                lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+                            }
+                            
+                        }
                       cell_swap_exec(current_cell, lat);}
                     else
                         return; 
@@ -242,7 +302,18 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
 			status=NORMAL;  /*bug修复 修复了连续无效交换时概率错位的问题
 			或许根源在于anim被释放，导致第二次交换的回调函数无法被触发
 			将游戏状态在此处设为可操作  效果意外的好*/
-            tool_check();
+            if (!item_bomb_used){
+        lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
+        lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
+        }
+        if (!item_col_used){
+        lv_obj_add_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+        lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x20B620), LV_PART_MAIN);
+        }
+        if (!item_row_used){
+        lv_obj_add_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+        lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x3742FA), LV_PART_MAIN); 
+        }  
         return;
     }
     
@@ -280,7 +351,22 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
                 } 
 								else {
                     status=SWAPPING;                      //无效交换，弹回
-                    tool_check();
+                    if (btn_item_bomb && btn_item_col && btn_item_row){
+                        if (!item_bomb_used){
+                            lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+                            lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                        }
+                        if (!item_col_used){
+                            lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                            lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+                        }
+                        
+                        if (!item_row_used){
+                            lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                            lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+                        }
+                        
+                    }
                     swap_cell_coordinates(i2, j2, i1, j1);
                     swap_count = 0;
                     cell_swap_exec(data->cell_b, data->cell_a);
@@ -296,13 +382,39 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
                             以避免使用虚拟交换中的数据*/
         
             if (deadlock_det()){
-                tool_check();
+                if (btn_item_bomb && btn_item_col && btn_item_row){
+                    if (!item_bomb_used){
+                        lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+                        lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                    }
+                    if (!item_col_used){
+                        lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                        lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+                    }
+                    
+                    if (!item_row_used){
+                        lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                        lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+                    }
+                    
+                }
                 game_deadlock();
             
             }
             else{
                 status=NORMAL; //恢复可操作状态
-                tool_check();
+                if (!item_bomb_used){
+                    lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
+                    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
+                    }
+                    if (!item_col_used){
+                    lv_obj_add_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x20B620), LV_PART_MAIN);
+                    }
+                    if (!item_row_used){
+                    lv_obj_add_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x3742FA), LV_PART_MAIN); 
+                    }  
             }
     }
     

@@ -154,7 +154,18 @@ void game_end_show(void)  //弹出结束界面
 	  char buf[60];
     game_fall_stop_all();   //停掉下落链，避免带入下一局
     status = NORMAL;
-    tool_check();
+    if (!item_bomb_used){
+        lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
+        lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
+        }
+        if (!item_col_used){
+        lv_obj_add_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+        lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x20B620), LV_PART_MAIN);
+        }
+        if (!item_row_used){
+        lv_obj_add_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+        lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x3742FA), LV_PART_MAIN); 
+        }  
     lv_anim_del_all();
     game_end_bg = lv_obj_create(lv_scr_act());
     lv_obj_set_size(game_end_bg, LV_HOR_RES, LV_VER_RES);
@@ -235,7 +246,18 @@ void game_cleanup_all(void)  //清理本局资源
     
     // 重置游戏状态
     status = NORMAL;
-    tool_check();
+    if (!item_bomb_used){
+        lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
+        lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
+        }
+        if (!item_col_used){
+        lv_obj_add_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+        lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x20B620), LV_PART_MAIN);
+        }
+        if (!item_row_used){
+        lv_obj_add_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+        lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x3742FA), LV_PART_MAIN); 
+        }  
     game_over = 0;
     game_score = 0;
     game_time = 0;

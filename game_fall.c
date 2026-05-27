@@ -155,7 +155,22 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
 
         status = FALLING;
 
-        tool_check();
+        if (btn_item_bomb && btn_item_col && btn_item_row){
+            if (!item_bomb_used){
+                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+			    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+            }
+            if (!item_col_used){
+                lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+			    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+            }
+            
+            if (!item_row_used){
+                lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+			    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+            }
+            
+        }
 
         falling_cell_count = 0;
 
@@ -479,13 +494,39 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
                             以避免使用虚拟交换中的数据*/
         
         if (deadlock_det()){
-             tool_check();
+            if (btn_item_bomb && btn_item_col && btn_item_row){
+                if (!item_bomb_used){
+                    lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
+                    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                }
+                if (!item_col_used){
+                    lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
+                }
+                
+                if (!item_row_used){
+                    lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
+                }
+                
+            }
             game_deadlock();
             
         }
         else{
             status=NORMAL; //恢复可操作状态
-            tool_check();
+            if (!item_bomb_used){
+                lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
+                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
+                }
+                if (!item_col_used){
+                lv_obj_add_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
+                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x20B620), LV_PART_MAIN);
+                }
+                if (!item_row_used){
+                lv_obj_add_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x3742FA), LV_PART_MAIN); 
+                }  
         }
     
 
