@@ -8,6 +8,8 @@ extern state status;
 
 extern lv_img_dsc_t cell_struct[5];
 
+extern bool game_mode;
+
 static uint16_t falling_cell_count = 0;   //当前下落动画数量
 
 static lv_timer_t * fall_check_timer = NULL;  //下落完成检测定时器
@@ -437,7 +439,7 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
 
 
 
-void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一出口
+void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一出口（还能不能消除，死局？）
 
     if(game_over == 1) { //熔断判断
 
@@ -481,7 +483,7 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
 
 
 
-    if(game_check_clear()) {
+    if(game_check_clear()) {  //还有能消除的
 
         lv_timer_t * ctimer = lv_timer_create(game_do_clear, 50, NULL);
 
@@ -489,11 +491,10 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
 
     } else {
         
-        status=NORMAL;
         status=FALLING;    /*暂时使用一个不可操作状态
                             以避免使用虚拟交换中的数据*/
         
-        if (deadlock_det()){
+        if (deadlock_det()){   //如果死局
             if (btn_item_bomb && btn_item_col && btn_item_row){
                 if (!item_bomb_used){
                     lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
@@ -510,7 +511,24 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
                 }
                 
             }
-            game_deadlock();
+            if (game_over==1){  
+        return;
+    }
+    if (game_mode==0){
+        game_time+=4;
+    }
+    for(uint8_t y = 0; y < GRID_ROWS; y++) {
+        for(uint8_t x = 0; x < GRID_COLS; x++) {
+            if (!coord_map[x][y])   //空的
+                continue;
+            if(coord_map[x][y]->img) {
+                lv_obj_add_flag(coord_map[x][y]->img,LV_OBJ_FLAG_HIDDEN);
+				lv_obj_invalidate(coord_map[x][y]->img);
+            }
+            coord_map[x][y]->type=DEL;
+        }
+    }
+    game_refill(NULL);  //重新洗牌
             
         }
         else{

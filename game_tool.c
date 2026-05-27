@@ -59,7 +59,8 @@ void tool_check( ){
             
         }
     }
-    else if (btn_item_bomb && btn_item_col && btn_item_row) {
+    else if(status==NORMAL){
+			if (btn_item_bomb && btn_item_col && btn_item_row) {
         if (!item_bomb_used){
         lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
         lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
@@ -73,6 +74,7 @@ void tool_check( ){
         lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x3742FA), LV_PART_MAIN); 
         }       
     }
+	}
     else
     return;
 }
