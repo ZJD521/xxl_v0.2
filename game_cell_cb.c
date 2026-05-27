@@ -26,9 +26,9 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
     
 	uint8_t x0 = current_cell->x; 
     uint8_t y0 = current_cell->y; 
-	game_check_clear();
+	
 	if(cur_use_item != ITEM_NONE)
-    {
+    {   game_check_clear();
         switch(cur_use_item)
         {
             case ITEM_BOMB:

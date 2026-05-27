@@ -8,7 +8,7 @@ uint8_t clear_flag[GRID_COLS][GRID_ROWS] = {0};
 
 
 uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标记要被删除的格子
-    uint8_t ret = 0;
+    uint8_t ret = 0;//得分点
     cell_type t;
     
     // 重置所有消除标记
@@ -33,7 +33,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                 clear_flag[x][y] = 1;
                 clear_flag[x+1][y] = 1;
                 clear_flag[x+2][y] = 1;
-                ret = 1;
+                ret += 1;
                 
                 // 检查是否超过3个
                 uint8_t count = 3;
@@ -42,7 +42,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                     if(coord_map[i][y]->type == t) {
                         clear_flag[i][y] = 1;
                         count++;
-                        game_score+=10;
+                        ret+=1;
                     } else {
                         break; // 遇到不同类型的方块，停止检查
                     }
@@ -66,7 +66,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                 clear_flag[x][y] = 1;
                 clear_flag[x][y+1] = 1;
                 clear_flag[x][y+2] = 1;
-                ret = 1;
+                ret += 1;
                 
                 uint8_t count = 3;
                 for(uint8_t i = y+3; i < GRID_ROWS; i++) {
@@ -74,7 +74,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                     if(coord_map[x][i]->type == t) {
                         clear_flag[x][i] = 1;
                         count++;
-                        game_score+=10;
+                        ret+=1;
                     } else {
                         break; // 遇到不同类型的方块，停止检查
                     }
@@ -85,8 +85,8 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
         }
     }
     
-  
-    
+    if (ret > 1)
+        game_score += (ret*5);
     return ret;
 }
 
