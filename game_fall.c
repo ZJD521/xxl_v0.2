@@ -530,6 +530,8 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
 
     new_cell->y = y;
 
+    new_cell->moved=0;
+
     
 
     new_cell->img = lv_img_create(lv_scr_act());

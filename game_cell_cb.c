@@ -94,6 +94,8 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                             }
                             
                         }
+                        current_cell->moved=1;
+                        lat->moved=1;
                       cell_swap_exec(current_cell, lat);}
                     else
                       return;
@@ -126,6 +128,8 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                             }
                             
                         }
+                        current_cell->moved=1;
+                        lat->moved=1;
                       cell_swap_exec(current_cell, lat);}
                     else
                         return;
@@ -158,6 +162,8 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                             }
                             
                         }
+                        current_cell->moved=1;
+                        lat->moved=1;
                       cell_swap_exec(current_cell, lat);}
                     else
                         return;
@@ -188,6 +194,8 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
                             }
                             
                         }
+                        current_cell->moved=1;
+                        lat->moved=1;
                       cell_swap_exec(current_cell, lat);}
                     else
                         return; 
@@ -369,6 +377,8 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
                     }
                     swap_cell_coordinates(i2, j2, i1, j1);
                     swap_count = 0;
+                    data->cell_a->moved=0;
+                    data->cell_b->moved=0;
                     cell_swap_exec(data->cell_b, data->cell_a);
 
                 }

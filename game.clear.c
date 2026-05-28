@@ -3,7 +3,7 @@
 extern sqr cell[GRID_COLS][GRID_ROWS];  
 extern lv_img_dsc_t cell_struct[5];
 extern sqr* coord_map[GRID_COLS][GRID_ROWS] ;  
-uint8_t clear_flag[GRID_COLS][GRID_ROWS] = {0};
+uint8_t clear_flag[GRID_COLS][GRID_ROWS] = {0};//0:正常,1:待消除,2:生成炸弹
 
 
 
@@ -28,7 +28,9 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
             if(t == DEL) continue;
             
             // 检查3个连续相同
-            if(coord_map[x+1][y]->type == t && coord_map[x+2][y]->type == t) {
+            if(coord_map[x+1][y]->type == t && coord_map[x+2][y]->type == t ) {
+                if (clear_flag[x][y] == 2 || clear_flag[x+1][y] == 2 || clear_flag[x+2][y] == 2)//跳过已生成的炸弹
+                    continue;
                 // 标记这3个
                 clear_flag[x][y] = 1;
                 clear_flag[x+1][y] = 1;
@@ -41,11 +43,39 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                     if(!coord_map[i][y]) break;
                     if(coord_map[i][y]->type == t) {
                         clear_flag[i][y] = 1;
+                        
                         count++;
                         ret+=1;
-                    } else {
+                    } 
+                    else     
                         break; // 遇到不同类型的方块，停止检查
+                    
+                }
+                if (count > 3){//多连生成炸弹
+                    for (uint8_t j=x;j<=x+count;j++){
+                        if (coord_map[x-1][y]){     //跳过已生成的炸弹
+                            if (coord_map[x-1][y]->type==coord_map[x][y]->type){
+                                if (clear_flag[x-1][y]==2)
+                                    break;
+                            }
+                        }
+                        if (coord_map[j][y]->moved==0&&j<x+count){
+                            continue;
+                        }
+                        else if(coord_map[j][y]->moved==0&&j==x+count){
+                            clear_flag[x][y]=2;
+                            bomb_creat(coord_map[x][y],BOMB_ROW);
+                        }
+                        else if(coord_map[j][y]->moved==1){
+                            clear_flag[j][y]=2;
+                            bomb_creat(coord_map[j][y],BOMB_ROW);
+                            break;
+                        }
+                        else
+                            break;
+                        
                     }
+
                 }
                 
               
@@ -63,6 +93,8 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
             if(t == DEL) continue;
             
             if(coord_map[x][y+1]->type == t && coord_map[x][y+2]->type == t) {
+                if (clear_flag[x][y] == 2 || clear_flag[x][y+1] == 2 || clear_flag[x][y+2] == 2)//跳过已生成的炸弹
+                    continue;
                 clear_flag[x][y] = 1;
                 clear_flag[x][y+1] = 1;
                 clear_flag[x][y+2] = 1;
@@ -79,7 +111,32 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                         break; // 遇到不同类型的方块，停止检查
                     }
                 }
-                
+                if (count > 3){//多连生成炸弹
+                    for (uint8_t j=y;j<=y+count;j++){
+                        if (coord_map[x][y-1]){     //跳过已生成的炸弹
+                            if (coord_map[x][y-1]->type==coord_map[x][y]->type){
+                                if (clear_flag[x][y-1]==2)
+                                    break;
+                            }
+                        }
+                        if (coord_map[x][j]->moved==0&&j<y+count){
+                            continue;
+                        }
+                        else if(coord_map[x][j]->moved==0&&j==y+count){
+                            clear_flag[x][y]=2;
+                            bomb_creat(coord_map[x][y],BOMB_COL);
+                        }
+                        else if(coord_map[x][j]->moved==1){
+                            clear_flag[x][j]=2;
+                            bomb_creat(coord_map[x][j],BOMB_COL);
+                            break;
+                        }
+                        else
+                            break;
+                        
+                    }
+
+                }
                
             }
         }
@@ -101,8 +158,8 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
         for(uint8_t x = 0; x < GRID_COLS; x++) {
             if (!coord_map[x][y])   //空的
                 continue;
-            if(clear_flag[x][y] && coord_map[x][y]) {   //有东西并且要被消除
-				if(clear_flag[x][y] && coord_map[x][y] && game_over == 0)
+            if(clear_flag[x][y]==1 && coord_map[x][y]) {   //有东西并且要被消除
+				if( game_over == 0)
                 {
                    game_score += 10;
 

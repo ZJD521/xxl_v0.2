@@ -43,16 +43,25 @@ typedef enum{
 	DEL   //删除标记
 }cell_type;
 
+typedef enum{  //炸弹种类
+	BOMB_NONE,
+	BOMB_ROW,
+	BOMB_COL,
+	BOMB_CENTER
+}bomb_type;
+
 typedef struct {       //背景图片，背景主题
 	lv_obj_t*img;
   bg_theme theme;
 }bac;
 
-typedef struct {	//方块图片，标签，坐标
+typedef struct {	//方块图片，标签，坐标,炸弹类型,移动标记
 	lv_obj_t*img;
-  cell_type type;
+  	cell_type type;
 	uint8_t x;
-  uint8_t y;
+  	uint8_t y;
+	bomb_type bomb;
+	bool moved;
 }sqr;
 
 typedef struct {  //用于打包交换的两个方块
@@ -167,7 +176,7 @@ void game_do_clear(lv_timer_t* timer);    //消除执行
 
 void clear_coord_map_at(uint8_t x, uint8_t y);    //清除单个索引
 
-
+void bomb_creat(sqr * cell0,bomb_type tag);//创建炸弹
 
 
 //下落
@@ -296,3 +305,5 @@ extern lv_obj_t *btn_item_col; //道具按钮
 extern uint8_t item_bomb_used ;
 extern uint8_t item_row_used  ;
 extern uint8_t item_col_used  ;//道具状态
+
+
