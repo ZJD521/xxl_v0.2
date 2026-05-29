@@ -44,10 +44,10 @@ typedef enum{
 }cell_type;
 
 typedef enum{  //炸弹种类
-	BOMB_NONE,
-	BOMB_ROW,
-	BOMB_COL,
-	BOMB_CENTER
+	  BOMB_NONE   = 0,
+    BOMB_ROW    = 2,   // 行炸弹 → 标记2
+    BOMB_COL    = 3,   // 列炸弹 → 标记3
+    BOMB_CENTER = 4    // 中心炸弹 → 标记4
 }bomb_type;
 
 typedef struct {       //背景图片，背景主题
@@ -88,6 +88,13 @@ typedef enum {
 } ItemType;
 
 extern ItemType cur_use_item;
+
+typedef struct  //炸弹坐标结构体
+{
+    uint8_t x;
+    uint8_t y;
+} BombPos;
+
 
 #endif
 
@@ -237,7 +244,11 @@ void fall_anim_ready_cb(lv_anim_t* a);   //下落动画完成回调
 
 void game_timer_cb(lv_timer_t* timer);  //定时器回调
 
+void enqueue(uint8_t x, uint8_t y);
 
+uint8_t dequeue(uint8_t *x, uint8_t *y);
+
+void queue_clear(void);
 
 //全局变量
 
