@@ -20,7 +20,7 @@ static uint8_t next_fall_col = 0;
 
 static uint8_t fall_all_active = 0;
 
-
+extern uint8_t clear_flag[GRID_COLS][GRID_ROWS];
 
 //删除并清空下落检测定时器
 
@@ -407,6 +407,9 @@ void game_fall_one(sqr* cell, uint8_t target_y) {  //下落单个方块
     uint8_t old_x = cell->x;
 
     uint8_t old_y = cell->y;
+		
+		clear_flag[old_x][target_y] = clear_flag[old_x][old_y];
+    clear_flag[old_x][old_y] = 0;
 
     cell->y = target_y;
 

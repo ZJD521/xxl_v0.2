@@ -17,13 +17,21 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
             clear_flag[x][y] = 0;
         }
     }
-    
-    // 检查水平方向
-    for(uint8_t y = 0; y < GRID_ROWS; y++) {
-        for(uint8_t x = 0; x < GRID_COLS - 2; x++) {
-            // 边界检查
-            if(!coord_map[x][y] || !coord_map[x+1][y] || !coord_map[x+2][y]) continue;
-            
+
+    //  初始化炸弹队列
+    queue_clear();
+
+    // 水平方向连续块检测 
+    for (uint8_t y = 0; y < GRID_ROWS; y++)
+    {
+        uint8_t x = 0;
+        while (x < GRID_COLS)
+        {
+            if (!coord_map[x][y] || coord_map[x][y]->type == DEL)
+            {
+                x++;
+                continue;
+            }
             t = coord_map[x][y]->type;
             if(t == DEL) continue;
             
@@ -37,66 +45,52 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                 clear_flag[x+2][y] = 1;
                 ret += 1;
 
-                //检查T形
-                if (coord_map[x][y-1] && coord_map[x][y+1])
-                if (coord_map[x][y-1]->type==t && coord_map[x][y+1]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x][y-1]=1;
-                    clear_flag[x][y+1]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
+            // 截取完整连续同色块
+            uint8_t endX = x;
+            while (endX < GRID_COLS && coord_map[endX][y] && coord_map[endX][y]->type == t)
+            {
+                endX++;
+            }
+            uint8_t count = endX - x;
+            if (count < 3)
+            {
+                x = endX;
+                continue;
+            }
+
+            // 判断区块内是否有炸弹
+            uint8_t HasBomb = 0;
+            for (uint8_t k = x; k < endX; k++)
+            {
+                if (clear_flag[k][y] >= 2)
+                {
+                    HasBomb = 1;
+                    break;
                 }
 
-                //检查右上L形
-                if (coord_map[x][y-1] && coord_map[x][y-2])
-                if (coord_map[x][y-1]->type==t && coord_map[x][y-2]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x][y-1]=1;
-                    clear_flag[x][y-2]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
+            if (!HasBomb)
+            {
+                // 无炸弹：正常标记消除 + 长连生成行炸弹
+                for (uint8_t k = x; k < endX; k++)
+                {
+                    if (clear_flag[k][y] < 2)
+                    {
+                        clear_flag[k][y] = 1;
+                        ret++;
+                    }
                 }
-
-                //检查右下L形
-                if (coord_map[x][y+1] && coord_map[x][y+2])
-                if (coord_map[x][y+1]->type==t && coord_map[x][y+2]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x][y+1]=1;
-                    clear_flag[x][y+2]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
-                }
-                
-
-                // 检查是否超过3个
-                uint8_t count = 3;
-                for(uint8_t i = x+3; i < GRID_COLS; i++) {
-                    if(!coord_map[i][y]) break;
-                    if(coord_map[i][y]->type == t) {
-                        clear_flag[i][y] = 1;
-                        
-                        count++;
-                        ret+=1;
-                    } 
-                    else     
-                        break; // 遇到不同类型的方块，停止检查
-                    
-                }
-                if (count > 3){//多连生成炸弹
-                    for (uint8_t j=x;j<=x+count;j++){
-                        if (coord_map[x-1][y]){     //跳过已生成的炸弹
-                            if (coord_map[x-1][y]->type==coord_map[x][y]->type){
-                                if (clear_flag[x-1][y]==2)
-                                    break;
-                            }
-                        }
-                        if (coord_map[j][y]->moved==0&&j<x+count || clear_flag[j][y]==2){
-                            continue;
-                        }
-                        else if(coord_map[j][y]->moved==0&&j==x+count){
-                            clear_flag[x][y]=2;
-                            bomb_creat(coord_map[x][y],BOMB_ROW);
-                        }
-                        else if(coord_map[j][y]->moved==1){
-                            clear_flag[j][y]=2;
-                            bomb_creat(coord_map[j][y],BOMB_ROW);
+                if (count > 3)
+                {
+                    uint8_t bombCreated = 0;
+                    for (uint8_t j = x; j < endX; j++)
+                    {
+                        if (!coord_map[j][y]) 
+													continue;
+                        if (coord_map[j][y]->moved == 1)
+                        {
+                            clear_flag[j][y] =BOMB_ROW;
+                            bomb_creat(coord_map[j][y], BOMB_ROW);
+                            bombCreated = 1;
                             break;
                         }
                         else
@@ -110,79 +104,63 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
             }
         }
     }
-    
-    // 检查垂直方向
-    for(uint8_t x = 0; x < GRID_COLS; x++) {
-        for(uint8_t y = 0; y < GRID_ROWS - 2; y++) {
-            // 边界检查
-            if(!coord_map[x][y] || !coord_map[x][y+1] || !coord_map[x][y+2] ) continue;
-            
+
+    // 垂直方向连续块检测
+    for (uint8_t x = 0; x < GRID_COLS; x++)
+    {
+        uint8_t y = 0;
+        while (y < GRID_ROWS)
+        {
+            if (!coord_map[x][y] || coord_map[x][y]->type == DEL)
+            {
+                y++;
+                continue;
+            }
             t = coord_map[x][y]->type;
-            if(t == DEL) continue;
-            
-            if(coord_map[x][y+1]->type == t && coord_map[x][y+2]->type == t) {
-                if (clear_flag[x][y] == 2 || clear_flag[x][y+1] == 2 || clear_flag[x][y+2] == 2)//跳过已生成的炸弹
-                    continue;
-                clear_flag[x][y] = 1;
-                clear_flag[x][y+1] = 1;
-                clear_flag[x][y+2] = 1;
-                ret += 1;
-                
-                //检查T形
-                if (coord_map[x-1][y] && coord_map[x+1][y])
-                if (coord_map[x-1][y-1]->type==t && coord_map[x+1][y]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x-1][y]=1;
-                    clear_flag[x+1][y]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
+
+            uint8_t endY = y;
+            while (endY < GRID_ROWS && coord_map[x][endY] && coord_map[x][endY]->type == t)
+            {
+                endY++;
+            }
+            uint8_t count = endY - y;
+            if (count < 3)
+            {
+                y = endY;
+                continue;
+            }
+
+            uint8_t HasBomb = 0;
+            for (uint8_t k = y; k < endY; k++)
+            {
+                if (clear_flag[x][k] >= 2)
+                {
+                    HasBomb = 1;
+                    break;
                 }
 
-                //检查左下L形
-                if (coord_map[x-1][y] && coord_map[x-2][y])
-                if (coord_map[x-1][y]->type==t && coord_map[x-2][y]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x-1][y]=1;
-                    clear_flag[x-2][y]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
-                }
-
-                //检查左上L形
-                if (coord_map[x-1][y+2] && coord_map[x-2][y+2])
-                if (coord_map[x-1][y+2]->type==t && coord_map[x-2][y+2]->type==t){
-                    clear_flag[x][y+2]=2;
-                    clear_flag[x-1][y+2]=1;
-                    clear_flag[x-2][y+2]=1;
-                    bomb_creat(coord_map[x][y+2],BOMB_CENTER);
-                }
-                uint8_t count = 3;
-                for(uint8_t i = y+3; i < GRID_ROWS; i++) {
-                    if(!coord_map[x][i]) break;
-                    if(coord_map[x][i]->type == t) {
-                        clear_flag[x][i] = 1;
-                        count++;
-                        ret+=1;
-                    } else {
-                        break; // 遇到不同类型的方块，停止检查
+            if (!HasBomb)
+            {
+                // 无炸弹：正常标记 + 生成列炸弹
+                for (uint8_t k = y; k < endY; k++)
+                {
+                    if (clear_flag[x][k] < 2)
+                    {
+                        clear_flag[x][k] = 1;
+                        ret++;
                     }
                 }
-                if (count > 3){//多连生成炸弹
-                    for (uint8_t j=y;j<=y+count;j++){
-                        if (coord_map[x][y-1]){     //跳过已生成的炸弹
-                            if (coord_map[x][y-1]->type==coord_map[x][y]->type){
-                                if (clear_flag[x][y-1]==2)
-                                    break;
-                            }
-                        }
-                        if (coord_map[x][j]->moved==0&&j<y+count || clear_flag[x][j]==2){
-                            continue;
-                        }
-                        else if(coord_map[x][j]->moved==0&&j==y+count){
-                            clear_flag[x][y]=2;
-                            bomb_creat(coord_map[x][y],BOMB_COL);
-                        }
-                        else if(coord_map[x][j]->moved==1){
-                            clear_flag[x][j]=2;
-                            bomb_creat(coord_map[x][j],BOMB_COL);
+                if (count> 3)
+                {
+                    uint8_t bombCreated = 0;
+                    for (uint8_t j = y; j < endY; j++)
+                    {
+                        if (!coord_map[x][j]) continue;
+                        if (coord_map[x][j]->moved == 1)
+                        {
+                            clear_flag[x][j] = BOMB_COL;
+                            bomb_creat(coord_map[x][j], BOMB_COL);
+                            bombCreated = 1;
                             break;
                         }
                         else
@@ -196,7 +174,51 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
         }
     }
 
-    
+    // 取出炸弹引爆
+    uint8_t curX, curY;  //用于接受坐标
+    while (dequeue(&curX, &curY))
+    {
+        uint8_t bombType = clear_flag[curX][curY];
+        if (bombType < BOMB_ROW)
+					continue;  //给个容错，防止不是炸弹
+
+        if (bombType == BOMB_ROW)
+        {
+            // 行炸弹：整行普通块标1，同行新炸弹入队
+            for (uint8_t i = 0; i < GRID_COLS; i++)
+            {
+                if (clear_flag[i][curY] < BOMB_ROW)  //把这一行非炸弹全部标1
+                {
+                    clear_flag[i][curY] = 1;
+                    ret++;
+                }
+                else if (clear_flag[i][curY] >= BOMB_ROW)
+                {
+                    enqueue(i, curY);
+                }
+            }
+        }
+        else if (bombType == BOMB_COL)
+        {
+            // 列炸弹：整列普通块标1，同列新炸弹入队
+            for (uint8_t i = 0; i < GRID_ROWS; i++)
+            {
+                if (clear_flag[curX][i] < BOMB_ROW)
+                {
+                    clear_flag[curX][i] = 1;
+                    ret++;
+                }
+                else if (clear_flag[curX][i] >= BOMB_ROW)
+                {
+                    enqueue(curX, i);
+                }
+            }
+        }
+        // 炸弹本体标记为1，本轮消除
+        clear_flag[curX][curY] = 1;
+        ret++;
+    }
+
     if (ret > 1)
         game_score += (ret*2);
     return ret;
