@@ -8,7 +8,7 @@ extern uint16_t game_step;
 extern void item_bomb_effect(uint8_t x,uint8_t y);
 extern void item_row_clear(uint8_t row);
 extern void item_col_clear(uint8_t col);
-extern uint8_t clear_flag[GRID_COLS][GRID_ROWS];
+
 
 void cell_cb(lv_event_t * e) {      //方块滑动回调
     lv_event_code_t code = lv_event_get_code(e); 
@@ -348,10 +348,6 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
         if(found1 && found2) {  //俩都找到了
             //  交换坐标
             swap_cell_coordinates(i1, j1, i2, j2);
-					
-			  		uint8_t temp_flag = clear_flag[i1][j1];
-            clear_flag[i1][j1] = clear_flag[i2][j2];
-            clear_flag[i2][j2] = temp_flag;
             lv_obj_move_to_index(coord_map[i1][j1]->img, GRID_COLS * GRID_ROWS * 5);
             lv_obj_move_to_index(coord_map[i2][j2]->img, GRID_COLS * GRID_ROWS * 5 + 1); //调整动画层级，防止遮挡
 					 

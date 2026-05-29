@@ -18,37 +18,3 @@ void bomb_creat(sqr * cell0,bomb_type tag){
     
     lv_obj_set_style_shadow_spread(cell0->img,2,0);
 }
-
-void enqueue(uint8_t x, uint8_t y)
-{
-    if (inQueue[x][y])
-        return;
-    bombqueue[q_next_in].x = x;
-    bombqueue[q_next_in].y = y;
-    inQueue[x][y] = 1;
-    q_next_in++;
-}
-
-uint8_t dequeue(uint8_t *x, uint8_t *y)
-{
-    if (q_next_out >= q_next_in)
-        return 0;
-    *x = bombqueue[q_next_out].x;  
-    *y = bombqueue[q_next_out].y;  //把炸弹坐标传给*x*y
-    inQueue[*x][*y] = 0;
-    q_next_out++;
-    return 1;  //用到while循环
-}
-void queue_clear(void)
-{
-    q_next_out = 0;
-    q_next_in = 0;
-    for (uint8_t i = 0; i < GRID_COLS; i++)
-    {
-        for (uint8_t j = 0; j < GRID_ROWS; j++)
-        {
-            inQueue[i][j] = 0;
-        }
-    }
-}
-
