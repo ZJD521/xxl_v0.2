@@ -6,19 +6,22 @@ void bomb_creat(sqr * cell0,bomb_type tag){
     cell0->bomb=tag;
     switch (tag){
         case BOMB_ROW:
-            lv_obj_set_style_shadow_color(cell0->img,lv_color_hex(0x3742FA),0);
+            lv_obj_set_style_shadow_color(cell0->img,lv_color_hex(0xFF4757),0);
             break;
         case BOMB_COL:
-            lv_obj_set_style_shadow_color(cell0->img,lv_color_hex(0x20B620),0);
+            lv_obj_set_style_shadow_color(cell0->img,lv_color_hex(0xFFC107),0);
             break;
         default:
             break;
     }
     
-    lv_obj_set_style_shadow_spread(cell0->img,2,0);
+    lv_obj_set_style_shadow_spread(cell0->img,3,0);
 }
 
 void do_bomb (sqr * cell0){
+    if (game_over == 1) { //熔断判断
+        return;
+    }
     bomb_type t=cell0->bomb;
     uint8_t x0=cell0->x;
     uint8_t y0=cell0->y;
