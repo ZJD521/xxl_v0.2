@@ -42,11 +42,11 @@ uint8_t dequeue(uint8_t *x, uint8_t *y)
 {
     if (q_next_out >= q_next_in)
         return 0;
-    *x = bombqueue[q_next_out].x;
-    *y = bombqueue[q_next_out].y;
+    *x = bombqueue[q_next_out].x;  
+    *y = bombqueue[q_next_out].y;  //把炸弹坐标传给*x*y
     inQueue[*x][*y] = 0;
     q_next_out++;
-    return 1;
+    return 1;  //用到while循环
 }
 void queue_clear(void)
 {

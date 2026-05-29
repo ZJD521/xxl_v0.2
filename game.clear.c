@@ -31,7 +31,6 @@ uint8_t game_check_clear(void)
     for (uint8_t y = 0; y < GRID_ROWS; y++)
     {
         uint8_t x = 0;
-			  uint8_t count = 0;
         while (x < GRID_COLS)
         {
             if (!coord_map[x][y] || coord_map[x][y]->type == DEL)
@@ -42,29 +41,30 @@ uint8_t game_check_clear(void)
             t = coord_map[x][y]->type;
 
             // 截取完整连续同色块
+            uint8_t endX = x;
             while (endX < GRID_COLS && coord_map[endX][y] && coord_map[endX][y]->type == t)
             {
                 endX++;
             }
-            uint8_t totalCnt = endX - x;
-            if (totalCnt < 3)
+            uint8_t count = endX - x;
+            if (count < 3)
             {
                 x = endX;
                 continue;
             }
 
             // 判断区块内是否有炸弹
-            uint8_t blockHasBomb = 0;
+            uint8_t HasBomb = 0;
             for (uint8_t k = x; k < endX; k++)
             {
                 if (clear_flag[k][y] >= 2)
                 {
-                    blockHasBomb = 1;
+                    HasBomb = 1;
                     break;
                 }
             }
 
-            if (!blockHasBomb)
+            if (!HasBomb)
             {
                 // 无炸弹：正常标记消除 + 长连生成行炸弹
                 for (uint8_t k = x; k < endX; k++)
@@ -75,15 +75,16 @@ uint8_t game_check_clear(void)
                         ret++;
                     }
                 }
-                if (totalCnt > 3)
+                if (count > 3)
                 {
                     uint8_t bombCreated = 0;
                     for (uint8_t j = x; j < endX; j++)
                     {
-                        if (!coord_map[j][y]) continue;
+                        if (!coord_map[j][y]) 
+													continue;
                         if (coord_map[j][y]->moved == 1)
                         {
-                            clear_flag[j][y] = BOMB_ROW;
+                            clear_flag[j][y] =BOMB_ROW;
                             bomb_creat(coord_map[j][y], BOMB_ROW);
                             bombCreated = 1;
                             break;
@@ -119,7 +120,7 @@ uint8_t game_check_clear(void)
         }
     }
 
-    // ===================== 垂直方向连续块检测 =====================
+    // 垂直方向连续块检测
     for (uint8_t x = 0; x < GRID_COLS; x++)
     {
         uint8_t y = 0;
@@ -137,24 +138,24 @@ uint8_t game_check_clear(void)
             {
                 endY++;
             }
-            uint8_t totalCnt = endY - y;
-            if (totalCnt < 3)
+            uint8_t count = endY - y;
+            if (count < 3)
             {
                 y = endY;
                 continue;
             }
 
-            uint8_t blockHasBomb = 0;
+            uint8_t HasBomb = 0;
             for (uint8_t k = y; k < endY; k++)
             {
                 if (clear_flag[x][k] >= 2)
                 {
-                    blockHasBomb = 1;
+                    HasBomb = 1;
                     break;
                 }
             }
 
-            if (!blockHasBomb)
+            if (!HasBomb)
             {
                 // 无炸弹：正常标记 + 生成列炸弹
                 for (uint8_t k = y; k < endY; k++)
@@ -165,7 +166,7 @@ uint8_t game_check_clear(void)
                         ret++;
                     }
                 }
-                if (totalCnt > 3)
+                if (count> 3)
                 {
                     uint8_t bombCreated = 0;
                     for (uint8_t j = y; j < endY; j++)
@@ -209,20 +210,20 @@ uint8_t game_check_clear(void)
         }
     }
 
-    // ===================== 取出炸弹、执行爆炸、连锁引爆（核心） =====================
-    uint8_t curX, curY;
+    // 取出炸弹引爆
+    uint8_t curX, curY;  //用于接受坐标
     while (dequeue(&curX, &curY))
     {
         uint8_t bombType = clear_flag[curX][curY];
         if (bombType < BOMB_ROW)
-            continue;
+					continue;  //给个容错，防止不是炸弹
 
         if (bombType == BOMB_ROW)
         {
             // 行炸弹：整行普通块标1，同行新炸弹入队
             for (uint8_t i = 0; i < GRID_COLS; i++)
             {
-                if (clear_flag[i][curY] < BOMB_ROW)
+                if (clear_flag[i][curY] < BOMB_ROW)  //把这一行非炸弹全部标1
                 {
                     clear_flag[i][curY] = 1;
                     ret++;

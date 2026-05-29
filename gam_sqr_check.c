@@ -70,8 +70,8 @@ void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
             lv_obj_add_flag(cell[col][row].img, LV_OBJ_FLAG_CLICKABLE);
             lv_obj_move_foreground(cell[col][row].img);
             lv_obj_set_user_data(cell[col][row].img, &cell[col][row]);
-						lv_obj_add_event_cb(cell[col][row].img, img_delete_callback, LV_EVENT_DELETE, &cell[col][row]);
-			lv_obj_move_to_index(cell[col][row].img,GRID_ROWS*row+col+GRID_COLS*GRID_ROWS);
+
+		      	lv_obj_move_to_index(cell[col][row].img,GRID_ROWS*row+col+GRID_COLS*GRID_ROWS);
             cell[col][row].x = col;
             cell[col][row].y = row;
 			cell[col][row].bomb=BOMB_NONE;
