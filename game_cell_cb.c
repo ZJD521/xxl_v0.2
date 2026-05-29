@@ -80,17 +80,14 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 						status=SWAPPING;
                         if (btn_item_bomb && btn_item_col && btn_item_row){
                             if (!item_bomb_used){
-                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-                                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
                             }
                             if (!item_col_used){
                                 lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-                                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
                             }
                             
                             if (!item_row_used){
                                 lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-                                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
                             }
                             
                         }
@@ -114,17 +111,14 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 						status=SWAPPING;
                         if (btn_item_bomb && btn_item_col && btn_item_row){
                             if (!item_bomb_used){
-                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-                                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
                             }
                             if (!item_col_used){
                                 lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-                                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
                             }
                             
                             if (!item_row_used){
                                 lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-                                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
                             }
                             
                         }
@@ -148,17 +142,14 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 						status=SWAPPING;
                         if (btn_item_bomb && btn_item_col && btn_item_row){
                             if (!item_bomb_used){
-                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-                                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
                             }
                             if (!item_col_used){
                                 lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-                                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
                             }
                             
                             if (!item_row_used){
                                 lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-                                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
                             }
                             
                         }
@@ -180,17 +171,14 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 						status=SWAPPING;
                         if (btn_item_bomb && btn_item_col && btn_item_row){
                             if (!item_bomb_used){
-                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-                                lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
                             }
                             if (!item_col_used){
                                 lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-                                lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
                             }
                             
                             if (!item_row_used){
                                 lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-                                lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
                             }
                             
                         }
@@ -361,17 +349,14 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
                     status=SWAPPING;                      //无效交换，弹回
                     if (btn_item_bomb && btn_item_col && btn_item_row){
                         if (!item_bomb_used){
-                            lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-                            lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                            lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
                         }
                         if (!item_col_used){
                             lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-                            lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
                         }
                         
                         if (!item_row_used){
                             lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-                            lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
                         }
                         
                     }
@@ -394,17 +379,14 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
             if (deadlock_det()){
                 if (btn_item_bomb && btn_item_col && btn_item_row){
                     if (!item_bomb_used){
-                        lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-                        lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                        lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
                     }
                     if (!item_col_used){
                         lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-                        lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
                     }
                     
                     if (!item_row_used){
                         lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-                        lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
                     }
                     
                 }

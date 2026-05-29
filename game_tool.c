@@ -44,17 +44,14 @@ void tool_check( ){
     if (status!=NORMAL){
         if (btn_item_bomb && btn_item_col && btn_item_row){
             if (!item_bomb_used){
-                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-			    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
             }
             if (!item_col_used){
                 lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-			    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
             }
             
             if (!item_row_used){
                 lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-			    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
             }
             
         }

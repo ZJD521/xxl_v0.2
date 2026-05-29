@@ -112,17 +112,14 @@ static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落，延
 
         if (btn_item_bomb && btn_item_col && btn_item_row){
             if (!item_bomb_used){
-                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-			    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
             }
             if (!item_col_used){
                 lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-			    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
             }
             
             if (!item_row_used){
                 lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-			    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
             }
             
         }
@@ -278,17 +275,14 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
 
         if (btn_item_bomb && btn_item_col && btn_item_row){
             if (!item_bomb_used){
-                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-			    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
             }
             if (!item_col_used){
                 lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-			    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
             }
             
             if (!item_row_used){
                 lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-			    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
             }
             
         }
@@ -532,6 +526,8 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
 
     new_cell->moved=0;
 
+    new_cell->bomb=BOMB_NONE;
+
     
 
     new_cell->img = lv_img_create(lv_scr_act());
@@ -618,17 +614,14 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
         if (deadlock_det()){   //如果死局
             if (btn_item_bomb && btn_item_col && btn_item_row){
                 if (!item_bomb_used){
-                    lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-                    lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
+                    lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
                 }
                 if (!item_col_used){
                     lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-                    lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
                 }
                 
                 if (!item_row_used){
                     lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-                    lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
                 }
                 
             }

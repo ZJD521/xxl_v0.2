@@ -46,8 +46,7 @@ typedef enum{
 typedef enum{  //炸弹种类
 	BOMB_NONE,
 	BOMB_ROW,
-	BOMB_COL,
-	BOMB_CENTER
+	BOMB_COL
 }bomb_type;
 
 typedef struct {       //背景图片，背景主题
@@ -177,6 +176,8 @@ void game_do_clear(lv_timer_t* timer);    //消除执行
 void clear_coord_map_at(uint8_t x, uint8_t y);    //清除单个索引
 
 void bomb_creat(sqr * cell0,bomb_type tag);//创建炸弹
+
+void do_bomb (sqr * cell0);//执行炸弹
 
 
 //下落
