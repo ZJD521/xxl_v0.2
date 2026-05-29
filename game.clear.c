@@ -36,35 +36,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                 clear_flag[x+1][y] = 1;
                 clear_flag[x+2][y] = 1;
                 ret += 1;
-
-                //检查T形
-                if (coord_map[x][y-1] && coord_map[x][y+1])
-                if (coord_map[x][y-1]->type==t && coord_map[x][y+1]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x][y-1]=1;
-                    clear_flag[x][y+1]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
-                }
-
-                //检查右上L形
-                if (coord_map[x][y-1] && coord_map[x][y-2])
-                if (coord_map[x][y-1]->type==t && coord_map[x][y-2]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x][y-1]=1;
-                    clear_flag[x][y-2]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
-                }
-
-                //检查右下L形
-                if (coord_map[x][y+1] && coord_map[x][y+2])
-                if (coord_map[x][y+1]->type==t && coord_map[x][y+2]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x][y+1]=1;
-                    clear_flag[x][y+2]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
-                }
                 
-
                 // 检查是否超过3个
                 uint8_t count = 3;
                 for(uint8_t i = x+3; i < GRID_COLS; i++) {
@@ -87,7 +59,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                                     break;
                             }
                         }
-                        if (coord_map[j][y]->moved==0&&j<x+count || clear_flag[j][y]==2){
+                        if (coord_map[j][y]->moved==0&&j<x+count){
                             continue;
                         }
                         else if(coord_map[j][y]->moved==0&&j==x+count){
@@ -115,7 +87,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
     for(uint8_t x = 0; x < GRID_COLS; x++) {
         for(uint8_t y = 0; y < GRID_ROWS - 2; y++) {
             // 边界检查
-            if(!coord_map[x][y] || !coord_map[x][y+1] || !coord_map[x][y+2] ) continue;
+            if(!coord_map[x][y] || !coord_map[x][y+1] || !coord_map[x][y+2]) continue;
             
             t = coord_map[x][y]->type;
             if(t == DEL) continue;
@@ -128,32 +100,6 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                 clear_flag[x][y+2] = 1;
                 ret += 1;
                 
-                //检查T形
-                if (coord_map[x-1][y] && coord_map[x+1][y])
-                if (coord_map[x-1][y-1]->type==t && coord_map[x+1][y]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x-1][y]=1;
-                    clear_flag[x+1][y]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
-                }
-
-                //检查左下L形
-                if (coord_map[x-1][y] && coord_map[x-2][y])
-                if (coord_map[x-1][y]->type==t && coord_map[x-2][y]->type==t){
-                    clear_flag[x][y]=2;
-                    clear_flag[x-1][y]=1;
-                    clear_flag[x-2][y]=1;
-                    bomb_creat(coord_map[x][y],BOMB_CENTER);
-                }
-
-                //检查左上L形
-                if (coord_map[x-1][y+2] && coord_map[x-2][y+2])
-                if (coord_map[x-1][y+2]->type==t && coord_map[x-2][y+2]->type==t){
-                    clear_flag[x][y+2]=2;
-                    clear_flag[x-1][y+2]=1;
-                    clear_flag[x-2][y+2]=1;
-                    bomb_creat(coord_map[x][y+2],BOMB_CENTER);
-                }
                 uint8_t count = 3;
                 for(uint8_t i = y+3; i < GRID_ROWS; i++) {
                     if(!coord_map[x][i]) break;
@@ -173,7 +119,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                                     break;
                             }
                         }
-                        if (coord_map[x][j]->moved==0&&j<y+count || clear_flag[x][j]==2){
+                        if (coord_map[x][j]->moved==0&&j<y+count){
                             continue;
                         }
                         else if(coord_map[x][j]->moved==0&&j==y+count){
@@ -195,10 +141,9 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
             }
         }
     }
-
     
     if (ret > 1)
-        game_score += (ret*2);
+        game_score += (ret*5);
     return ret;
 }
 
