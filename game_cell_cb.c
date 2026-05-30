@@ -341,11 +341,13 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
 					 
            
                 if(game_check_clear()) {
+                    data->cell_a->moved=0;
+                    data->cell_b->moved=0;
                     game_do_clear(NULL);  //有效交换，进入消除
                     swap_count++; 
 									
                 } 
-								else {
+				else {
                     status=SWAPPING;                      //无效交换，弹回
                     if (btn_item_bomb && btn_item_col && btn_item_row){
                         if (!item_bomb_used){

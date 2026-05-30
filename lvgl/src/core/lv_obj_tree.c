@@ -258,10 +258,10 @@ lv_obj_t * lv_obj_get_screen(const lv_obj_t * obj)
     const lv_obj_t * par = obj;
     const lv_obj_t * act_par;
 
-    do {
+    while(par != NULL){
         act_par = par;
         par = lv_obj_get_parent(act_par);
-    } while(par != NULL);
+    } 
 
     return (lv_obj_t *)act_par;
 }

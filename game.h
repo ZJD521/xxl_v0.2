@@ -177,7 +177,9 @@ void clear_coord_map_at(uint8_t x, uint8_t y);    //清除单个索引
 
 void bomb_creat(sqr * cell0,bomb_type tag);//创建炸弹
 
-void do_bomb (sqr * cell0);//执行炸弹
+void add_bomb(sqr * cell0);//炸弹准备
+
+void do_bomb (uint8_t num);//执行炸弹
 
 
 //下落

@@ -404,6 +404,8 @@ void game_fall_one(sqr* cell, uint8_t target_y) {  //下落单个方块
 
     cell->y = target_y;
 
+    cell-> moved=1;
+
     if(old_x != cell->x || old_y != cell->y) {
 
         coord_map[old_x][old_y] = del;
@@ -601,12 +603,19 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
 
 
     if(game_check_clear()) {  //还有能消除的
-
+        for(uint8_t y = 0; y < GRID_ROWS; y++) {
+            for(uint8_t x = 0; x < GRID_COLS; x++) {
+                if (!coord_map[x][y])   //空的
+                    continue;
+                coord_map[x][y]->moved=0;
+            }
+        }
         lv_timer_t * ctimer = lv_timer_create(game_do_clear, 50, NULL);
 
         lv_timer_set_repeat_count(ctimer, 1);
 
-    } else {
+    } 
+    else {
         
         status=FALLING;    /*暂时使用一个不可操作状态
                             以避免使用虚拟交换中的数据*/
@@ -646,6 +655,14 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
             
         }
         else{
+            for(uint8_t y = 0; y < GRID_ROWS; y++) {
+                for(uint8_t x = 0; x < GRID_COLS; x++) {
+                    if (!coord_map[x][y])   //空的
+                        continue;
+                    
+                    coord_map[x][y]->moved=0;
+                }
+            }
             status=NORMAL; //恢复可操作状态
             if (!item_bomb_used){
                 lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
