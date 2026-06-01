@@ -35,7 +35,7 @@ void game_timer_cb(lv_timer_t* timer);
 
 
 
-void game_score_label_create(lv_obj_t *scr)
+void game_score_label_create(lv_obj_t *scr) //创建分数标签
 {
     label_score = lv_label_create(scr);
     lv_label_set_text(label_score, "Score:0");
@@ -79,7 +79,7 @@ void game_score_label_create(lv_obj_t *scr)
     
 }
 
-void game_init_data(void)
+void game_init_data(void) //数据初始化
 {
     game_score = 0;
     
@@ -92,7 +92,7 @@ void game_init_data(void)
     item_row_used = 0;
 }
 
-void game_timer_cb(lv_timer_t* timer)
+void game_timer_cb(lv_timer_t* timer) //定时器回调
 {
     if(game_over == 0&&game_mode == false)
     {
@@ -200,7 +200,7 @@ void game_end_show(void)  //弹出结束界面
     lv_obj_center(lab);
 }
 
-void btn_back_main_cb(lv_event_t *e)
+void btn_back_main_cb(lv_event_t *e) //返回主菜单按钮回调
 {
     lv_event_code_t code = lv_event_get_code(e);
     if(code != LV_EVENT_CLICKED) return;
@@ -269,7 +269,7 @@ void game_cleanup_all(void)  //清理本局资源
         }
     }
 }
-char game_score_read(){
+char game_score_read(){ //读取最高分
     FIL file;
 	FRESULT res;
     UINT bytes_read;
@@ -291,7 +291,7 @@ char game_score_read(){
     
     return 0;
 }
-char game_score_write(){
+char game_score_write(){ //写入最高分
     FIL file;
 	FRESULT res;
     UINT bytes_write;

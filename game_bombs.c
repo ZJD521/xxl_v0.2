@@ -2,7 +2,7 @@
 extern uint8_t clear_flag[GRID_COLS][GRID_ROWS];
 extern sqr* coord_map[GRID_COLS][GRID_ROWS]; 
 sqr * bomb_line[10]={NULL};
-void bomb_creat(sqr * cell0,bomb_type tag){
+void bomb_creat(sqr * cell0,bomb_type tag){ //创建炸弹特效
     // 空指针拦截
     if (!cell0 || !cell0->img) {
         return; 
@@ -34,7 +34,7 @@ void bomb_creat(sqr * cell0,bomb_type tag){
     lv_obj_set_style_shadow_spread(cell0->img,3,0);
 }
 
-void add_bomb(sqr * cell0){
+void add_bomb(sqr * cell0){ //添加炸弹到待执行
     for (uint8_t i=0;i<10;i++){
         if (!bomb_line[i]){
             bomb_line[i]=cell0;
@@ -45,12 +45,12 @@ void add_bomb(sqr * cell0){
     
 }
 
-void clear_bomb(){
+void clear_bomb(){//清空炸弹待执行
     for (uint8_t i=0;i<10;i++){
         bomb_line[i]=NULL;
     }
 }
-void do_bomb (uint8_t num){
+void do_bomb (uint8_t num){//执行炸弹
     if (game_over == 1) { //熔断判断
         return;
     }

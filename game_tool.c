@@ -9,9 +9,9 @@ extern state status;
 uint8_t item_bomb_used = 0;
 uint8_t item_row_used  = 0;
 uint8_t item_col_used  = 0;
-void item_bomb_effect(uint8_t x,uint8_t y)
+void item_bomb_effect(uint8_t x,uint8_t y)// 自身+上下左右4格
 {
-    // 自身+上下左右4格标记消
+    
     clear_flag[x][y] = 1;
     if(x>0) clear_flag[x-1][y] = 1;
     if(x<GRID_COLS-1) clear_flag[x+1][y] = 1;
@@ -40,7 +40,7 @@ void item_col_clear(uint8_t col)  //整列消除
 		item_col_used=1;
 }
 
-void tool_check( ){
+void tool_check( ){ //道具可用状态
     if (status!=NORMAL){
         if (btn_item_bomb && btn_item_col && btn_item_row){
             if (!item_bomb_used){

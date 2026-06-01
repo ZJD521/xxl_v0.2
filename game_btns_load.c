@@ -59,7 +59,7 @@ void game_btn_start_load(){        //加载开始按钮
     lv_obj_set_style_text_font(lb_start , &lv_font_montserrat_40, 0);  //字体大小40
 }
 
-void game_btn_choose_load(){        
+void game_btn_choose_load(){        //加载设置按钮
 	  btn_choose = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_choose,256,100);
 	  lv_obj_align(btn_choose,LV_ALIGN_CENTER,200,0); //左移200
@@ -76,7 +76,7 @@ void game_btn_choose_load(){
 
 
 }
-void game_btn_theme_default_load(){        
+void game_btn_theme_default_load(){        //加载默认主题按钮
     btn_def = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_def,256,100);
 	  lv_obj_align(btn_def,LV_ALIGN_CENTER,0,0); 
@@ -93,7 +93,7 @@ void game_btn_theme_default_load(){
 
 
 }
-void game_btn_theme_ice_load(){        
+void game_btn_theme_ice_load(){        //加载夏日主题按钮
     btn_ice = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_ice,256,100);
   	lv_obj_align(btn_ice,LV_ALIGN_CENTER,0,-150); //上移150
@@ -110,7 +110,7 @@ void game_btn_theme_ice_load(){
 
 
 }
-void game_btn_exit_load(lv_obj_t*scr){        
+void game_btn_exit_load(lv_obj_t*scr){        //加载返回按钮
     btn_exit = lv_btn_create(scr);
 	if(scr==scr_menu){
 		lv_obj_set_size(btn_exit,256,100);
@@ -138,7 +138,7 @@ void game_btn_exit_load(lv_obj_t*scr){
 
 
 }
-void game_btn_mode_load(){        
+void game_btn_mode_load(){        //加载模式按钮
     btn_mode = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_mode,256,100);
   	lv_obj_align(btn_mode,LV_ALIGN_CENTER,0,-150); //上移150
@@ -156,7 +156,7 @@ void game_btn_mode_load(){
 
 }
 
-void game_btn_time_load(){        
+void game_btn_time_load(){       //时间模式 
     btn_time = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_time,256,100);
   	lv_obj_align(btn_time,LV_ALIGN_CENTER,0,-150); //上移150
@@ -171,7 +171,7 @@ void game_btn_time_load(){
 	  lv_obj_set_style_text_font(lb_time , &lv_font_montserrat_40, 0);
 		  lv_obj_add_flag(btn_time,LV_OBJ_FLAG_HIDDEN);
 }
-void game_btn_step_load(){        
+void game_btn_step_load(){        //步数模式
     btn_step = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_step,256,100);
   	lv_obj_align(btn_step,LV_ALIGN_CENTER,0,0); 
@@ -186,7 +186,7 @@ void game_btn_step_load(){
 	  lv_obj_set_style_text_font(lb_step , &lv_font_montserrat_40, 0);
 		  lv_obj_add_flag(btn_step,LV_OBJ_FLAG_HIDDEN);
 }
-void game_btn_theme_load(){        
+void game_btn_theme_load(){      //选择主题  
     btn_theme = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_theme,256,100);
   	lv_obj_align(btn_theme,LV_ALIGN_CENTER,0,0); 
@@ -201,7 +201,7 @@ void game_btn_theme_load(){
 	  lv_obj_set_style_text_font(lb_theme , &lv_font_montserrat_40, 0);
 		  lv_obj_add_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
 }
-void game_btn_level_load(){
+void game_btn_level_load(){     //选择关卡
 	for (int i=0;i<5;i++){
 		btn_level[i] = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_level[i],70,70);
@@ -218,7 +218,7 @@ void game_btn_level_load(){
 		  lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
 	}
 }
-void game_btn_item_bomb_load(void)
+void game_btn_item_bomb_load(void) //加载十字道具按钮
 {
     btn_item_bomb = lv_btn_create(scr_game);
     lv_obj_set_size(btn_item_bomb, 100, 100);
@@ -233,7 +233,7 @@ void game_btn_item_bomb_load(void)
     lv_obj_center(lb_bomb);
     lv_obj_set_style_text_font(lb_bomb, &lv_font_montserrat_30, 0);
 }
-void game_btn_item_row_load(void)
+void game_btn_item_row_load(void) //加载横消道具按钮
 {
     btn_item_row = lv_btn_create(scr_game);
     lv_obj_set_size(btn_item_row, 100, 100);
@@ -248,7 +248,7 @@ void game_btn_item_row_load(void)
     lv_obj_center(lb_row);
     lv_obj_set_style_text_font(lb_row, &lv_font_montserrat_30, 0);
 }
-void game_btn_item_col_load(void)
+void game_btn_item_col_load(void) //加载竖消道具按钮
 {
 	  btn_item_col = lv_btn_create(scr_game);
     lv_obj_set_size(btn_item_col, 100, 100);

@@ -169,7 +169,7 @@ void btn_theme_cb(lv_event_t*e){  //主题按钮
 		
 	}
 }
-void btn_level_cb(lv_event_t*e){
+void btn_level_cb(lv_event_t*e){ //关卡按钮
 	lv_event_code_t code = lv_event_get_code(e); 
 	if(code == LV_EVENT_CLICKED){
 		int level_choose=(int)lv_event_get_user_data(e);
@@ -186,7 +186,7 @@ void btn_level_cb(lv_event_t*e){
 		
 	}
 }
-void btn_item_bomb_cb(lv_event_t *e)
+void btn_item_bomb_cb(lv_event_t *e) //道具（十字）
 {
     lv_event_code_t code = lv_event_get_code(e);
     if (code == LV_EVENT_CLICKED)
@@ -214,7 +214,7 @@ void btn_item_bomb_cb(lv_event_t *e)
 				}
     }
 }
-void btn_item_row_cb(lv_event_t *e)
+void btn_item_row_cb(lv_event_t *e) //道具（横消）
 {
     lv_event_code_t code = lv_event_get_code(e);
     if (code == LV_EVENT_CLICKED)
@@ -243,7 +243,7 @@ void btn_item_row_cb(lv_event_t *e)
     }
 }
 
-void btn_item_col_cb(lv_event_t *e)
+void btn_item_col_cb(lv_event_t *e) //道具（竖消）
 {
     lv_event_code_t code = lv_event_get_code(e);
     if (code == LV_EVENT_CLICKED)

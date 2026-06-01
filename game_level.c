@@ -9,7 +9,7 @@ lv_obj_t * btn_level[5];
 extern bool game_mode;
 extern uint8_t clear_flag[GRID_COLS][GRID_ROWS];
 
-void swap_cell_types(uint8_t x1,uint8_t y1,uint8_t x2,uint8_t y2){
+void swap_cell_types(uint8_t x1,uint8_t y1,uint8_t x2,uint8_t y2){  //临时交换方块类型用于检测死局
     if (!coord_map[x1][y1]||!coord_map[x2][y2]){
         return;
     }
@@ -76,7 +76,7 @@ bool game_level_map[5][GRID_COLS][GRID_ROWS]={   //游戏地图
     }
 };
 
-void game_level_data_init(){
+void game_level_data_init(){  //初始化关卡数据
     switch (game_level){
         case 1:
             game_step=30;
@@ -105,7 +105,7 @@ void game_level_data_init(){
             break;
     }
 }
-    static uint8_t game_check_deadlock(void) {  //消除检测，结果写入clear_flag，标记要被删除的格子
+static uint8_t game_check_deadlock(void) {  //消除检测，结果写入clear_flag，标记要被删除的格子
         uint8_t ret = 0;
         cell_type t;
         

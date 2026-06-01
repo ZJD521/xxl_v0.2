@@ -74,9 +74,6 @@ typedef enum {   //当前状态
 	FALLING
 }state;
 
-// 全局新增
-#ifndef GAME_H
-#define GAME_H
 
 // 道具枚举
 typedef enum {
@@ -88,7 +85,7 @@ typedef enum {
 
 extern ItemType cur_use_item;
 
-#endif
+
 
 
 //相关函数
@@ -127,7 +124,7 @@ void game_btn_theme_load(void); //选择主题
 
 void game_btn_theme_default_load(void);     //加载动物主题按钮
 
-void game_btn_theme_ice_load(void);         //加载蔬果主题按钮 
+void game_btn_theme_ice_load(void);         //加载夏日主题按钮 
 
 void game_btn_exit_load(lv_obj_t*scr);        //加载返回按钮
 
