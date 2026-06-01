@@ -21,6 +21,7 @@ extern uint8_t item_bomb_used;
 extern uint8_t item_row_used;
 extern uint8_t item_col_used;
 
+
 bool game_mode = false;//游戏模式，false为时间模式，true为步数模式
 
 void btn_start_cb(lv_event_t*e){  //开始游戏，和start键交互就会调用这个函数

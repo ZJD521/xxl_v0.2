@@ -54,21 +54,23 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                     
                 }
                 if (count > 3){//多连生成炸弹
-                    for (uint8_t j=x;j<=x+count;j++){
-                        if (coord_map[x-1][y]){     //跳过已生成的炸弹
+                    for (uint8_t j=x;j<=x+count && j < GRID_COLS;j++){
+                        if (!coord_map[j][y]) continue;
+                        if (x>0 &&coord_map[x-1][y]){     //跳过已生成的炸弹
                             if (coord_map[x-1][y]->type==coord_map[x][y]->type){
                                 if (clear_flag[x-1][y]==2)
                                     break;
                             }
                         }
-                        if (coord_map[j][y]->moved==0&&j<x+count || clear_flag[j][y]==2){
+                        if ((coord_map[j][y]->moved==0&&j<x+count) || clear_flag[j][y]==2){
                             continue;
                         }
                         else if(coord_map[j][y]->moved==0&&j==x+count){
                             clear_flag[x][y]=2;
                             bomb_creat(coord_map[x][y],BOMB_ROW);
+                            break;
                         }
-                        else if(coord_map[j][y]->moved==1 && clear_flag[j][y]!=2){
+                        else if(coord_map[j][y]->moved==1 && clear_flag[j][y]!=2 && coord_map[j][y]->bomb==BOMB_NONE){
                             clear_flag[j][y]=2;
                             bomb_creat(coord_map[j][y],BOMB_ROW);
                             break;
@@ -114,21 +116,23 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                     }
                 }
                 if (count > 3){//多连生成炸弹
-                    for (uint8_t j=y;j<=y+count;j++){
-                        if (coord_map[x][y-1]){     //跳过已生成的炸弹
+                    for (uint8_t j=y;j<=y+count && j < GRID_ROWS;j++){
+                        if (!coord_map[x][j]) continue;
+                        if (y>0 && coord_map[x][y-1]){     //跳过已生成的炸弹
                             if (coord_map[x][y-1]->type==coord_map[x][y]->type){
                                 if (clear_flag[x][y-1]==2)
                                     break;
                             }
                         }
-                        if (coord_map[x][j]->moved==0&&j<y+count || clear_flag[x][j]==2){
+                        if ((coord_map[x][j]->moved==0&&j<y+count )|| clear_flag[x][j]==2){
                             continue;
                         }
                         else if(coord_map[x][j]->moved==0&&j==y+count){
                             clear_flag[x][y]=2;
                             bomb_creat(coord_map[x][y],BOMB_COL);
+                            break;
                         }
-                        else if(coord_map[x][j]->moved==1 && clear_flag[x][j]!=2){
+                        else if(coord_map[x][j]->moved==1 && clear_flag[x][j]!=2 && coord_map[x][j]->bomb==BOMB_NONE){
                             clear_flag[x][j]=2;
                             bomb_creat(coord_map[x][j],BOMB_COL);
                             coord_map[x][j]->moved=0;

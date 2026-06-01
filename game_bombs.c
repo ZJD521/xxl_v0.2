@@ -3,6 +3,21 @@ extern uint8_t clear_flag[GRID_COLS][GRID_ROWS];
 extern sqr* coord_map[GRID_COLS][GRID_ROWS]; 
 sqr * bomb_line[10]={NULL};
 void bomb_creat(sqr * cell0,bomb_type tag){
+    // 空指针拦截
+    if (!cell0 || !cell0->img) {
+        return; 
+    }
+
+    // 防止野指针
+    if (!lv_obj_is_valid(cell0->img)) {
+        cell0->img = NULL; 
+        return;
+    }
+
+    // 确保对象没有被标记为删除
+    if ( cell0->type == DEL) {
+        return;
+    }
     lv_obj_set_style_shadow_width(cell0->img,10,0);
     cell0->bomb=tag;
     switch (tag){
@@ -50,6 +65,7 @@ void do_bomb (uint8_t num){
             case BOMB_NONE:
                 return;
             case BOMB_ROW:
+            bomb_line[i]->bomb=BOMB_NONE;
                 for (uint8_t j=0;j<GRID_COLS;j++){
                     if (coord_map[j][y0]){
                         clear_flag[j][y0]=0;
@@ -58,7 +74,7 @@ void do_bomb (uint8_t num){
                            game_score += 10;
                          }
                         // 先删除图像，再设置类型
-                        if(coord_map[j][y0]->img) {
+                        if(coord_map[j][y0]->img && coord_map[j][y0] != bomb_line[i]) {
                             
                             lv_obj_add_flag(coord_map[j][y0]->img,LV_OBJ_FLAG_HIDDEN);
                             coord_map[j][y0]->type = DEL;   //标记被删除的地方为 del
@@ -75,13 +91,14 @@ void do_bomb (uint8_t num){
                 
                 break;
             case BOMB_COL:
+                bomb_line[i]->bomb=BOMB_NONE;
                 for (uint8_t j=0;j<GRID_ROWS;j++){
                      if (coord_map[x0][j]){
                         clear_flag[x0][j]=0;
                         if( game_over == 0)
                         {
                            game_score += 10;
-                        if(coord_map[x0][j]->img) {
+                        if(coord_map[x0][j]->img && coord_map[x0][j] != bomb_line[i]) {
                             
                             lv_obj_add_flag(coord_map[x0][j]->img,LV_OBJ_FLAG_HIDDEN);
                             coord_map[x0][j]->type = DEL;   //标记被删除的地方为 del                    

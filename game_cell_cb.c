@@ -8,7 +8,7 @@ extern uint16_t game_step;
 extern void item_bomb_effect(uint8_t x,uint8_t y);
 extern void item_row_clear(uint8_t row);
 extern void item_col_clear(uint8_t col);
-
+extern sqr * bomb_line[10];
 
 void cell_cb(lv_event_t * e) {      //方块滑动回调
     lv_event_code_t code = lv_event_get_code(e); 
@@ -72,7 +72,7 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 
 
 			sqr*lat=NULL;
-            if(abs(diff_y) < abs(diff_x)){        // 水平滑动 
+            if(abs(diff_y) < abs(diff_x)/2){        // 水平滑动 
                 if(diff_x > 0 && x0 < GRID_COLS - 1) { 
                     // 向右交换
 					lat=coord_map[x0+1][y0];
@@ -135,7 +135,7 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 						return;
                 }
             } 
-			else {      // 垂直滑动
+			else if(abs(diff_y)/2 > abs(diff_x)) {      // 垂直滑动
                 if(diff_y > 0 && y0 < GRID_ROWS - 1) { //向下交换
                     lat=coord_map[x0][y0+1];
 					if (lat){
@@ -339,7 +339,19 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
             lv_obj_move_to_index(coord_map[i1][j1]->img, GRID_COLS * GRID_ROWS * 5);
             lv_obj_move_to_index(coord_map[i2][j2]->img, GRID_COLS * GRID_ROWS * 5 + 1); //调整动画层级，防止遮挡
 					 
-           
+            if (data->cell_a->bomb!=BOMB_NONE && data->cell_b->bomb!=BOMB_NONE){
+                add_bomb(data->cell_a);
+                add_bomb(data->cell_b);
+                
+                lv_obj_add_flag(data->cell_a->img,LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(data->cell_b->img,LV_OBJ_FLAG_HIDDEN);
+                
+                data->cell_a->type = DEL;   //标记为 del
+                data->cell_b->type = DEL;
+                do_bomb(0);
+                game_fall_all();
+                return;
+            }
                 if(game_check_clear()) {
                     data->cell_a->moved=0;
                     data->cell_b->moved=0;

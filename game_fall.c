@@ -386,7 +386,9 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
 
 void game_fall_one(sqr* cell, uint8_t target_y) {  //下落单个方块
 
-
+    if (!cell || !cell->img) {
+        return;
+    }
 
     lv_coord_t start_y = lv_obj_get_y(cell->img);
 
@@ -418,8 +420,9 @@ void game_fall_one(sqr* cell, uint8_t target_y) {  //下落单个方块
 
     lv_obj_move_to_index(cell->img, GRID_COLS * GRID_ROWS * 5);
 
-    lv_obj_move_to_index(del->img, GRID_COLS * GRID_ROWS * 5 + 1);
-
+    if (del && del->img && lv_obj_is_valid(del->img)) {
+        lv_obj_move_to_index(del->img, GRID_COLS * GRID_ROWS * 5 + 1);
+    }
     lv_anim_t a;
 
     lv_anim_init(&a);
@@ -510,7 +513,16 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
     if (!coord_map[x][y]){
         return;;
     }
-    lv_obj_del(coord_map[x][y]->img);
+    if (coord_map[x][y] && coord_map[x][y]->img) {
+        // 停止所有动画
+        lv_anim_del(coord_map[x][y]->img, NULL); 
+        
+        //  删除
+        lv_obj_del(coord_map[x][y]->img);       
+        
+        // 指针置空
+        coord_map[x][y]->img = NULL;            
+    }
 
     sqr* new_cell = coord_map[x][y];
 
@@ -540,7 +552,7 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
 
     lv_obj_add_flag(new_cell->img, LV_OBJ_FLAG_CLICKABLE);
 
-
+    lv_obj_set_style_radius(new_cell->img, 10, LV_PART_MAIN);
 
     lv_obj_set_user_data(new_cell->img, new_cell);
 
@@ -603,6 +615,7 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
 
 
     if(game_check_clear()) {  //还有能消除的
+        status = FALLING;
         for(uint8_t y = 0; y < GRID_ROWS; y++) {
             for(uint8_t x = 0; x < GRID_COLS; x++) {
                 if (!coord_map[x][y])   //空的
@@ -610,7 +623,7 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
                 coord_map[x][y]->moved=0;
             }
         }
-        lv_timer_t * ctimer = lv_timer_create(game_do_clear, 50, NULL);
+        lv_timer_t * ctimer = lv_timer_create(game_do_clear, duration / 2, NULL);
 
         lv_timer_set_repeat_count(ctimer, 1);
 

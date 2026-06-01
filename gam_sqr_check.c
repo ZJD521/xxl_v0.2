@@ -71,6 +71,7 @@ void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
             lv_obj_move_foreground(cell[col][row].img);
             lv_obj_set_user_data(cell[col][row].img, &cell[col][row]);
 			lv_obj_move_to_index(cell[col][row].img,GRID_ROWS*row+col+GRID_COLS*GRID_ROWS);
+            lv_obj_set_style_radius(cell[col][row].img, 10, LV_PART_MAIN);
             cell[col][row].x = col;
             cell[col][row].y = row;
 			cell[col][row].bomb=BOMB_NONE;
@@ -82,6 +83,7 @@ void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
 		game_btn_item_bomb_load();
     game_btn_item_row_load();
     game_btn_item_col_load();
+ 
 }
 
 //检查是否会形成3个连续（按数组下标查邻居，开局时与逻辑格一致）
