@@ -62,4 +62,5 @@ void screen_cb(lv_event_t*e)    //游戏界面加载回调
     gametime = lv_timer_create(game_timer_cb, 1000, NULL);
     game_sqr_src_load();
     game_sqr_field_init(scr_game);
+    clear_bomb();
 }

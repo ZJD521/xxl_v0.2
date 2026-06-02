@@ -104,6 +104,9 @@ void game_timer_cb(lv_timer_t* timer) //定时器回调
         char buff0[20];
         sprintf(buff0, "Goal:%d", game_goal);
         lv_label_set_text(label_goal, buff0);
+        char buffs[20];
+        sprintf(buffs, "Score:%d", game_score);
+        lv_label_set_text(label_score, buffs);
         if(game_time <= 0)
         {
             game_over = 1;
@@ -127,6 +130,9 @@ void game_timer_cb(lv_timer_t* timer) //定时器回调
         sprintf(buff2, "Goal:%d", game_goal);
         lv_label_set_text(label_step, buff1);
         lv_label_set_text(label_goal, buff2);
+        char buffs[20];
+        sprintf(buffs, "Score:%d", game_score);
+        lv_label_set_text(label_score, buffs);
         if(game_step <= 0)
         {
             game_over = 1;
@@ -261,7 +267,7 @@ void game_cleanup_all(void)  //清理本局资源
     game_over = 0;
     game_score = 0;
     game_time = 0;
-    
+    clear_bomb();
     //  重置坐标映射
     for(uint8_t i = 0; i < GRID_COLS; i++) {
         for(uint8_t j = 0; j < GRID_ROWS; j++) {

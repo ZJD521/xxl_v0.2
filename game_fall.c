@@ -677,6 +677,7 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
                 }
             }
             status=NORMAL; //恢复可操作状态
+            clear_bomb();
             if (!item_bomb_used){
                 lv_obj_add_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮可点
                 lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0xFF4757), LV_PART_MAIN);
