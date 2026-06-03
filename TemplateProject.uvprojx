@@ -445,11 +445,6 @@
               <FilePath>.\game_cell_cb.c</FilePath>
             </File>
             <File>
-              <FileName>game_score_check.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\game_score_check.c</FilePath>
-            </File>
-            <File>
               <FileName>game_sqr_src.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game_sqr_src.c</FilePath>
@@ -483,6 +478,11 @@
               <FileName>game_bombs.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game_bombs.c</FilePath>
+            </File>
+            <File>
+              <FileName>game_sqr_check.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game_sqr_check.c</FilePath>
             </File>
           </Files>
         </Group>

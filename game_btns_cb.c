@@ -1,6 +1,8 @@
 #include "drivers.h"
 #include "lvgl.h"
 #include "game.h"
+lv_obj_t *game_help_bg;
+lv_obj_t *lb_help;
 extern lv_obj_t * btn_start ;
 extern lv_obj_t * btn_choose ;
 extern lv_obj_t * btn_def ;
@@ -100,6 +102,8 @@ void btn_exit_cb(lv_event_t*e){    //返回
         lv_obj_add_flag(btn_time, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(btn_step, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(btn_theme, LV_OBJ_FLAG_HIDDEN);
+		lv_obj_add_flag(game_help_bg, LV_OBJ_FLAG_HIDDEN);
+
         for (int i=0;i<5;i++){
 			lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
 		}
@@ -321,25 +325,22 @@ void btn_clear_score_cb(lv_event_t * e)
     high_score = 0;
 }
 // 游戏说明按钮回调
+char bufx[100];
 void btn_help_cb(lv_event_t * e)
-{
-    if(lv_event_get_code(e) != LV_EVENT_CLICKED) 
-		return;
-
-    // 按钮
-    static const char * btn[] = {"MADE BY Cdk & Zjd", NULL};
-    
-    lv_obj_t * mbox = lv_msgbox_create(lv_scr_act(), 
-                                         "GAME HELP", 
-                                         "①Basic: Slide blocks to match 3 identical ones for elimination.\n\n"
-                                         "②Items: ROW(clear line), COL(clear column), BOMB(cross clear), tap to use.\n\n"
-                                         "③Special: 4+ connected blocks spawn special blocks with item effects.\n\n"
-                                         "④Warning: CLEAR MAX erases all high scores, use carefully.\n\n"
-                                         "Have fun!",
-                                         btn, 
-                                         true);
-
-		lv_obj_center(mbox);
+{	
+	
+    game_help_bg = lv_obj_create(lv_scr_act());
+    lv_obj_set_size(game_help_bg, LV_HOR_RES, LV_VER_RES);
+    lv_obj_set_style_bg_color(game_help_bg, lv_color_black(), 0);
+    lv_obj_set_style_bg_opa(game_help_bg, 180, 0);
+    lv_obj_clear_flag(game_help_bg, LV_OBJ_FLAG_SCROLLABLE);
+	sprintf(bufx, "GAME HELP \n\n ①Basic: Slide blocks to match 3 identical ones for elimination.\n\n②Items: ROW(clear line), COL(clear column), BOMB(cross clear), tap to use.\n\n③Special: 4+ connected blocks spawn special blocks with item effects.\n\n④Warning: CLEAR MAX erases all high scores, use carefully.\n\nHave fun!");
+	lb_help = lv_label_create(game_help_bg);
+    lv_label_set_text(lb_help, bufx);
+    lv_obj_set_style_text_color(lb_help, lv_color_white(), 0);
+    lv_obj_align(lb_help, LV_ALIGN_CENTER, 0, 10);
+	lv_obj_clear_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
+	lv_obj_move_foreground(btn_exit);
 }
 
 
