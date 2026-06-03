@@ -49,4 +49,5 @@ void game_init(){ //游戏初始化
 	game_btn_step_load();
 	game_btn_exit_load(scr_menu);
 	game_init_fall_system();
+	game_btn_clear_score_load();
 }

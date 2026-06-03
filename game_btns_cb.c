@@ -15,6 +15,7 @@ extern bac bg;
 extern lv_obj_t * scr_menu; 
 extern lv_obj_t * scr_game;
 extern lv_timer_t * gametime;
+extern lv_obj_t * btn_clear_score;
 extern char buf[60];
 extern uint16_t game_level;
 extern uint8_t item_bomb_used;
@@ -30,6 +31,7 @@ void btn_start_cb(lv_event_t*e){  //开始游戏，和start键交互就会调用
 		srand(lv_tick_get());
 	    lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN); //隐藏start
 	    lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);  //隐藏option
+		  lv_obj_add_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);
 		for (int i=0;i<5;i++){  //显示5个难度按钮
 			lv_obj_clear_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);  //清除隐藏
 		}
@@ -45,6 +47,7 @@ void btn_choose_cb(lv_event_t*e){  //加载两个主题按钮
 	  if(code == LV_EVENT_CLICKED){
 		lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
+		lv_obj_add_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);
 			
     lv_obj_clear_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_clear_flag(btn_mode,LV_OBJ_FLAG_HIDDEN);
@@ -97,6 +100,7 @@ void btn_exit_cb(lv_event_t*e){    //返回
         for (int i=0;i<5;i++){
 			lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
 		}
+				lv_obj_clear_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(btn_start, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
     }
@@ -105,6 +109,7 @@ void btn_exit_cb(lv_event_t*e){    //返回
 		
         game_fall_stop_all();   //中途退出时停掉下落链
         lv_obj_add_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
+			  lv_obj_clear_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);
         //清理倒计时
         if (gametime != NULL) {
             lv_timer_del(gametime);
@@ -273,4 +278,42 @@ void btn_item_col_cb(lv_event_t *e) //道具（竖消）
 				}
     }
 }
+
+// 清除最高分按钮 点击回调
+// 清除最高分按钮 点击回调
+void btn_clear_score_cb(lv_event_t * e)
+{
+    // 只响应点击
+    if(lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+
+    // 固定清空 5 个关卡全部最高分
+    FIL file;
+    UINT bw;
+    uint16_t zero = 0;
+
+    f_open(&file, "0:score_1.bin", FA_CREATE_ALWAYS | FA_WRITE);
+    f_write(&file, &zero, 2, &bw);
+    f_close(&file);
+
+    f_open(&file, "0:score_2.bin", FA_CREATE_ALWAYS | FA_WRITE);
+    f_write(&file, &zero, 2, &bw);
+    f_close(&file);
+
+    f_open(&file, "0:score_3.bin", FA_CREATE_ALWAYS | FA_WRITE);
+    f_write(&file, &zero, 2, &bw);
+    f_close(&file);
+
+    f_open(&file, "0:score_4.bin", FA_CREATE_ALWAYS | FA_WRITE);
+    f_write(&file, &zero, 2, &bw);
+    f_close(&file);
+
+    f_open(&file, "0:score_5.bin", FA_CREATE_ALWAYS | FA_WRITE);
+    f_write(&file, &zero, 2, &bw);
+    f_close(&file);
+
+    // 内存里的最高分也清0
+    high_score = 0;
+}
+
 

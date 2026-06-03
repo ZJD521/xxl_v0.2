@@ -325,3 +325,22 @@ char game_score_write(){ //写入最高分
     
     return 0;
 }
+
+// 清空当前关卡的最高分（写入 0）
+void clear_high_score(void)
+{
+    FIL file;
+    FRESULT res;
+    UINT bytes_write;
+    const char *filename[5]={"0:score_1.bin","0:score_2.bin","0:score_3.bin","0:score_4.bin","0:score_5.bin"};
+
+    // 打开当前关卡文件
+    res = f_open(&file, filename[game_level-1], FA_WRITE | FA_CREATE_ALWAYS);
+    if(res == FR_OK)
+    {
+        uint16_t zero = 0;          // 把分数设为 0
+        f_write(&file, &zero, 2, &bytes_write); // 写入文件
+        f_close(&file);
+    }
+}
+

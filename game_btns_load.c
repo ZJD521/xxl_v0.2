@@ -41,6 +41,7 @@ lv_obj_t* btn_theme;
 lv_obj_t* btn_item_bomb;
 lv_obj_t *btn_item_row;
 lv_obj_t *btn_item_col;
+lv_obj_t *btn_clear_score;
 
 
 void game_btn_start_load(){        //加载开始按钮
@@ -342,4 +343,37 @@ void game_btn_item_col_load(void) //加载竖消道具按钮
 	lv_obj_set_style_shadow_width(btn_item_col,10,0);
 	lv_obj_set_style_shadow_spread(btn_item_col,3,0);
 	lv_obj_set_style_shadow_color(btn_item_col,lv_color_hex(0x000000),0);
+}
+
+// 加载【清除最高分】按钮
+void game_btn_clear_score_load(){
+    // 创建按钮
+    btn_clear_score = lv_btn_create(scr_menu);
+    lv_obj_set_size(btn_clear_score, 128, 50);
+    lv_obj_align(btn_clear_score, LV_ALIGN_BOTTOM_RIGHT, -10, -10); 
+    
+    // 绑定点击回调
+    lv_obj_add_event_cb(btn_clear_score, btn_clear_score_cb, LV_EVENT_CLICKED, NULL);
+    
+    // 文字
+    lv_obj_t *lb_clear = lv_label_create(btn_clear_score);
+    lv_label_set_text(lb_clear, "CLEAR MAX");
+    
+    lv_obj_set_style_bg_color(btn_clear_score, lv_color_hex(0xFF4757), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_clear_score, 10, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_clear_score, lv_color_hex(0xD93548), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(btn_clear_score, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+    lv_obj_center(lb_clear);
+    lv_obj_set_style_text_font(lb_clear, &lv_font_montserrat_14, 0);
+    
+    // 阴影
+    lv_obj_set_style_shadow_width(btn_clear_score,10,0);
+    lv_obj_set_style_shadow_spread(btn_clear_score,3,0);
+    lv_obj_set_style_shadow_color(btn_clear_score,lv_color_hex(0x000000),0);
+    
+    // 渐变
+    lv_obj_set_style_bg_grad_dir(btn_clear_score, LV_GRAD_DIR_VER, 0);
+    lv_obj_set_style_bg_grad_color(btn_clear_score, lv_color_hex(0xFF2020), 0);
+    lv_obj_set_style_bg_main_stop(btn_clear_score, 0, 0);
+    lv_obj_set_style_bg_grad_stop(btn_clear_score, 255, 0);
 }
