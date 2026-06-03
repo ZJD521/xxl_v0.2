@@ -138,6 +138,8 @@ void game_btn_item_col_load(void); //道具按钮加载
 
 void game_btn_clear_score_load();
 
+void game_btn_help_load();
+
 cell_type safe_type(uint8_t x, uint8_t y,cell_type t);  //返回不与周围相同的方块类型
 
 void game_score_label_create(lv_obj_t *scr);  //创建分数标签
@@ -155,6 +157,8 @@ char game_score_write();//写入最高分
 void clear_high_score(void);//清除最高分
 
 void btn_clear_score_cb(lv_event_t * e);
+
+void btn_help_cb(lv_event_t * e);
 //交换
 
 void cell_swap_exec(sqr * cell_1 , sqr * cell_2);   //交换图片位置的执行函数

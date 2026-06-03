@@ -42,7 +42,7 @@ lv_obj_t* btn_item_bomb;
 lv_obj_t *btn_item_row;
 lv_obj_t *btn_item_col;
 lv_obj_t *btn_clear_score;
-
+lv_obj_t *btn_help;
 
 void game_btn_start_load(){        //加载开始按钮
 	
@@ -377,3 +377,41 @@ void game_btn_clear_score_load(){
     lv_obj_set_style_bg_main_stop(btn_clear_score, 0, 0);
     lv_obj_set_style_bg_grad_stop(btn_clear_score, 255, 0);
 }
+// 加载【游戏说明】按钮（主菜单右下角）
+void game_btn_help_load(){
+    // 创建按钮 → 父对象是 scr_menu（只在主菜单显示）
+    btn_help = lv_btn_create(scr_menu);
+    
+    // 按钮大小
+    lv_obj_set_size(btn_help,128 , 50);
+    
+    // 位置：右下角，CLEAR MAX 按钮上方一点
+    lv_obj_align(btn_help, LV_ALIGN_BOTTOM_RIGHT, -10, -70); 
+    
+    // 点击事件
+    lv_obj_add_event_cb(btn_help, btn_help_cb, LV_EVENT_CLICKED, NULL);
+    
+    // 文字
+    lv_obj_t *lb_help = lv_label_create(btn_help);
+    lv_label_set_text(lb_help, "HELP");
+    
+    // 样式完全跟你的 START / OPTION 统一
+    lv_obj_set_style_bg_color(btn_help, lv_color_hex(0x3742FA), LV_PART_MAIN);
+    lv_obj_set_style_radius(btn_help, 10, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_help, lv_color_hex(0x1927D0), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(btn_help, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+    lv_obj_center(lb_help);
+    lv_obj_set_style_text_font(lb_help, &lv_font_montserrat_14, 0);
+    
+    // 阴影
+    lv_obj_set_style_shadow_width(btn_help, 10, 0);
+    lv_obj_set_style_shadow_spread(btn_help, 3, 0);
+    lv_obj_set_style_shadow_color(btn_help, lv_color_hex(0x000000), 0);
+    
+    // 渐变
+    lv_obj_set_style_bg_grad_dir(btn_help, LV_GRAD_DIR_VER, 0);
+    lv_obj_set_style_bg_grad_color(btn_help, lv_color_hex(0x20B2FF), 0); 
+    lv_obj_set_style_bg_main_stop(btn_help, 0, 0);
+    lv_obj_set_style_bg_grad_stop(btn_help, 255, 0);
+}
+

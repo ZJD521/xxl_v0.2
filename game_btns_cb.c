@@ -16,6 +16,7 @@ extern lv_obj_t * scr_menu;
 extern lv_obj_t * scr_game;
 extern lv_timer_t * gametime;
 extern lv_obj_t * btn_clear_score;
+extern lv_obj_t *btn_help;
 extern char buf[60];
 extern uint16_t game_level;
 extern uint8_t item_bomb_used;
@@ -32,6 +33,7 @@ void btn_start_cb(lv_event_t*e){  //开始游戏，和start键交互就会调用
 	    lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN); //隐藏start
 	    lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);  //隐藏option
 		  lv_obj_add_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);
+	  	lv_obj_add_flag(btn_help, LV_OBJ_FLAG_HIDDEN);
 		for (int i=0;i<5;i++){  //显示5个难度按钮
 			lv_obj_clear_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);  //清除隐藏
 		}
@@ -47,7 +49,8 @@ void btn_choose_cb(lv_event_t*e){  //加载两个主题按钮
 	  if(code == LV_EVENT_CLICKED){
 		lv_obj_add_flag(btn_start,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_add_flag(btn_choose,LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);
+		lv_obj_add_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);	
+		lv_obj_add_flag(btn_help, LV_OBJ_FLAG_HIDDEN);
 			
     lv_obj_clear_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_clear_flag(btn_mode,LV_OBJ_FLAG_HIDDEN);
@@ -101,6 +104,7 @@ void btn_exit_cb(lv_event_t*e){    //返回
 			lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
 		}
 				lv_obj_clear_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(btn_help, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(btn_start, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
     }
@@ -110,6 +114,7 @@ void btn_exit_cb(lv_event_t*e){    //返回
         game_fall_stop_all();   //中途退出时停掉下落链
         lv_obj_add_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
 			  lv_obj_clear_flag(btn_clear_score, LV_OBJ_FLAG_HIDDEN);
+			  lv_obj_clear_flag(btn_help, LV_OBJ_FLAG_HIDDEN);
         //清理倒计时
         if (gametime != NULL) {
             lv_timer_del(gametime);
@@ -314,6 +319,27 @@ void btn_clear_score_cb(lv_event_t * e)
 
     // 内存里的最高分也清0
     high_score = 0;
+}
+// 游戏说明按钮回调
+void btn_help_cb(lv_event_t * e)
+{
+    if(lv_event_get_code(e) != LV_EVENT_CLICKED) 
+		return;
+
+    // 按钮
+    static const char * btn[] = {"MADE BY Cdk & Zjd", NULL};
+    
+    lv_obj_t * mbox = lv_msgbox_create(lv_scr_act(), 
+                                         "GAME HELP", 
+                                         "①Basic: Slide blocks to match 3 identical ones for elimination.\n\n"
+                                         "②Items: ROW(clear line), COL(clear column), BOMB(cross clear), tap to use.\n\n"
+                                         "③Special: 4+ connected blocks spawn special blocks with item effects.\n\n"
+                                         "④Warning: CLEAR MAX erases all high scores, use carefully.\n\n"
+                                         "Have fun!",
+                                         btn, 
+                                         true);
+
+		lv_obj_center(mbox);
 }
 
 
