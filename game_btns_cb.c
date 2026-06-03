@@ -49,7 +49,8 @@ void btn_choose_cb(lv_event_t*e){  //加载两个主题按钮
     lv_obj_clear_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_clear_flag(btn_mode,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_clear_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
-    
+		lv_obj_clear_state(btn_exit,LV_STATE_PRESSED);
+		lv_obj_invalidate(btn_exit);
 	  
 		}
 
@@ -101,8 +102,9 @@ void btn_exit_cb(lv_event_t*e){    //返回
     }
     else if(code == LV_EVENT_CLICKED && lv_scr_act() == scr_game ){
         game_over = 1;
+		
         game_fall_stop_all();   //中途退出时停掉下落链
-        
+        lv_obj_add_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
         //清理倒计时
         if (gametime != NULL) {
             lv_timer_del(gametime);

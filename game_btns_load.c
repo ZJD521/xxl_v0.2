@@ -57,6 +57,17 @@ void game_btn_start_load(){        //加载开始按钮
 	  lv_obj_set_style_text_color(btn_start, lv_color_hex(0xFFFFFF), LV_PART_MAIN);//字体颜色
 	  lv_obj_center(lb_start); //文字在按钮中居中
     lv_obj_set_style_text_font(lb_start , &lv_font_montserrat_40, 0);  //字体大小40
+	lv_obj_set_style_shadow_width(btn_start,10,0);
+	lv_obj_set_style_shadow_spread(btn_start,3,0);
+	lv_obj_set_style_shadow_color(btn_start,lv_color_hex(0x000000),0);
+	lv_obj_set_style_bg_grad_dir(btn_start, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+	lv_obj_set_style_bg_grad_color(btn_start, lv_color_hex(0xFF5220), 0); // 金色
+	lv_obj_set_style_bg_main_stop(btn_start, 0, 0);   // 主色从 0 开始
+	lv_obj_set_style_bg_grad_stop(btn_start, 255, 0); // 渐变色在 255 结束
+
+
+
+
 }
 
 void game_btn_choose_load(){        //加载设置按钮
@@ -72,8 +83,13 @@ void game_btn_choose_load(){        //加载设置按钮
 	  lv_obj_set_style_text_color(btn_choose, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_choose);
     lv_obj_set_style_text_font(lb_choose , &lv_font_montserrat_40, 0);
-
-
+	lv_obj_set_style_shadow_width(btn_choose,10,0);
+	lv_obj_set_style_shadow_spread(btn_choose,3,0);
+	lv_obj_set_style_shadow_color(btn_choose,lv_color_hex(0x000000),0);
+	lv_obj_set_style_bg_grad_dir(btn_choose, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+	lv_obj_set_style_bg_grad_color(btn_choose, lv_color_hex(0xFF5220), 0); // 金色
+	lv_obj_set_style_bg_main_stop(btn_choose, 0, 0);   // 主色从 0 开始
+	lv_obj_set_style_bg_grad_stop(btn_choose, 255, 0); // 渐变色在 255 结束
 
 }
 void game_btn_theme_default_load(){        //加载默认主题按钮
@@ -90,8 +106,13 @@ void game_btn_theme_default_load(){        //加载默认主题按钮
 	  lv_obj_center(lb_def);
     lv_obj_set_style_text_font(lb_def , &lv_font_montserrat_40, 0);
  		lv_obj_add_flag(btn_def,LV_OBJ_FLAG_HIDDEN);  //开始的时候隐藏
-
-
+		 lv_obj_set_style_shadow_width(btn_def,10,0);
+		 lv_obj_set_style_shadow_spread(btn_def,3,0);
+		 lv_obj_set_style_shadow_color(btn_def,lv_color_hex(0x000000),0);
+		 lv_obj_set_style_bg_grad_dir(btn_def, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+		 lv_obj_set_style_bg_grad_color(btn_def, lv_color_hex(0xFF5220), 0); // 金色
+		 lv_obj_set_style_bg_main_stop(btn_def, 0, 0);   // 主色从 0 开始
+		 lv_obj_set_style_bg_grad_stop(btn_def, 255, 0); // 渐变色在 255 结束
 }
 void game_btn_theme_ice_load(){        //加载夏日主题按钮
     btn_ice = lv_btn_create(scr_menu);
@@ -100,15 +121,20 @@ void game_btn_theme_ice_load(){        //加载夏日主题按钮
 	  lv_obj_add_event_cb(btn_ice,btn_ice_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_ice=lv_label_create(btn_ice);
 	  lv_label_set_text(lb_ice,"SUMMER\n  THEME");
-    lv_obj_set_style_bg_color(btn_ice, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_ice, lv_color_hex(0x20B620), LV_PART_MAIN);
     lv_obj_set_style_radius(btn_ice, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(btn_ice, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_bg_color(btn_ice, lv_color_hex(0x0A9E0A), LV_PART_MAIN | LV_STATE_PRESSED);
 	  lv_obj_set_style_text_color(btn_ice, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_ice);
     lv_obj_set_style_text_font(lb_ice , &lv_font_montserrat_40, 0);
 		lv_obj_add_flag(btn_ice,LV_OBJ_FLAG_HIDDEN);
-
-
+		lv_obj_set_style_shadow_width(btn_ice,10,0);
+		lv_obj_set_style_shadow_spread(btn_ice,3,0);
+		lv_obj_set_style_shadow_color(btn_ice,lv_color_hex(0x000000),0);
+		lv_obj_set_style_bg_grad_dir(btn_ice, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+		lv_obj_set_style_bg_grad_color(btn_ice, lv_color_hex(0x3742FA), 0); 
+		lv_obj_set_style_bg_main_stop(btn_ice, 0, 0);   // 主色从 0 开始
+		lv_obj_set_style_bg_grad_stop(btn_ice, 255, 0); // 渐变色在 255 结束
 }
 void game_btn_exit_load(lv_obj_t*scr){        //加载返回按钮
     btn_exit = lv_btn_create(scr);
@@ -134,8 +160,13 @@ void game_btn_exit_load(lv_obj_t*scr){        //加载返回按钮
 	  lv_obj_set_style_text_font(lb_exit , &lv_font_montserrat_30, 0);
 	
 		lv_obj_add_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
-
-
+		lv_obj_set_style_shadow_width(btn_exit,10,0);
+		lv_obj_set_style_shadow_spread(btn_exit,3,0);
+		lv_obj_set_style_shadow_color(btn_exit,lv_color_hex(0x000000),0);
+		lv_obj_set_style_bg_grad_dir(btn_exit, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+		lv_obj_set_style_bg_grad_color(btn_exit, lv_color_hex(0xFF5220), 0); 
+		lv_obj_set_style_bg_main_stop(btn_exit, 0, 0);   // 主色从 0 开始
+		lv_obj_set_style_bg_grad_stop(btn_exit, 255, 0); // 渐变色在 255 结束
 
 }
 void game_btn_mode_load(){        //加载模式按钮
@@ -153,6 +184,13 @@ void game_btn_mode_load(){        //加载模式按钮
     lv_obj_set_style_text_font(lb_mode , &lv_font_montserrat_40, 0);
 		lv_obj_add_flag(btn_mode,LV_OBJ_FLAG_HIDDEN);
 
+		lv_obj_set_style_shadow_width(btn_mode,10,0);
+		lv_obj_set_style_shadow_spread(btn_mode,3,0);
+		lv_obj_set_style_shadow_color(btn_mode,lv_color_hex(0x000000),0);
+		lv_obj_set_style_bg_grad_dir(btn_mode, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+		lv_obj_set_style_bg_grad_color(btn_mode, lv_color_hex(0xFF5220), 0); 
+		lv_obj_set_style_bg_main_stop(btn_mode, 0, 0);   // 主色从 0 开始
+		lv_obj_set_style_bg_grad_stop(btn_mode, 255, 0); // 渐变色在 255 结束
 
 }
 
@@ -170,6 +208,14 @@ void game_btn_time_load(){       //时间模式
 	  lv_obj_center(lb_time);
 	  lv_obj_set_style_text_font(lb_time , &lv_font_montserrat_40, 0);
 		  lv_obj_add_flag(btn_time,LV_OBJ_FLAG_HIDDEN);
+		  
+		lv_obj_set_style_shadow_width(btn_time,10,0);
+		lv_obj_set_style_shadow_spread(btn_time,3,0);
+		lv_obj_set_style_shadow_color(btn_time,lv_color_hex(0x000000),0);
+		lv_obj_set_style_bg_grad_dir(btn_time, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+		lv_obj_set_style_bg_grad_color(btn_time, lv_color_hex(0xFF5220), 0); 
+		lv_obj_set_style_bg_main_stop(btn_time, 0, 0);   // 主色从 0 开始
+		lv_obj_set_style_bg_grad_stop(btn_time, 255, 0); // 渐变色在 255 结束
 }
 void game_btn_step_load(){        //步数模式
     btn_step = lv_btn_create(scr_menu);
@@ -185,7 +231,15 @@ void game_btn_step_load(){        //步数模式
 	  lv_obj_center(lb_step);
 	  lv_obj_set_style_text_font(lb_step , &lv_font_montserrat_40, 0);
 		  lv_obj_add_flag(btn_step,LV_OBJ_FLAG_HIDDEN);
-}
+		  lv_obj_set_style_shadow_width(btn_step,10,0);
+		  lv_obj_set_style_shadow_spread(btn_step,3,0);
+		  lv_obj_set_style_shadow_color(btn_step,lv_color_hex(0x000000),0);
+		  lv_obj_set_style_bg_grad_dir(btn_step, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+		lv_obj_set_style_bg_grad_color(btn_step, lv_color_hex(0xFF5220), 0); 
+		lv_obj_set_style_bg_main_stop(btn_step, 0, 0);   // 主色从 0 开始
+		lv_obj_set_style_bg_grad_stop(btn_step, 255, 0); // 渐变色在 255 结束
+  }
+
 void game_btn_theme_load(){      //选择主题  
     btn_theme = lv_btn_create(scr_menu);
 	  lv_obj_set_size(btn_theme,256,100);
@@ -200,6 +254,13 @@ void game_btn_theme_load(){      //选择主题
 	  lv_obj_center(lb_theme);
 	  lv_obj_set_style_text_font(lb_theme , &lv_font_montserrat_40, 0);
 		  lv_obj_add_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
+		  lv_obj_set_style_shadow_width(btn_theme,10,0);
+		  lv_obj_set_style_shadow_spread(btn_theme,3,0);
+		  lv_obj_set_style_shadow_color(btn_theme,lv_color_hex(0x000000),0);
+		  lv_obj_set_style_bg_grad_dir(btn_theme, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+		  lv_obj_set_style_bg_grad_color(btn_theme, lv_color_hex(0xFF5220), 0); 
+		  lv_obj_set_style_bg_main_stop(btn_theme, 0, 0);   // 主色从 0 开始
+		  lv_obj_set_style_bg_grad_stop(btn_theme, 255, 0); // 渐变色在 255 结束
 }
 void game_btn_level_load(){     //选择关卡
 	for (int i=0;i<5;i++){
@@ -216,7 +277,15 @@ void game_btn_level_load(){     //选择关卡
 	  lv_obj_center(lb_level);
 	  lv_obj_set_style_text_font(lb_level , &lv_font_montserrat_30, 0);
 		  lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
+		  lv_obj_set_style_shadow_width(btn_level[i],10,0);
+		  lv_obj_set_style_shadow_spread(btn_level[i],3,0);
+		  lv_obj_set_style_shadow_color(btn_level[i],lv_color_hex(0x000000),0);
+		  lv_obj_set_style_bg_grad_dir(btn_level[i], LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
+		  lv_obj_set_style_bg_grad_color(btn_level[i], lv_color_hex(0xFF5220), 0); 
+		  lv_obj_set_style_bg_main_stop(btn_level[i], 0, 0);   // 主色从 0 开始
+		  lv_obj_set_style_bg_grad_stop(btn_level[i], 255, 0); // 渐变色在 255 结束
 	}
+
 }
 void game_btn_item_bomb_load(void) //加载十字道具按钮
 {
@@ -232,7 +301,12 @@ void game_btn_item_bomb_load(void) //加载十字道具按钮
     lv_obj_set_style_text_color(btn_item_bomb, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
     lv_obj_center(lb_bomb);
     lv_obj_set_style_text_font(lb_bomb, &lv_font_montserrat_30, 0);
+	lv_obj_set_style_shadow_width(btn_item_bomb,10,0);
+	lv_obj_set_style_shadow_spread(btn_item_bomb,3,0);
+	lv_obj_set_style_shadow_color(btn_item_bomb,lv_color_hex(0x000000),0);
+	
 }
+
 void game_btn_item_row_load(void) //加载横消道具按钮
 {
     btn_item_row = lv_btn_create(scr_game);
@@ -247,6 +321,9 @@ void game_btn_item_row_load(void) //加载横消道具按钮
     lv_obj_set_style_text_color(btn_item_row, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
     lv_obj_center(lb_row);
     lv_obj_set_style_text_font(lb_row, &lv_font_montserrat_30, 0);
+	lv_obj_set_style_shadow_width(btn_item_row,10,0);
+	lv_obj_set_style_shadow_spread(btn_item_row,3,0);
+	lv_obj_set_style_shadow_color(btn_item_row,lv_color_hex(0x000000),0);
 }
 void game_btn_item_col_load(void) //加载竖消道具按钮
 {
@@ -262,4 +339,7 @@ void game_btn_item_col_load(void) //加载竖消道具按钮
     lv_obj_set_style_text_color(btn_item_col, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
     lv_obj_center(lb_col);
     lv_obj_set_style_text_font(lb_col, &lv_font_montserrat_30, 0);
+	lv_obj_set_style_shadow_width(btn_item_col,10,0);
+	lv_obj_set_style_shadow_spread(btn_item_col,3,0);
+	lv_obj_set_style_shadow_color(btn_item_col,lv_color_hex(0x000000),0);
 }

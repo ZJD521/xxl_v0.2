@@ -15,7 +15,7 @@ uint8_t  game_over  = 0;
 extern lv_obj_t* btn_item_bomb;
 extern lv_obj_t *btn_item_row;
 extern lv_obj_t *btn_item_col;
-
+extern ItemType cur_use_item;
 lv_obj_t *label_score;
 lv_obj_t *label_time;
 lv_obj_t *label_high;
@@ -157,6 +157,8 @@ void game_timer_cb(lv_timer_t* timer) //定时器回调
 
 void game_end_show(void)  //弹出结束界面
 {   
+    lv_obj_del(btn_exit);
+    game_btn_exit_load(scr_menu);
 	  char buf[60];
     game_fall_stop_all();   //停掉下落链，避免带入下一局
     status = NORMAL;
@@ -200,6 +202,9 @@ void game_end_show(void)  //弹出结束界面
     lv_obj_set_size(btn_back_main, 140, 50);
     lv_obj_align(btn_back_main, LV_ALIGN_CENTER, 0, 80);
     lv_obj_add_event_cb(btn_back_main, btn_back_main_cb, LV_EVENT_CLICKED, NULL);
+    lv_obj_set_style_shadow_width(btn_back_main,10,0);
+    lv_obj_set_style_shadow_spread(btn_back_main,3,0);
+    lv_obj_set_style_shadow_color(btn_back_main,lv_color_hex(0x000000),0);
 
     lv_obj_t *lab = lv_label_create(btn_back_main);
     lv_label_set_text(lab, "BACK");
@@ -268,6 +273,7 @@ void game_cleanup_all(void)  //清理本局资源
     game_score = 0;
     game_time = 0;
     clear_bomb();
+    cur_use_item = ITEM_NONE;
     //  重置坐标映射
     for(uint8_t i = 0; i < GRID_COLS; i++) {
         for(uint8_t j = 0; j < GRID_ROWS; j++) {

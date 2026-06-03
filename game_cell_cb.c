@@ -207,7 +207,7 @@ void cell_swap_x(sqr * cell_a , sqr * cell_b){  //横向交换
 	  a->cell_a=cell_a;
 	  a->cell_b=cell_b;
 	
-	  lv_coord_t cell_a_x=lv_obj_get_x(a->cell_a->img);//获取坐标
+	lv_coord_t cell_a_x=lv_obj_get_x(a->cell_a->img);//获取坐标
     lv_coord_t cell_b_x=lv_obj_get_x(a->cell_b->img);
 	
 	  lv_obj_set_user_data(cell_a->img, cell_a);
@@ -277,13 +277,16 @@ void cell_swap_y(sqr * cell_a , sqr * cell_b){  //纵向交换
 }
 
 void cell_swap_exec(sqr * cell_a , sqr * cell_b){   //交换图片位置和网格坐标
-
-		if( abs(cell_a->x - cell_b->x) >= 1 )
-			cell_swap_x(cell_a , cell_b);     //横向交换
-		else if ( abs(cell_a->y - cell_b->y ) >= 1 )
-			cell_swap_y(cell_a , cell_b );    //纵向交换
-		else 
-			return;
+    if (!cell_a)
+        return;
+    if (!cell_b)
+        return;
+	if( abs(cell_a->x - cell_b->x) >= 1 )
+		cell_swap_x(cell_a , cell_b);     //横向交换
+	else if ( abs(cell_a->y - cell_b->y ) >= 1 )
+		cell_swap_y(cell_a , cell_b );    //纵向交换
+	else 
+		return;
 }
 
 
@@ -293,8 +296,14 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
     static uint8_t anim_count = 0; 
     static uint8_t swap_count = 1;   //弹回交换时跳过首轮回调
     
-    if (swap_count == 0) {
+    if (swap_count == 0) {//无效交换直接返回，不进行回调
         swap_count++;
+        ani * data = (ani *)lv_anim_get_user_data(a);
+        if(data && data->cell_a && data->cell_b) {//校准坐标
+            lv_obj_set_pos(data->cell_a->img, FIELD_X + data->cell_a->x * CELL_LENG, FIELD_Y + data->cell_a->y * CELL_LENG);
+            lv_obj_set_pos(data->cell_b->img, FIELD_X + data->cell_b->x * CELL_LENG, FIELD_Y + data->cell_b->y * CELL_LENG);
+            lv_mem_free(data); 
+        }
 			status=NORMAL;  /*bug修复 修复了连续无效交换时概率错位的问题
 			或许根源在于anim被释放，导致第二次交换的回调函数无法被触发
 			将游戏状态在此处设为可操作  效果意外的好*/
@@ -310,6 +319,8 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
         lv_obj_add_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
         lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x3742FA), LV_PART_MAIN); 
         }  
+        
+        
         return;
     }
     
@@ -338,7 +349,10 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
             swap_cell_coordinates(i1, j1, i2, j2);
             lv_obj_move_to_index(coord_map[i1][j1]->img, GRID_COLS * GRID_ROWS * 5);
             lv_obj_move_to_index(coord_map[i2][j2]->img, GRID_COLS * GRID_ROWS * 5 + 1); //调整动画层级，防止遮挡
-					 
+			lv_obj_set_pos(coord_map[i1][j1]->img,FIELD_X+i1*CELL_LENG,FIELD_Y+j1*CELL_LENG);
+            lv_obj_set_pos(coord_map[i2][j2]->img,FIELD_X+i2*CELL_LENG,FIELD_Y+j2*CELL_LENG);
+            lv_obj_invalidate(coord_map[i1][j1]->img);
+            lv_obj_invalidate(coord_map[i2][j2]->img);	
             if (data->cell_a->bomb!=BOMB_NONE && data->cell_b->bomb!=BOMB_NONE){
                 add_bomb(data->cell_a);
                 add_bomb(data->cell_b);

@@ -9,7 +9,7 @@ extern int read_file_to_array(const char* filename, uint8_t* buffer, uint32_t ma
 extern bac bg;
 void game_sqr_src_load(){       //根据主题读取方块的五种图片
     for(int i=0;i<5;i++){
-	    cell_buffer[i]=sdram_malloc(CELL_SIZE);   
+	    cell_buffer[i]=sdram_malloc(CELL_SIZE); 
 		}
 		if(bg.theme==DEFAULT){      //默认皮肤
 		read_file_to_array("0:/default_red.bin",cell_buffer[0],CELL_SIZE+4);
