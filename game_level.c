@@ -105,17 +105,15 @@ void game_level_data_init(){  //初始化关卡数据
             break;
     }
 }
-static uint8_t game_check_deadlock(void) {  //消除检测，结果写入clear_flag，标记要被删除的格子
+static uint8_t game_check_deadlock(void) {   //和game_check同理
         uint8_t ret = 0;
-        cell_type t;
+        cell_type t;       
         
-        // 重置所有消除标记
         for(uint8_t y = 0; y < GRID_ROWS; y++) {
             for(uint8_t x = 0; x < GRID_COLS; x++) {
                 clear_flag[x][y] = 0;
             }
         }
-        
         // 检查水平方向
         for(uint8_t y = 0; y < GRID_ROWS; y++) {
             for(uint8_t x = 0; x < GRID_COLS - 2; x++) {
@@ -123,18 +121,15 @@ static uint8_t game_check_deadlock(void) {  //消除检测，结果写入clear_f
                 if(!coord_map[x][y] || !coord_map[x+1][y] || !coord_map[x+2][y]) continue;
                 
                 t = coord_map[x][y]->type;
-                if(t == DEL) continue;
-                
+                if(t == DEL) continue;               
                 // 检查3个连续相同
-                if(coord_map[x+1][y]->type == t && coord_map[x+2][y]->type == t ) {
-                    
+                if(coord_map[x+1][y]->type == t && coord_map[x+2][y]->type == t ) {                    
                     // 标记这3个
                     clear_flag[x][y] = 1;
                     clear_flag[x+1][y] = 1;
                     clear_flag[x+2][y] = 1;
                     ret += 1;
-    
-                    
+              
                     // 检查是否超过3个
                     for(uint8_t i = x+3; i < GRID_COLS; i++) {
                         if(!coord_map[i][y]) break;
@@ -144,10 +139,8 @@ static uint8_t game_check_deadlock(void) {  //消除检测，结果写入clear_f
                             ret+=1;
                         } 
                         else     
-                            break; // 遇到不同类型的方块，停止检查
-                        
-                    }
-                    
+                            break; // 遇到不同类型的方块，停止检查                        
+                    }                    
             }
         }
         
@@ -233,6 +226,6 @@ void game_deadlock(){  //触发死局时执行
             coord_map[x][y]->type=DEL;
         }
     }
-    game_refill(NULL);
+    game_refill(NULL);     //洗牌重来
 }
 

@@ -7,7 +7,7 @@ bac bg ;
 extern lv_obj_t * scr_menu; 
 extern lv_obj_t * scr_game;
 extern lv_obj_t * btn_exit;
-extern int read_file_to_array(const char* filename, uint8_t* buffer, uint32_t max_size);
+extern int read_file_to_array(const char* filename, uint8_t* buffer, uint32_t max_size);  //要读的；我的地方；最大容量
 lv_img_dsc_t bg_struct;    //背景图片数据结构体定义                      
 uint8_t *bg_buffer=NULL;   //准备读取
 
@@ -22,7 +22,7 @@ void game_bg_load(lv_obj_t *scr ){       //加载背景
 	  bg_buffer=sdram_malloc(BG_SIZE);
 		
 		if (bg.theme==DEFAULT){
-	  read_file_to_array("0:/bg_default.bin",bg_buffer,BG_SIZE+4);}//读取
+	  read_file_to_array("0:/bg_default.bin",bg_buffer,BG_SIZE+4);}//读取；＋4跳过头文件
 	  else if(bg.theme==ICE){
 		read_file_to_array("0:/bg_theme.bin",bg_buffer,BG_SIZE+4);}
 		else{
@@ -39,10 +39,10 @@ void game_bg_load(lv_obj_t *scr ){       //加载背景
 	  lv_img_set_src(bg.img,&bg_struct);       //导入
     lv_obj_align(bg.img,LV_ALIGN_CENTER,0,0);  //居中
 	  lv_img_set_zoom(bg.img,1024);         //放大4倍
-	  lv_obj_move_background(bg.img);         //移动到底层
+	  lv_obj_move_background(bg.img);         //移动到底层，默认屏蔽触摸
 }
 
-void screen_cb(lv_event_t*e)    //游戏界面加载回调
+void screen_cb(lv_event_t*e)    //游戏回调
 {
     game_fall_stop_all();       //新局开始前清下落链
     game_init_fall_system();

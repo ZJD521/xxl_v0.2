@@ -23,7 +23,7 @@ int main()
 	  game_init();
 		
 
-    lv_obj_add_event_cb(scr_game,screen_cb,LV_EVENT_SCREEN_LOADED,NULL);//注册屏幕加载回调
+    lv_obj_add_event_cb(scr_game,screen_cb,LV_EVENT_SCREEN_LOADED,NULL);//屏幕加载出来自动启用回调
 		while(1){
 		lv_task_handler();    
     delay_us(2000);      
@@ -36,8 +36,9 @@ void game_init(){ //游戏初始化
     scr_game = lv_obj_create(NULL);
    	
 
-  lv_scr_load(scr_menu);
+  lv_scr_load(scr_menu);  //加载这个屏幕
 	game_bg_load(scr_menu);
+	game_init_fall_system();
   game_btn_start_load();
   game_btn_choose_load();
 	game_btn_level_load();
@@ -48,7 +49,6 @@ void game_init(){ //游戏初始化
 	game_btn_time_load();
 	game_btn_step_load();
 	game_btn_exit_load(scr_menu);
-	game_init_fall_system();
 	game_btn_clear_score_load();
 	game_btn_help_load();
 }

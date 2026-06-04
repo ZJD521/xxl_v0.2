@@ -26,6 +26,7 @@ lv_obj_t *game_end_bg;
 lv_obj_t *game_end_title;
 lv_obj_t *game_end_score;
 lv_obj_t *btn_back_main;
+
 extern lv_timer_t * gametime;
 extern lv_obj_t * btn_exit;
 extern bool game_mode;
@@ -51,7 +52,6 @@ void game_score_label_create(lv_obj_t *scr) //创建分数标签
 	  lv_obj_set_style_text_font(label_time, &lv_font_montserrat_40, 0);
     lv_obj_align(label_time, LV_ALIGN_TOP_LEFT, 20, 200);
     }
-    
   else
     {
     label_step = lv_label_create(scr);
@@ -60,6 +60,7 @@ void game_score_label_create(lv_obj_t *scr) //创建分数标签
 	  lv_obj_set_style_text_font(label_step, &lv_font_montserrat_40, 0);
     lv_obj_align(label_step, LV_ALIGN_TOP_LEFT, 20, 200);
     }
+		
     label_goal = lv_label_create(scr);
     lv_label_set_text(label_goal, "Goal:");
     lv_obj_set_style_text_color(label_goal, lv_color_hex(0x00FF00), 0);
@@ -71,7 +72,6 @@ void game_score_label_create(lv_obj_t *scr) //创建分数标签
       high_score=0;
       game_score_read();
     sprintf(buff, "High:%d", high_score);
-    
     lv_label_set_text(label_high, buff);
     lv_obj_set_style_text_color(label_high, lv_color_hex(0xFFFFFF), 0);
 	  lv_obj_set_style_text_font(label_high, &lv_font_montserrat_40, 0);
@@ -110,7 +110,7 @@ void game_timer_cb(lv_timer_t* timer) //定时器回调
         if(game_time <= 0)
         {
             game_over = 1;
-			gametime=NULL;
+		      	gametime=NULL;
             lv_timer_del(timer);
 
             if(game_score > high_score)
@@ -126,12 +126,12 @@ void game_timer_cb(lv_timer_t* timer) //定时器回调
         
         char buff1[20];
         char buff2[20];
+		   	char buffs[20];
         sprintf(buff1, "Step:%d", game_step);
+		  	sprintf(buffs, "Score:%d", game_score);
         sprintf(buff2, "Goal:%d", game_goal);
         lv_label_set_text(label_step, buff1);
-        lv_label_set_text(label_goal, buff2);
-        char buffs[20];
-        sprintf(buffs, "Score:%d", game_score);
+        lv_label_set_text(label_goal, buff2);     
         lv_label_set_text(label_score, buffs);
         if(game_step <= 0)
         {
@@ -188,6 +188,7 @@ void game_end_show(void)  //弹出结束界面
         lv_label_set_text(game_end_title, "YOU LOSE");
     else 
         lv_label_set_text(game_end_title,"YOU WIN");
+		
     lv_obj_set_style_text_color(game_end_title, lv_color_hex(0xFFFC29), 0);
     lv_obj_set_style_text_font(game_end_title, &lv_font_montserrat_40, 0);
     lv_obj_align(game_end_title, LV_ALIGN_CENTER, 0, -50);
@@ -217,26 +218,23 @@ void btn_back_main_cb(lv_event_t *e) //返回主菜单按钮回调
     if(code != LV_EVENT_CLICKED) return;
     lv_obj_set_parent(btn_exit,scr_menu);
     // 删除结束界面
-    if(game_end_bg != NULL) {
+    if(game_end_bg != NULL) 
+		{
         lv_obj_del(game_end_bg);
         game_end_bg = NULL;
     }
-    
     //清理游戏资源
     game_cleanup_all();
-    
     // 恢复主菜单按钮状态
     lv_obj_clear_flag(btn_start, LV_OBJ_FLAG_HIDDEN);
     lv_obj_clear_flag(btn_choose, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(btn_def, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(btn_ice, LV_OBJ_FLAG_HIDDEN);
-    
     // 重置Exit按钮
     lv_obj_set_parent(btn_exit, scr_menu);
     lv_obj_set_size(btn_exit, 256, 100);
     lv_obj_align(btn_exit, LV_ALIGN_CENTER, 0, 150);
     lv_obj_add_flag(btn_exit, LV_OBJ_FLAG_HIDDEN);
-    
     // 切换回主菜单
     lv_scr_load(scr_menu);
 }
@@ -249,12 +247,10 @@ void game_cleanup_all(void)  //清理本局资源
         lv_timer_del(gametime);
         gametime = NULL;
     }
- 
     //  清理游戏界面
     if(scr_game != NULL && lv_obj_is_valid(scr_game)) {
         lv_obj_clean(scr_game);
     }
-    
     // 重置游戏状态
     status = NORMAL;
     if (!item_bomb_used){
@@ -287,14 +283,14 @@ char game_score_read(){ //读取最高分
     UINT bytes_read;
     const char *filename[5]={"0:score_1.bin","0:score_2.bin","0:score_3.bin","0:score_4.bin","0:score_5.bin"};
     res = f_open(&file, filename[game_level-1], FA_READ);
-    if (res != FR_OK) {
+    if (res != FR_OK) {   //如果读取代码出错了
         f_mount(NULL, "", 0);
         return 1;
     }
     FSIZE_t file_size = f_size(&file);
 
-    res = f_read(&file, &high_score, file_size, &bytes_read);
-    if (res != FR_OK || bytes_read != file_size) {
+    res = f_read(&file, &high_score, file_size, &bytes_read);    //读取后放到high_score里
+    if (res != FR_OK || bytes_read != file_size) {   
         f_close(&file);
         f_mount(NULL, "", 0);
         return 2;
@@ -305,7 +301,7 @@ char game_score_read(){ //读取最高分
 }
 char game_score_write(){ //写入最高分
     FIL file;
-	FRESULT res;
+  	FRESULT res;
     UINT bytes_write;
     const char *filename[5]={"0:score_1.bin","0:score_2.bin","0:score_3.bin","0:score_4.bin","0:score_5.bin"};
     res = f_open(&file, filename[game_level-1], FA_WRITE | FA_CREATE_ALWAYS);
@@ -325,7 +321,6 @@ char game_score_write(){ //写入最高分
     
     return 0;
 }
-
 // 清空当前关卡的最高分（写入 0）
 void clear_high_score(void)
 {

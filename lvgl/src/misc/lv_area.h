@@ -24,7 +24,7 @@ extern "C" {
 #if LV_USE_LARGE_COORD
 typedef int32_t lv_coord_t;
 #else
-typedef int16_t lv_coord_t;
+typedef int16_t lv_coord_t;   //int16t：short int
 #endif
 
 /**********************
@@ -35,7 +35,7 @@ typedef int16_t lv_coord_t;
  * Represents a point on the screen.
  */
 typedef struct {
-    lv_coord_t x;
+    lv_coord_t x;  //short int
     lv_coord_t y;
 } lv_point_t;
 

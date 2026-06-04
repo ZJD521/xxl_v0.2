@@ -18,95 +18,54 @@ static lv_timer_t * col_start_timer = NULL;   //错峰启动下一列定时器
 
 static uint8_t next_fall_col = 0;
 
-static uint8_t fall_all_active = 0;
-
-
+static uint8_t fall_all_active = 0;   //1；正在下落；；0：下落结束
 
 //删除并清空下落检测定时器
-
 static void fall_check_timer_del(void)
-
 {
-
-    if(fall_check_timer) {  //如果还在
-
-        lv_timer_del(fall_check_timer);  //删掉
-
+    if(fall_check_timer) {    //如果还在
+        lv_timer_del(fall_check_timer);    //删掉
         fall_check_timer = NULL;
-
     }
-
 }
-
-
-
 //登记新的下落检测定时器
-
 static void fall_check_timer_bind(lv_timer_t * timer)
-
 {
-
-	fall_check_timer_del();   //引用上面的删除定时器
-
+	  fall_check_timer_del();   //引用上面的删除定时器
     fall_check_timer = timer;   //创建新的
-
 }
 
-
-
-//判断棋盘是否还有空格需要重填（只是判断）
-
-static uint8_t game_need_refill(void)
-
+static void col_start_timer_del(void)      //方块消除定时
 {
-
-    for(uint8_t x = 0; x < GRID_COLS; x++) {
-
-        for(int8_t y = GRID_ROWS - 1; y >= 0; y--) {
-
-            if(coord_map[x][y] && coord_map[x][y]->type == DEL)  //有del，则需要填补
-
-                return 1;
-
-        }
-
-    }
-
-    return 0;
-
-}
-
-
-
-static void col_start_timer_del(void)  //方块消除定时器
-
-{
-
-    if(col_start_timer) {
-
+    if(col_start_timer) 
+			{
         lv_timer_del(col_start_timer);
-
         col_start_timer = NULL;
-
-    }
-
+      }
 }
 
-
+//判断棋盘是否还有空格需要重填（判断是否有del）
+static uint8_t game_need_refill(void)
+{
+    for(uint8_t x = 0; x < GRID_COLS; x++) {
+        for(int8_t y = GRID_ROWS - 1; y >= 0; y--) 
+			  {
+            if(coord_map[x][y] && coord_map[x][y]->type == DEL)  //有del，则需要填补
+                return 1;
+        }
+    }
+    return 0;
+}
 
 static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落，延时下落
-
 {
-
     col_start_timer = NULL;
-
     lv_timer_del(t);
-
-    uint8_t x;  //当前在处理第几列
-
+    
+	  uint8_t x;  //当前在处理第几列
     uint8_t col_has_anim;  //这一列有没有方块在下落
-
-    if(!fall_all_active) {  //处在下落状态
+    if(!fall_all_active)  //如果非 下落结束（0）
+		{  
 
         status = FALLING;
 
@@ -121,158 +80,104 @@ static void fall_all_continue_cb(lv_timer_t * t)//用于控制异步下落，延
             if (!item_row_used){
                 lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
             }
-            
         }
-
+				//初始化一些数据
         falling_cell_count = 0;
-
         next_fall_col = 0;
-
         fall_all_active = 1;  
-
-        fall_check_timer_bind(lv_timer_create(fall_complete_check, duration + 10, NULL));
-
-        lv_timer_set_repeat_count(fall_check_timer, -1);
+        fall_check_timer_bind(lv_timer_create(fall_complete_check, duration + 10, NULL));   //到时间后绑定complete函数
+        lv_timer_set_repeat_count(fall_check_timer, -1);   //-1：永远执行这个下落完成检查
 
     }
 
+    for(x = next_fall_col; x < GRID_COLS; x++)  //一列一列处理
+		{  
 
-
-    for(x = next_fall_col; x < GRID_COLS; x++) {  //一列一列处理
-
-        uint8_t write_y = GRID_ROWS - 1;   
-
+        uint8_t target_y = GRID_ROWS - 1;   
         col_has_anim = 0;
 
-
-
-        for(int8_t read_y = write_y; read_y >= 0; read_y--) {  //从最底部开始填补
-            if (!coord_map[x][write_y]){  //如果这个位置没有方块
-                write_y--;  //标记落脚点
+        for(int8_t scan_y = target_y; scan_y >= 0; scan_y--) {  //从最底部开始填补
+            if (!coord_map[x][target_y]){  //如果这个位置没有方块
+                target_y--;  //标记落脚点
                 continue;
             }
-                if (!coord_map[x][read_y]){
-                    write_y=read_y-1;
-                    continue;
+            if (!coord_map[x][scan_y])
+							  {
+                  target_y=scan_y-1;
+                  continue;
                 }
-            
-            
-            sqr* src_cell = coord_map[x][read_y];
+            sqr* src_cell = coord_map[x][scan_y];
 
+            if(src_cell && src_cell->type != DEL) 
+							{
 
-
-            if(src_cell && src_cell->type != DEL) {
-
-                if(read_y != write_y&&coord_map[x][write_y]->type==DEL&&coord_map[x][read_y+1]) {
-
+                if(scan_y != target_y&&coord_map[x][target_y]->type==DEL&&coord_map[x][scan_y+1]) 
+									{
                     lv_coord_t current_y = lv_obj_get_y(src_cell->img);
+                    lv_coord_t target_y_pos = FIELD_Y + target_y * CELL_LENG;
 
-                    lv_coord_t target_y_pos = FIELD_Y + write_y * CELL_LENG;
-
-
-
-                    if(current_y != target_y_pos) {
-
-                        game_fall_one(src_cell, write_y);
+                    if(current_y != target_y_pos) 
+											{
+                        game_fall_one(src_cell, target_y);
 
                         col_has_anim = 1;
-
-                    }
-
-                }
-
-                write_y--;
-
-            }
-
+                      }
+                  }
+                target_y--;
+               }
         }
-
-
-
         if(col_has_anim)
-
             break;
-
     }
-
-
-
-    if(x >= GRID_COLS) {
-
+    if(x >= GRID_COLS) 
+			{
         fall_all_active = 0;
-
         next_fall_col = 0;
-
         return;
-
-    }
-
-
-
+      }
     next_fall_col = x + 1;
-
     col_start_timer_del();
-
     col_start_timer = lv_timer_create(fall_all_continue_cb, duration / 2, NULL);
-
-    lv_timer_set_repeat_count(col_start_timer, 1);
+		lv_timer_set_repeat_count(col_start_timer, 1);   //这个定时器只上一次班
 
 }
 
-
-
-
-static void refill_continue_cb(lv_timer_t * t)//用于控制异步重填，延时填补
-
+static void refill_continue_cb(lv_timer_t * t)  //用于控制异步重填，延时填补
 {
-
     col_start_timer = NULL;
 
     lv_timer_del(t);
     if (game_need_refill()){
     game_refill(NULL);}
     tool_check();
-
 }
 
 void game_fall_stop_all(void)   //停止下落链，清零计数，清空状态
-
 {
 
     fall_check_timer_del();
-
     col_start_timer_del();
-
+	
     falling_cell_count = 0;
-
     next_fall_col = 0;
-
     fall_all_active = 0;
-
 }
 
-
-
 void game_init_fall_system(void)     //初始化下落系统
-
 {
-
 	game_fall_stop_all();  //上面的函数
 
 }
 
-
-
-void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时在动）
-
+void game_fall_all(void) //全盘下落
+	{   
     uint8_t x;  //当前在处理第几列
 
     uint8_t col_has_anim;  //这一列有没有方块在下落
 
     if(!fall_all_active) {  //处在下落状态
-
         status = FALLING;
-
+			
         if (btn_item_bomb && btn_item_col && btn_item_row){
             if (!item_bomb_used){
                 lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮不可点
@@ -286,139 +191,88 @@ void game_fall_all(void) {   //全盘下落（错峰按列，最多两列同时�
             }
             
         }
-
         falling_cell_count = 0;
-
         next_fall_col = 0;
-
         fall_all_active = 1;  
-
         fall_check_timer_bind(lv_timer_create(fall_complete_check, duration + 10, NULL));
-
         lv_timer_set_repeat_count(fall_check_timer, -1);
 
     }
-
-
-
     for(x = next_fall_col; x < GRID_COLS; x++) {  //一列一列处理
-
-        uint8_t write_y = GRID_ROWS - 1;   
+        uint8_t target_y = GRID_ROWS - 1;   
 
         col_has_anim = 0;
 
-
-
-        for(int8_t read_y = write_y; read_y >= 0; read_y--) {  //从最底部开始填补
-            if (!coord_map[x][write_y]){  //如果这个位置没有方块
-                write_y--;  //标记落脚点
+        for(int8_t scan_y = target_y; scan_y >= 0; scan_y--) {  //从最底部开始填补
+            if (!coord_map[x][target_y]){  //如果这个位置没有方块
+                target_y--;  //标记落脚点
                 continue;
             }
-                if (!coord_map[x][read_y]){
-                    write_y=read_y-1;
+                if (!coord_map[x][scan_y]){
+                    target_y=scan_y-1;
                     continue;
                 }
-            
-            
-            sqr* src_cell = coord_map[x][read_y];
-
-
+           
+            sqr* src_cell = coord_map[x][scan_y];
 
             if(src_cell && src_cell->type != DEL) {
 
-                if(read_y != write_y&&coord_map[x][write_y]->type==DEL&&coord_map[x][read_y+1]) {
-
+                if(scan_y != target_y&&coord_map[x][target_y]->type==DEL&&coord_map[x][scan_y+1]) 
+									{
                     lv_coord_t current_y = lv_obj_get_y(src_cell->img);
+                    lv_coord_t target_y_pos = FIELD_Y + target_y * CELL_LENG;
 
-                    lv_coord_t target_y_pos = FIELD_Y + write_y * CELL_LENG;
-
-
-
-                    if(current_y != target_y_pos) {
-
-                        game_fall_one(src_cell, write_y);
-
+                    if(current_y != target_y_pos) 
+											{
+                        game_fall_one(src_cell, target_y);
                         col_has_anim = 1;
-
                     }
-
                 }
-
-                write_y--;
-
+                target_y--;
             }
-
         }
-
-
-
         if(col_has_anim)
-
             break;
-
     }
-
-
-
-    if(x >= GRID_COLS) {
-
+    if(x >= GRID_COLS) 
+			{
         fall_all_active = 0;
-
         next_fall_col = 0;
-
         return;
-
     }
-
-
 
     next_fall_col = x + 1;
-
     col_start_timer_del();
-
-    col_start_timer = lv_timer_create(fall_all_continue_cb, duration / 2, NULL);
-
+    col_start_timer = lv_timer_create(fall_all_continue_cb, duration / 2, NULL);   //只启动一次，后面让continue_cb干
     lv_timer_set_repeat_count(col_start_timer, 1);
 
 }
-
-
-
-void game_fall_one(sqr* cell, uint8_t target_y) {  //下落单个方块
+void game_fall_one(sqr* cell, uint8_t target_y) {  //完成单个方块坐标，动画的下落
 
     if (!cell || !cell->img) {
         return;
     }
+    lv_coord_t start_y = lv_obj_get_y(cell->img);    //初始位置
 
-    lv_coord_t start_y = lv_obj_get_y(cell->img);
-
-    lv_coord_t target_pos_y = FIELD_Y + target_y * CELL_LENG;
+    lv_coord_t target_pos_y = FIELD_Y + target_y * CELL_LENG;   //目标位置
     if (!coord_map[cell->x][target_y] || !cell){
         return;
     }
     sqr * del = coord_map[cell->x][target_y];
 
-    
-
     uint8_t old_x = cell->x;
-
-    uint8_t old_y = cell->y;
+    uint8_t old_y = cell->y;   //记录原来坐标
 
     cell->y = target_y;
-
     cell-> moved=1;
 
-    if(old_x != cell->x || old_y != cell->y) {
-
+    if(old_x != cell->x || old_y != cell->y) 
+			{
         coord_map[old_x][old_y] = del;
-
-        coord_map[cell->x][cell->y] = cell;
-
+        coord_map[cell->x][cell->y] = cell;    //老位置放del
     }
 
-    
-
-    lv_obj_move_to_index(cell->img, GRID_COLS * GRID_ROWS * 5);
+    lv_obj_move_to_index(cell->img, GRID_COLS * GRID_ROWS * 5);    //防止方块被挡住
 
     if (del && del->img && lv_obj_is_valid(del->img)) {
         lv_obj_move_to_index(del->img, GRID_COLS * GRID_ROWS * 5 + 1);
@@ -441,73 +295,53 @@ void game_fall_one(sqr* cell, uint8_t target_y) {  //下落单个方块
 
     lv_anim_set_ready_cb(&a, fall_anim_ready_cb);
 
-    
-
     falling_cell_count++;
-
-    lv_anim_start(&a);
-
+    lv_anim_start(&a);     //创建并启动下落动画
 }
-
-
-
-void fall_anim_ready_cb(lv_anim_t* a) {   //下落动画完成回调
-
+void fall_anim_ready_cb(lv_anim_t* a) //下落动画完成回调
+	{   
     (void)a;
 
     if(falling_cell_count > 0)
-
         falling_cell_count--;
 
 }
 
-
-
-void game_refill(lv_timer_t* timer){  //重填所有空方块
-
+void game_refill(lv_timer_t* timer)//重填所有空方块
+	 {  
     if (game_over == 1) { //熔断判断
-
         lv_timer_del(timer); 
 
         return;
-
     }
 
     falling_cell_count = 0;
     uint8_t is_refilling;
-    for(uint8_t x = 0; x < GRID_COLS; x++) {
+    for(uint8_t x = 0; x < GRID_COLS; x++) {   //遍历所有格子
         is_refilling=0;
-        for(int8_t read_y = GRID_ROWS - 1; read_y >= 0; read_y--){
-
-            if (coord_map[x][read_y] && coord_map[x][read_y]->type == DEL){
-
-                game_create_new_cell(x, read_y);
+        for(int8_t scan_y = GRID_ROWS - 1; scan_y >= 0; scan_y--)    
+		    	{
+            if (coord_map[x][scan_y] && coord_map[x][scan_y]->type == DEL)   //如果是del的
+							{
+                game_create_new_cell(x, scan_y);
                 is_refilling=1;
-            }
-
-        }
+              }
+          }
         if (is_refilling){
             break;
         }
-
     }
-
     fall_check_timer_bind(lv_timer_create(fall_complete_check, duration + 20, NULL));
 
-    lv_timer_set_repeat_count(fall_check_timer, -1);
+    lv_timer_set_repeat_count(fall_check_timer, -1);     //启动检查是否掉完的定时器
 
     col_start_timer_del();//异步重填
     
-
     col_start_timer = lv_timer_create(refill_continue_cb, duration / 2, NULL);
 
-    lv_timer_set_repeat_count(col_start_timer, 1);
+    lv_timer_set_repeat_count(col_start_timer, 1);   //下一列继续补
 
-
-    
 }
-
-
 
 void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
     if (!coord_map[x][y]){
@@ -516,34 +350,20 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
     if (coord_map[x][y] && coord_map[x][y]->img) {
         // 停止所有动画
         lv_anim_del(coord_map[x][y]->img, NULL); 
-        
         //  删除
         lv_obj_del(coord_map[x][y]->img);       
-        
         // 指针置空
         coord_map[x][y]->img = NULL;            
     }
 
     sqr* new_cell = coord_map[x][y];
-
-    
-
-    cell_type t = safe_type(x, y,rand()%5);
-
-    
-
+    cell_type t = safe_type(x, y,rand()%5);   
+    //设置方块基本属性
     new_cell->type = t;
-
     new_cell->x = x;
-
     new_cell->y = y;
-
     new_cell->moved=0;
-
     new_cell->bomb=BOMB_NONE;
-
-    
-
     new_cell->img = lv_img_create(lv_scr_act());
 
     lv_img_set_src(new_cell->img, &cell_struct[t]);
@@ -560,60 +380,38 @@ void game_create_new_cell(uint8_t x, uint8_t y) {  //生成单个重填方块
 
     lv_obj_move_foreground(new_cell->img);
 
-    
-
     coord_map[x][y] = new_cell;
-
     game_fall_one(coord_map[x][y], y);
 
 }
-
-
-
 void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一出口（还能不能消除，死局？）
 
-    if(game_over == 1) { //熔断判断
-
+    if(game_over == 1) //熔断判断
+			{ 
         if(timer == fall_check_timer)
-
-            fall_check_timer = NULL;
+        fall_check_timer = NULL;
 
         lv_timer_del(timer); 
-
         return;
-
-    }
-
-    if(falling_cell_count > 0) {
-
+      }
+    if(falling_cell_count > 0) 
+			{
         lv_timer_reset(timer);
-
         return;
-
-    }
-
-
-
+      }
     if(timer == fall_check_timer)
 
         fall_check_timer = NULL;
+        lv_timer_del(timer);
 
-    lv_timer_del(timer);
-
-
-
-    if(game_need_refill()) {
-
+    if(game_need_refill())    //还有需要填充的
+			{
         lv_timer_t * rtimer = lv_timer_create(game_refill, 10, NULL);
 
         lv_timer_set_repeat_count(rtimer, 1);
-
         return;
 
     }
-
-
-
     if(game_check_clear()) {  //还有能消除的
         status = FALLING;
         for(uint8_t y = 0; y < GRID_ROWS; y++) {
@@ -650,7 +448,7 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
             if (game_over==1){  
         return;
     }
-    if (game_mode==0){
+    if (game_mode==0){   //给点补偿
         game_time+=4;
     }
     for(uint8_t y = 0; y < GRID_ROWS; y++) {
@@ -659,7 +457,7 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
                 continue;
             if(coord_map[x][y]->img) {
                 lv_obj_add_flag(coord_map[x][y]->img,LV_OBJ_FLAG_HIDDEN);
-				lv_obj_invalidate(coord_map[x][y]->img);
+				        lv_obj_invalidate(coord_map[x][y]->img);
             }
             coord_map[x][y]->type=DEL;
         }
@@ -667,7 +465,7 @@ void fall_complete_check(lv_timer_t* timer) {  //下落/重填完成后的统一
     game_refill(NULL);  //重新洗牌
             
         }
-        else{
+        else{   //不是死局
             for(uint8_t y = 0; y < GRID_ROWS; y++) {
                 for(uint8_t x = 0; x < GRID_COLS; x++) {
                     if (!coord_map[x][y])   //空的

@@ -9,7 +9,7 @@ extern state status;
 uint8_t item_bomb_used = 0;
 uint8_t item_row_used  = 0;
 uint8_t item_col_used  = 0;
-void item_bomb_effect(uint8_t x,uint8_t y)// 自身+上下左右4格
+void item_bomb_effect(uint8_t x,uint8_t y)// 自身+上下左右4个
 {
     
     clear_flag[x][y] = 1;
@@ -18,7 +18,6 @@ void item_bomb_effect(uint8_t x,uint8_t y)// 自身+上下左右4格
     if(y>0) clear_flag[x][y-1] = 1;
     if(y<GRID_ROWS-1) clear_flag[x][y+1] = 1;
 		 item_bomb_used = 1;
-
 }
 
 void item_row_clear(uint8_t row)  //整行消除

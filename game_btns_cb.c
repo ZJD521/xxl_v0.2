@@ -26,7 +26,7 @@ extern uint8_t item_row_used;
 extern uint8_t item_col_used;
 
 
-bool game_mode = false;//游戏模式，false为时间模式，true为步数模式
+bool game_mode = false;//游戏模式，false为时间模式，true为步数模式（bool可以更好的定义非a即b类）
 
 void btn_start_cb(lv_event_t*e){  //开始游戏，和start键交互就会调用这个函数
 	lv_event_code_t code = lv_event_get_code(e);  //获取事件发生类型 
@@ -63,17 +63,15 @@ void btn_choose_cb(lv_event_t*e){  //加载两个主题按钮
 		}
 
 }
-void btn_def_cb(lv_event_t*e){   //标记主题(默认)
+void btn_def_cb(lv_event_t*e){        //标记主题(默认)
 	  lv_event_code_t code = lv_event_get_code(e); 
 	  if(code == LV_EVENT_CLICKED){
     srand(lv_tick_get());
 		lv_obj_add_flag(btn_def,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_add_flag(btn_ice,LV_OBJ_FLAG_HIDDEN);
-		bg.theme=DEFAULT;
+		bg.theme=DEFAULT;         //将主题变成默认主题
 		lv_obj_clear_flag(btn_theme,LV_OBJ_FLAG_HIDDEN);
 		lv_obj_clear_flag(btn_mode,LV_OBJ_FLAG_HIDDEN);
-			
-	  
 		}
 	 
 
@@ -132,8 +130,7 @@ void btn_exit_cb(lv_event_t*e){    //返回
             high_score = game_score;
             sprintf(buff, "High: %d", high_score);
             lv_label_set_text(label_high, buff);
-        }
-        
+        }  
         // 显示结束界面
         game_end_show();
     }
@@ -146,9 +143,6 @@ void btn_mode_cb(lv_event_t*e){  //显示两个模式按钮
 		  
       lv_obj_clear_flag(btn_time,LV_OBJ_FLAG_HIDDEN);
 	  lv_obj_clear_flag(btn_step,LV_OBJ_FLAG_HIDDEN);
-	  
-  
-	
 	  }
 
 }
@@ -198,9 +192,7 @@ void btn_level_cb(lv_event_t*e){ //关卡按钮
 		lv_obj_set_size(btn_exit,128,50);  
 		lv_obj_align(btn_exit,LV_ALIGN_CENTER,430,180); 
  		lv_obj_set_parent(btn_exit,scr_game);
-
-		
-		
+				
 	}
 }
 void btn_item_bomb_cb(lv_event_t *e) //道具（十字）
@@ -216,12 +208,8 @@ void btn_item_bomb_cb(lv_event_t *e) //道具（十字）
         
 				lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
 				lv_obj_set_style_bg_color(btn_item_bomb, lv_color_hex(0x666666), LV_PART_MAIN);
-			
-			
+	
 				lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-			
-			
-			
 				lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
 			
 				}
@@ -238,21 +226,15 @@ void btn_item_row_cb(lv_event_t *e) //道具（横消）
     {
 			if(item_row_used==0)
 			{
-				cur_use_item = ITEM_ROW_CLEAR;
+				cur_use_item = ITEM_ROW_CLEAR;  //将道具设定为行消除道具
 				item_row_used = 1;   // 标记已使用
         
 				lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-			
-			
 				lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-			
-			
-			
-				lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+		   	lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
+				
 				lv_obj_set_style_bg_color(btn_item_row, lv_color_hex(0x666666), LV_PART_MAIN); 
-			
 			}
-        // 选中横排消除
         else
 				{
 					return;
@@ -271,17 +253,11 @@ void btn_item_col_cb(lv_event_t *e) //道具（竖消）
 				item_col_used = 1;   // 标记已使用
         
 				lv_obj_clear_flag(btn_item_bomb, LV_OBJ_FLAG_CLICKABLE); // 按钮变灰不可点
-			
-			
 				lv_obj_clear_flag(btn_item_col, LV_OBJ_FLAG_CLICKABLE); 
-				lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
-			
-			
-			
 				lv_obj_clear_flag(btn_item_row, LV_OBJ_FLAG_CLICKABLE); 
-			
+				
+		  	lv_obj_set_style_bg_color(btn_item_col, lv_color_hex(0x666666), LV_PART_MAIN);
 			}
-        // 选中竖列消除
         else
 				{
 					return;
@@ -289,21 +265,18 @@ void btn_item_col_cb(lv_event_t *e) //道具（竖消）
     }
 }
 
-// 清除最高分按钮 点击回调
-// 清除最高分按钮 点击回调
-void btn_clear_score_cb(lv_event_t * e)
+
+void btn_clear_score_cb(lv_event_t * e)// 清除最高分回调
 {
-    // 只响应点击
     if(lv_event_get_code(e) != LV_EVENT_CLICKED)
         return;
-
     // 固定清空 5 个关卡全部最高分
     FIL file;
-    UINT bw;
+    UINT bw;   //unsigned int型
     uint16_t zero = 0;
 
     f_open(&file, "0:score_1.bin", FA_CREATE_ALWAYS | FA_WRITE);
-    f_write(&file, &zero, 2, &bw);
+    f_write(&file, &zero, 2, &bw);  //bw是传一个写进去的容器过去
     f_close(&file);
 
     f_open(&file, "0:score_2.bin", FA_CREATE_ALWAYS | FA_WRITE);
@@ -330,18 +303,18 @@ char bufx[100];
 void btn_help_cb(lv_event_t * e)
 {	
 	
-    game_help_bg = lv_obj_create(lv_scr_act());
+    game_help_bg = lv_obj_create(lv_scr_act());  //创建一个新界面
     lv_obj_set_size(game_help_bg, LV_HOR_RES, LV_VER_RES);
     lv_obj_set_style_bg_color(game_help_bg, lv_color_black(), 0);
-    lv_obj_set_style_bg_opa(game_help_bg, 180, 0);
-    lv_obj_clear_flag(game_help_bg, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_bg_opa(game_help_bg, 180, 0);  //设置透明度（0~255）
+	lv_obj_clear_flag(game_help_bg, LV_OBJ_FLAG_SCROLLABLE);   //界面不能拖动
 	sprintf(bufx, "GAME HELP \n\n①Basic: Slide blocks to match 3 identical ones for elimination.\n\n②Items: ROW(clear line), COL(clear column), BOMB(cross clear), tap to use.\n\n③Special: 4+ connected blocks spawn special blocks with item effects.\n\n④Warning: CLEAR MAX erases all high scores, use carefully.\n\nHave fun!");
-	lb_help = lv_label_create(game_help_bg);
+	  lb_help = lv_label_create(game_help_bg);    //创建一个help的文字标签
     lv_label_set_text(lb_help, bufx);
-    lv_obj_set_style_text_color(lb_help, lv_color_white(), 0);
+    lv_obj_set_style_text_color(lb_help, lv_color_white(), 0);   //字体：白色
     lv_obj_align(lb_help, LV_ALIGN_CENTER, 0, 10);
 	lv_obj_clear_flag(btn_exit,LV_OBJ_FLAG_HIDDEN);
-	lv_obj_move_foreground(btn_exit);
+	lv_obj_move_foreground(btn_exit);    //退出按钮置顶
 }
 
 

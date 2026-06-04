@@ -7,18 +7,16 @@ void bomb_creat(sqr * cell0,bomb_type tag){ //创建炸弹特效
     if (!cell0 || !cell0->img) {
         return; 
     }
-
     // 防止野指针
     if (!lv_obj_is_valid(cell0->img)) {
         cell0->img = NULL; 
         return;
     }
-
     // 确保对象没有被标记为删除
     if ( cell0->type == DEL) {
         return;
     }
-    lv_obj_set_style_shadow_width(cell0->img,10,0);
+    lv_obj_set_style_shadow_width(cell0->img,10,0);   //加阴影
     cell0->bomb=tag;
     switch (tag){
         case BOMB_ROW:
@@ -30,8 +28,7 @@ void bomb_creat(sqr * cell0,bomb_type tag){ //创建炸弹特效
         default:
             break;
     }
-    
-    lv_obj_set_style_shadow_spread(cell0->img,3,0);
+    lv_obj_set_style_shadow_spread(cell0->img,3,0);    //阴影扩散
 }
 
 void add_bomb(sqr * cell0){ //添加炸弹到待执行
@@ -40,11 +37,8 @@ void add_bomb(sqr * cell0){ //添加炸弹到待执行
             bomb_line[i]=cell0;
             break;
         }
-            
     }
-    
 }
-
 void clear_bomb(){//清空炸弹待执行
     for (uint8_t i=0;i<10;i++){
         bomb_line[i]=NULL;
@@ -65,25 +59,25 @@ void do_bomb (uint8_t num){//执行炸弹
             case BOMB_NONE:
                 return;
             case BOMB_ROW:
-            bomb_line[i]->bomb=BOMB_NONE;
+            bomb_line[i]->bomb=BOMB_NONE;  //取出来了就变成none
                 for (uint8_t j=0;j<GRID_COLS;j++){
                     if (coord_map[j][y0]){
                         clear_flag[j][y0]=0;
                         if( game_over == 0)
-                        {
+                         {
                            game_score += 10;
                          }
                         // 先删除图像，再设置类型
                         if(coord_map[j][y0]->img && coord_map[j][y0] != bomb_line[i]) {
                             
-                            lv_obj_add_flag(coord_map[j][y0]->img,LV_OBJ_FLAG_HIDDEN);
+													lv_obj_add_flag(coord_map[j][y0]->img,LV_OBJ_FLAG_HIDDEN);  //实际删除的地方，不用clear删
                             coord_map[j][y0]->type = DEL;   //标记被删除的地方为 del
                         }
                         
                         
                         if (coord_map[j][y0]->bomb!=BOMB_NONE && coord_map[j][y0] != bomb_line[i]){
                             add_bomb(coord_map[j][y0]);
-                            do_bomb(i+1);
+                            do_bomb(i+1);   //连锁爆炸
                         }
                     }
                         

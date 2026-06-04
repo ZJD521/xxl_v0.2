@@ -9,8 +9,7 @@
 #define GRID_ROWS 7
 #define CELL_LENG 70 
 
-//方块图片大小
-#define CELL_SIZE 70*70*3
+#define CELL_SIZE 70*70*3  //图片分辨率大小（一个像素需要仨字节）
 
 //场地的左上角坐标
 #define FIELD_X 232
@@ -24,14 +23,14 @@
 #define BTN_H 36
 #define BTN_SIZE (BTN_W*BTN_H*3) //按钮图片大小
 
-#define duration 300   //默认动画时长
+#define duration 300   //默认动画时长（0.3s）
 
 
 
 
 typedef enum{          //主题种类
-  DEFAULT,
-	ICE
+  DEFAULT,    //0
+	ICE     //1
 }bg_theme;
 
 typedef enum{          
@@ -49,25 +48,6 @@ typedef enum{  //炸弹种类
 	BOMB_COL
 }bomb_type;
 
-typedef struct {       //背景图片，背景主题
-	lv_obj_t*img;
-  bg_theme theme;
-}bac;
-
-typedef struct {	//方块图片，标签，坐标,炸弹类型,移动标记
-	lv_obj_t*img;
-  	cell_type type;
-	uint8_t x;
-  	uint8_t y;
-	bomb_type bomb;
-	bool moved;
-}sqr;
-
-typedef struct {  //用于打包交换的两个方块
-  sqr* cell_a;
-	sqr* cell_b;
-}ani;
-
 typedef enum {   //当前状态
 	NORMAL,
   SWAPPING,
@@ -83,10 +63,24 @@ typedef enum {
     ITEM_COL_CLEAR
 } ItemType;
 
-extern ItemType cur_use_item;
+typedef struct {       //背景图片，背景主题
+	lv_obj_t*img;
+  bg_theme theme;
+}bac;
 
+typedef struct {	//方块图片，标签，坐标, 炸弹类型, 移动标记
+	lv_obj_t*img;
+  cell_type type;
+	uint8_t x;
+  uint8_t y;
+	bomb_type bomb;
+	bool moved;
+}sqr;
 
-
+typedef struct {  //用于打包交换的两个方块
+  sqr* cell_a;
+	sqr* cell_b;
+}ani;
 
 //相关函数
 
@@ -186,7 +180,7 @@ void add_bomb(sqr * cell0);//炸弹准备
 
 void do_bomb (uint8_t num);//执行炸弹
 
-
+void clear_bomb(void);
 //下落
 
 void game_init_fall_system(void);     //初始化下落系统
@@ -313,5 +307,5 @@ extern lv_obj_t *btn_item_col; //道具按钮
 extern uint8_t item_bomb_used ;
 extern uint8_t item_row_used  ;
 extern uint8_t item_col_used  ;//道具状态
-
+extern ItemType cur_use_item;
 

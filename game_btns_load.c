@@ -7,7 +7,7 @@ extern lv_obj_t * scr_game;
 
 extern lv_obj_t * btn_level[5];
 
-extern void btn_start_cb(lv_event_t*e);
+extern void btn_start_cb(lv_event_t*e);  //各个按键需要绑定的回调函数
 extern void btn_choose_cb(lv_event_t*e);
 extern void btn_def_cb(lv_event_t*e);
 extern void btn_ice_cb(lv_event_t*e);
@@ -15,40 +15,37 @@ extern void btn_item_bomb_cb(lv_event_t *e);
 extern void btn_item_row_cb(lv_event_t *e);
 extern void btn_item_col_cb(lv_event_t *e);
 
-   //开始按钮定义                      
-lv_obj_t * btn_start ;
+                      
+lv_obj_t * btn_start ;//start按钮定义   
+             
+lv_obj_t * btn_choose ; //option按钮定义   
+       
+lv_obj_t * btn_def ;//default主题按钮定义    
 
-  //选择按钮定义                      
-lv_obj_t * btn_choose ;
+lv_obj_t * btn_ice ; //summer主题按钮定义  
 
-  //动物主题按钮定义                      
-lv_obj_t * btn_def ;
+lv_obj_t* btn_exit;//exit按钮定义
 
-  //蔬果主题按钮定义                      
-lv_obj_t * btn_ice ;
+lv_obj_t* btn_mode;//mode按钮定义
 
-//返回按钮定义
-lv_obj_t* btn_exit;
-//模式按钮定义
-lv_obj_t* btn_mode;
-//时间按钮定义
-lv_obj_t* btn_time;
-//步数按钮定义
-lv_obj_t* btn_step;
-//主题按钮定义
-lv_obj_t* btn_theme;
-//仨道具按钮定义
-lv_obj_t* btn_item_bomb;
+lv_obj_t* btn_time;//time（mode）按钮定义
+
+lv_obj_t* btn_step;//step（mode）按钮定义
+
+lv_obj_t* btn_theme;//主题按钮定义
+
+lv_obj_t* btn_item_bomb;//仨道具按钮定义
 lv_obj_t *btn_item_row;
 lv_obj_t *btn_item_col;
-lv_obj_t *btn_clear_score;
-lv_obj_t *btn_help;
+
+lv_obj_t *btn_clear_score;  //清除最高分记录按钮定义
+lv_obj_t *btn_help;  //游戏说明按钮定义
 
 void game_btn_start_load(){        //加载开始按钮
 	
     btn_start = lv_btn_create(scr_menu);  //在菜单界面创建按钮
 	  lv_obj_set_size(btn_start,256,100);  //按钮大小
-	  lv_obj_align(btn_start,LV_ALIGN_CENTER,-200,0); //右移200
+	  lv_obj_align(btn_start,LV_ALIGN_CENTER,-200,0); //（中心）右移200
 	  lv_obj_add_event_cb(btn_start,btn_start_cb,LV_EVENT_CLICKED,NULL);  //绑定回调（clicked）会执行
 	  lv_obj_t *lb_start=lv_label_create(btn_start);  //加个标签
 	  lv_label_set_text(lb_start,"START");  //id
@@ -58,9 +55,9 @@ void game_btn_start_load(){        //加载开始按钮
 	  lv_obj_set_style_text_color(btn_start, lv_color_hex(0xFFFFFF), LV_PART_MAIN);//字体颜色
 	  lv_obj_center(lb_start); //文字在按钮中居中
     lv_obj_set_style_text_font(lb_start , &lv_font_montserrat_40, 0);  //字体大小40
-	lv_obj_set_style_shadow_width(btn_start,10,0);
-	lv_obj_set_style_shadow_spread(btn_start,3,0);
-	lv_obj_set_style_shadow_color(btn_start,lv_color_hex(0x000000),0);
+	lv_obj_set_style_shadow_width(btn_start,10,0);  //阴影宽度
+	lv_obj_set_style_shadow_spread(btn_start,3,0);  //阴影扩散
+	lv_obj_set_style_shadow_color(btn_start,lv_color_hex(0x000000),0);  //阴影颜色
 	lv_obj_set_style_bg_grad_dir(btn_start, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
 	lv_obj_set_style_bg_grad_color(btn_start, lv_color_hex(0xFF5220), 0); // 金色
 	lv_obj_set_style_bg_main_stop(btn_start, 0, 0);   // 主色从 0 开始
@@ -345,16 +342,12 @@ void game_btn_item_col_load(void) //加载竖消道具按钮
 	lv_obj_set_style_shadow_color(btn_item_col,lv_color_hex(0x000000),0);
 }
 
-// 加载【清除最高分】按钮
 void game_btn_clear_score_load(){
     // 创建按钮
     btn_clear_score = lv_btn_create(scr_menu);
     lv_obj_set_size(btn_clear_score, 128, 50);
     lv_obj_align(btn_clear_score, LV_ALIGN_BOTTOM_RIGHT, -10, -10); 
-    
-    // 绑定点击回调
     lv_obj_add_event_cb(btn_clear_score, btn_clear_score_cb, LV_EVENT_CLICKED, NULL);
-    
     // 文字
     lv_obj_t *lb_clear = lv_label_create(btn_clear_score);
     lv_label_set_text(lb_clear, "CLEAR MAX");
@@ -377,25 +370,15 @@ void game_btn_clear_score_load(){
     lv_obj_set_style_bg_main_stop(btn_clear_score, 0, 0);
     lv_obj_set_style_bg_grad_stop(btn_clear_score, 255, 0);
 }
-// 加载【游戏说明】按钮（主菜单右下角）
 void game_btn_help_load(){
-    // 创建按钮 → 父对象是 scr_menu（只在主菜单显示）
+
     btn_help = lv_btn_create(scr_menu);
-    
-    // 按钮大小
     lv_obj_set_size(btn_help,128 , 50);
-    
-    // 位置：右下角，CLEAR MAX 按钮上方一点
     lv_obj_align(btn_help, LV_ALIGN_BOTTOM_RIGHT, -10, -70); 
-    
-    // 点击事件
     lv_obj_add_event_cb(btn_help, btn_help_cb, LV_EVENT_CLICKED, NULL);
-    
-    // 文字
     lv_obj_t *lb_help = lv_label_create(btn_help);
     lv_label_set_text(lb_help, "HELP");
     
-    // 样式完全跟你的 START / OPTION 统一
     lv_obj_set_style_bg_color(btn_help, lv_color_hex(0x3742FA), LV_PART_MAIN);
     lv_obj_set_style_radius(btn_help, 10, LV_PART_MAIN);
     lv_obj_set_style_bg_color(btn_help, lv_color_hex(0x1927D0), LV_PART_MAIN | LV_STATE_PRESSED);

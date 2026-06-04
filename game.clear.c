@@ -1,23 +1,22 @@
 #include "game.h"
 
-extern sqr cell[GRID_COLS][GRID_ROWS];  
-extern lv_img_dsc_t cell_struct[5];
-extern sqr* coord_map[GRID_COLS][GRID_ROWS] ;  
+extern sqr cell[GRID_COLS][GRID_ROWS];   //方块本身
+extern lv_img_dsc_t cell_struct[5];     //五种颜色
+extern sqr* coord_map[GRID_COLS][GRID_ROWS] ;     //地图，指向某个方块
 uint8_t clear_flag[GRID_COLS][GRID_ROWS] = {0};//0:正常,1:待消除,2:生成炸弹
 
 
 
 uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标记要被删除的格子
-    uint8_t ret = 0;//得分点
+    uint8_t ret = 0;    //得分点
     cell_type t;
-    
     // 重置所有消除标记
-    for(uint8_t y = 0; y < GRID_ROWS; y++) {
+    for(uint8_t y = 0; y < GRID_ROWS; y++) 
+	  {
         for(uint8_t x = 0; x < GRID_COLS; x++) {
             clear_flag[x][y] = 0;
         }
     }
-    
     // 检查水平方向
     for(uint8_t y = 0; y < GRID_ROWS; y++) {
         for(uint8_t x = 0; x < GRID_COLS - 2; x++) {
@@ -36,9 +35,7 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
                 clear_flag[x+1][y] = 1;
                 clear_flag[x+2][y] = 1;
                 ret += 1;
-
-              
-
+								
                 // 检查是否超过3个
                 uint8_t count = 3;
                 for(uint8_t i = x+3; i < GRID_COLS; i++) {
@@ -155,7 +152,8 @@ uint8_t game_check_clear(void) {  //消除检测，结果写入clear_flag，标�
 
 
 void game_do_clear(lv_timer_t* timer) {  //消除执行
-	if (game_over == 1) { //熔断判断
+	if (game_over == 1)   //如果游戏结束
+		{ 
         if(timer) lv_timer_del(timer);
         return;
     }
@@ -166,34 +164,31 @@ void game_do_clear(lv_timer_t* timer) {  //消除执行
                 continue;
             if (coord_map[x][y] && coord_map[x][y]->moved==1)
                 coord_map[x][y]->moved=0;
-            if(clear_flag[x][y]==1 && coord_map[x][y]) {   //有东西并且要被消除
+            if(clear_flag[x][y]==1 && coord_map[x][y]) { 
                 clear_flag[x][y]=0;
 
-				if( game_over == 0)
-                {
+	if( game_over == 0)
+        {  
+           game_score += 10;
                     
-                   game_score += 10;
-                    
-                    // 刷新当前得分
-                   char buf[20];
-                   sprintf(buf, "Score:%d", game_score);
-                   lv_label_set_text(label_score, buf);
-                 }
-                // 先删除图像，再设置类型
-                if(coord_map[x][y]->img) {
-                    if (coord_map[x][y]->bomb!=BOMB_NONE){
-                        add_bomb(coord_map[x][y]);
-                        do_bomb(0);
-                    }
+          // 刷新当前得分
+           char buf[20];
+           sprintf(buf, "Score:%d", game_score);
+           lv_label_set_text(label_score, buf);
+        }
+             // 先删除图像，再设置类型
+           if(coord_map[x][y]->img) {
+              if (coord_map[x][y]->bomb!=BOMB_NONE)
+								{
+                    add_bomb(coord_map[x][y]);  //把炸弹加入队列
+                    do_bomb(0);
+                }
                     lv_obj_add_flag(coord_map[x][y]->img,LV_OBJ_FLAG_HIDDEN);
                 }
                 coord_map[x][y]->type = DEL;   //标记被删除的地方为 del
-                
             }
-						
         }
     }
-
 		game_fall_all();
   }
   
