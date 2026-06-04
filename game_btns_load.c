@@ -100,9 +100,9 @@ void game_btn_theme_default_load(){        //加载默认主题按钮
 	  lv_obj_add_event_cb(btn_def,btn_def_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_def=lv_label_create(btn_def);
 	  lv_label_set_text(lb_def,"DEFAULT\n  THEME");
-    lv_obj_set_style_bg_color(btn_def, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_def, lv_color_hex(0x3742FA), LV_PART_MAIN);
     lv_obj_set_style_radius(btn_def, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(btn_def, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_bg_color(btn_def, lv_color_hex(0x1927D0), LV_PART_MAIN | LV_STATE_PRESSED);
 	  lv_obj_set_style_text_color(btn_def, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_def);
     lv_obj_set_style_text_font(lb_def , &lv_font_montserrat_40, 0);
@@ -111,7 +111,7 @@ void game_btn_theme_default_load(){        //加载默认主题按钮
 		 lv_obj_set_style_shadow_spread(btn_def,3,0);
 		 lv_obj_set_style_shadow_color(btn_def,lv_color_hex(0x000000),0);
 		 lv_obj_set_style_bg_grad_dir(btn_def, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
-		 lv_obj_set_style_bg_grad_color(btn_def, lv_color_hex(0xFF5220), 0); // 金色
+		 lv_obj_set_style_bg_grad_color(btn_def, lv_color_hex(0x20B2FF), 0); //蓝色
 		 lv_obj_set_style_bg_main_stop(btn_def, 0, 0);   // 主色从 0 开始
 		 lv_obj_set_style_bg_grad_stop(btn_def, 255, 0); // 渐变色在 255 结束
 }
@@ -122,9 +122,9 @@ void game_btn_theme_ice_load(){        //加载夏日主题按钮
 	  lv_obj_add_event_cb(btn_ice,btn_ice_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_ice=lv_label_create(btn_ice);
 	  lv_label_set_text(lb_ice,"SUMMER\n  THEME");
-    lv_obj_set_style_bg_color(btn_ice, lv_color_hex(0x20B620), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_ice, lv_color_hex(0x20B6B6), LV_PART_MAIN);
     lv_obj_set_style_radius(btn_ice, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(btn_ice, lv_color_hex(0x0A9E0A), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_bg_color(btn_ice, lv_color_hex(0x0A9E9E), LV_PART_MAIN | LV_STATE_PRESSED);
 	  lv_obj_set_style_text_color(btn_ice, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_ice);
     lv_obj_set_style_text_font(lb_ice , &lv_font_montserrat_40, 0);
@@ -133,7 +133,7 @@ void game_btn_theme_ice_load(){        //加载夏日主题按钮
 		lv_obj_set_style_shadow_spread(btn_ice,3,0);
 		lv_obj_set_style_shadow_color(btn_ice,lv_color_hex(0x000000),0);
 		lv_obj_set_style_bg_grad_dir(btn_ice, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
-		lv_obj_set_style_bg_grad_color(btn_ice, lv_color_hex(0x3742FA), 0); 
+		lv_obj_set_style_bg_grad_color(btn_ice, lv_color_hex(0x20E6E6), 0);//青色 
 		lv_obj_set_style_bg_main_stop(btn_ice, 0, 0);   // 主色从 0 开始
 		lv_obj_set_style_bg_grad_stop(btn_ice, 255, 0); // 渐变色在 255 结束
 }
@@ -165,7 +165,7 @@ void game_btn_exit_load(lv_obj_t*scr){        //加载返回按钮
 		lv_obj_set_style_shadow_spread(btn_exit,3,0);
 		lv_obj_set_style_shadow_color(btn_exit,lv_color_hex(0x000000),0);
 		lv_obj_set_style_bg_grad_dir(btn_exit, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
-		lv_obj_set_style_bg_grad_color(btn_exit, lv_color_hex(0xFF5220), 0); 
+		lv_obj_set_style_bg_grad_color(btn_exit, lv_color_hex(0xFF5220), 0); //金色
 		lv_obj_set_style_bg_main_stop(btn_exit, 0, 0);   // 主色从 0 开始
 		lv_obj_set_style_bg_grad_stop(btn_exit, 255, 0); // 渐变色在 255 结束
 
@@ -177,9 +177,9 @@ void game_btn_mode_load(){        //加载模式按钮
 	lv_obj_add_event_cb(btn_mode,btn_mode_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_mode=lv_label_create(btn_mode);
 	  lv_label_set_text(lb_mode,"MODE");
-    lv_obj_set_style_bg_color(btn_mode, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_mode, lv_color_hex(0x9B59B6), LV_PART_MAIN);
     lv_obj_set_style_radius(btn_mode, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(btn_mode, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_bg_color(btn_mode, lv_color_hex(0x7E3EA8), LV_PART_MAIN | LV_STATE_PRESSED);
 	  lv_obj_set_style_text_color(btn_mode, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_mode);
     lv_obj_set_style_text_font(lb_mode , &lv_font_montserrat_40, 0);
@@ -189,7 +189,7 @@ void game_btn_mode_load(){        //加载模式按钮
 		lv_obj_set_style_shadow_spread(btn_mode,3,0);
 		lv_obj_set_style_shadow_color(btn_mode,lv_color_hex(0x000000),0);
 		lv_obj_set_style_bg_grad_dir(btn_mode, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
-		lv_obj_set_style_bg_grad_color(btn_mode, lv_color_hex(0xFF5220), 0); 
+		lv_obj_set_style_bg_grad_color(btn_mode, lv_color_hex(0xB185DB), 0); //紫色
 		lv_obj_set_style_bg_main_stop(btn_mode, 0, 0);   // 主色从 0 开始
 		lv_obj_set_style_bg_grad_stop(btn_mode, 255, 0); // 渐变色在 255 结束
 
@@ -202,9 +202,9 @@ void game_btn_time_load(){       //时间模式
 	lv_obj_add_event_cb(btn_time,btn_time_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_time=lv_label_create(btn_time);
 	  lv_label_set_text(lb_time,"TIME");
-    lv_obj_set_style_bg_color(btn_time, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_time, lv_color_hex(0xFF9800), LV_PART_MAIN);
     lv_obj_set_style_radius(btn_time, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(btn_time, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_bg_color(btn_time, lv_color_hex(0xE68A00), LV_PART_MAIN | LV_STATE_PRESSED);
 	  lv_obj_set_style_text_color(btn_time, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_time);
 	  lv_obj_set_style_text_font(lb_time , &lv_font_montserrat_40, 0);
@@ -214,7 +214,7 @@ void game_btn_time_load(){       //时间模式
 		lv_obj_set_style_shadow_spread(btn_time,3,0);
 		lv_obj_set_style_shadow_color(btn_time,lv_color_hex(0x000000),0);
 		lv_obj_set_style_bg_grad_dir(btn_time, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
-		lv_obj_set_style_bg_grad_color(btn_time, lv_color_hex(0xFF5220), 0); 
+		lv_obj_set_style_bg_grad_color(btn_time, lv_color_hex(0xFFB74D), 0); //橙色
 		lv_obj_set_style_bg_main_stop(btn_time, 0, 0);   // 主色从 0 开始
 		lv_obj_set_style_bg_grad_stop(btn_time, 255, 0); // 渐变色在 255 结束
 }
@@ -225,9 +225,9 @@ void game_btn_step_load(){        //步数模式
 	lv_obj_add_event_cb(btn_step,btn_step_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_step=lv_label_create(btn_step);
 	  lv_label_set_text(lb_step,"STEP");
-    lv_obj_set_style_bg_color(btn_step, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_step, lv_color_hex(0x4CAF50), LV_PART_MAIN);
     lv_obj_set_style_radius(btn_step, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(btn_step, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_bg_color(btn_step, lv_color_hex(0x3D8B40), LV_PART_MAIN | LV_STATE_PRESSED);
 	  lv_obj_set_style_text_color(btn_step, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_step);
 	  lv_obj_set_style_text_font(lb_step , &lv_font_montserrat_40, 0);
@@ -236,7 +236,7 @@ void game_btn_step_load(){        //步数模式
 		  lv_obj_set_style_shadow_spread(btn_step,3,0);
 		  lv_obj_set_style_shadow_color(btn_step,lv_color_hex(0x000000),0);
 		  lv_obj_set_style_bg_grad_dir(btn_step, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
-		lv_obj_set_style_bg_grad_color(btn_step, lv_color_hex(0xFF5220), 0); 
+		lv_obj_set_style_bg_grad_color(btn_step, lv_color_hex(0x81C784), 0); //绿色
 		lv_obj_set_style_bg_main_stop(btn_step, 0, 0);   // 主色从 0 开始
 		lv_obj_set_style_bg_grad_stop(btn_step, 255, 0); // 渐变色在 255 结束
   }
@@ -248,9 +248,9 @@ void game_btn_theme_load(){      //选择主题
 	lv_obj_add_event_cb(btn_theme,btn_theme_cb,LV_EVENT_CLICKED,NULL);
 	  lv_obj_t *lb_theme=lv_label_create(btn_theme);
 	  lv_label_set_text(lb_theme,"THEME");
-    lv_obj_set_style_bg_color(btn_theme, lv_color_hex(0xFFC107), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(btn_theme, lv_color_hex(0xE91E63), LV_PART_MAIN);
     lv_obj_set_style_radius(btn_theme, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(btn_theme, lv_color_hex(0xCC8400), LV_PART_MAIN | LV_STATE_PRESSED);
+    lv_obj_set_style_bg_color(btn_theme, lv_color_hex(0xD81A5A), LV_PART_MAIN | LV_STATE_PRESSED);
 	  lv_obj_set_style_text_color(btn_theme, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 	  lv_obj_center(lb_theme);
 	  lv_obj_set_style_text_font(lb_theme , &lv_font_montserrat_40, 0);
@@ -259,7 +259,7 @@ void game_btn_theme_load(){      //选择主题
 		  lv_obj_set_style_shadow_spread(btn_theme,3,0);
 		  lv_obj_set_style_shadow_color(btn_theme,lv_color_hex(0x000000),0);
 		  lv_obj_set_style_bg_grad_dir(btn_theme, LV_GRAD_DIR_VER, 0); // 第三个参数 0 表示应用到主要部分 (main part)
-		  lv_obj_set_style_bg_grad_color(btn_theme, lv_color_hex(0xFF5220), 0); 
+		  lv_obj_set_style_bg_grad_color(btn_theme, lv_color_hex(0xF06292), 0);//粉色 
 		  lv_obj_set_style_bg_main_stop(btn_theme, 0, 0);   // 主色从 0 开始
 		  lv_obj_set_style_bg_grad_stop(btn_theme, 255, 0); // 渐变色在 255 结束
 }

@@ -1,7 +1,7 @@
 #include "drivers.h"
 #include "lvgl.h"
 #include "game.h"
-lv_obj_t *game_help_bg;
+lv_obj_t *game_help_bg=NULL;
 lv_obj_t *lb_help;
 extern lv_obj_t * btn_start ;
 extern lv_obj_t * btn_choose ;
@@ -102,7 +102,8 @@ void btn_exit_cb(lv_event_t*e){    //返回
         lv_obj_add_flag(btn_time, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(btn_step, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(btn_theme, LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(game_help_bg, LV_OBJ_FLAG_HIDDEN);
+		if (game_help_bg!=NULL)
+			lv_obj_add_flag(game_help_bg, LV_OBJ_FLAG_HIDDEN);
 
         for (int i=0;i<5;i++){
 			lv_obj_add_flag(btn_level[i],LV_OBJ_FLAG_HIDDEN);
@@ -334,7 +335,7 @@ void btn_help_cb(lv_event_t * e)
     lv_obj_set_style_bg_color(game_help_bg, lv_color_black(), 0);
     lv_obj_set_style_bg_opa(game_help_bg, 180, 0);
     lv_obj_clear_flag(game_help_bg, LV_OBJ_FLAG_SCROLLABLE);
-	sprintf(bufx, "GAME HELP \n\n ①Basic: Slide blocks to match 3 identical ones for elimination.\n\n②Items: ROW(clear line), COL(clear column), BOMB(cross clear), tap to use.\n\n③Special: 4+ connected blocks spawn special blocks with item effects.\n\n④Warning: CLEAR MAX erases all high scores, use carefully.\n\nHave fun!");
+	sprintf(bufx, "GAME HELP \n\n①Basic: Slide blocks to match 3 identical ones for elimination.\n\n②Items: ROW(clear line), COL(clear column), BOMB(cross clear), tap to use.\n\n③Special: 4+ connected blocks spawn special blocks with item effects.\n\n④Warning: CLEAR MAX erases all high scores, use carefully.\n\nHave fun!");
 	lb_help = lv_label_create(game_help_bg);
     lv_label_set_text(lb_help, bufx);
     lv_obj_set_style_text_color(lb_help, lv_color_white(), 0);
