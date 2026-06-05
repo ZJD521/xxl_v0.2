@@ -29,30 +29,31 @@ void cell_cb(lv_event_t * e) {      //方块滑动回调
 	  uint8_t x0 = current_cell->x; 
     uint8_t y0 = current_cell->y; 
 	
-	  if(cur_use_item != ITEM_NONE)   //检测到使用了道具
-      {   
-			  game_check_clear();
-        switch(cur_use_item)
-        {
-            case ITEM_BOMB:
-                item_bomb_effect(x0,y0);
-                break;
-            case ITEM_ROW_CLEAR:
-                item_row_clear(y0);
-                break;
-            case ITEM_COL_CLEAR:
-                item_col_clear(x0);
-                break;
-            default:
-                break;
-        }
-        cur_use_item = ITEM_NONE;
-        game_do_clear(NULL);
-        return;
-      }
+	  
 
     if(code == LV_EVENT_PRESSED)      
 			{ 
+                if(cur_use_item != ITEM_NONE)   //检测到使用了道具
+                {   
+                        game_check_clear();
+                  switch(cur_use_item)
+                  {
+                      case ITEM_BOMB:
+                          item_bomb_effect(x0,y0);
+                          break;
+                      case ITEM_ROW_CLEAR:
+                          item_row_clear(y0);
+                          break;
+                      case ITEM_COL_CLEAR:
+                          item_col_clear(x0);
+                          break;
+                      default:
+                          break;
+                  }
+                  cur_use_item = ITEM_NONE;
+                  game_do_clear(NULL);
+                  return;
+                }
         lv_indev_t * indev = lv_indev_get_act();      //获取当前输入设备（触摸屏）
         if(indev) 
 					{ 
