@@ -92,7 +92,7 @@ void game_init_data(void) //数据初始化
     item_row_used = 0;
 }
 
-void game_timer_cb(lv_timer_t* timer) //定时器回调
+void game_timer_cb(lv_timer_t* timer)      //定时器回调
 {
     if(game_over == 0&&game_mode == false)
     {
@@ -155,7 +155,7 @@ void game_timer_cb(lv_timer_t* timer) //定时器回调
     
 }
 
-void game_end_show(void)  //弹出结束界面
+void game_end_show(void)  //弹出结束界面  （包含一个exit按钮的load）
 {   
     lv_obj_del(btn_exit);
     game_btn_exit_load(scr_menu);

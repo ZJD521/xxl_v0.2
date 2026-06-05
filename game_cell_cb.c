@@ -215,14 +215,14 @@ void cell_swap_x(sqr * cell_a , sqr * cell_b){  //横向交换
 	
 	  lv_obj_set_user_data(cell_a->img, cell_a);
     lv_obj_set_user_data(cell_b->img, cell_b);
-	//=======================================================================================
+
 	  lv_anim_t a_x;       //新建一个动画工具
 	  lv_anim_init(&a_x);      //动画恢复出厂设置
-    lv_anim_set_var(&a_x, a->cell_a->img);   //让谁动？把那个方块给a_x
+    lv_anim_set_var(&a_x, a->cell_a->img);   //让谁动？  把那个方块给a_x
     lv_anim_set_exec_cb(&a_x, (lv_anim_exec_xcb_t)lv_obj_set_x);    //动画移动方向（左右）
     lv_anim_set_values(&a_x, cell_a_x, cell_b_x);    //给坐标
     lv_anim_set_time(&a_x, duration/2);   //动画移动时间
-    lv_anim_set_path_cb(&a_x, lv_anim_path_bounce);	//移动的时候弹一下
+    lv_anim_set_path_cb(&a_x, lv_anim_path_bounce);	//移动的时候弹一下（效果好）
 	
 	  lv_anim_t b_x;
     lv_anim_init(&b_x);
@@ -347,14 +347,14 @@ void swap_ready_cb(lv_anim_t * a) {   //交换回调（两路动画各触发一�
         if(found1 && found2) {  
             
             swap_cell_coordinates(i1, j1, i2, j2);  //  先交换数据坐标
-					//============================================================================
+
             lv_obj_move_to_index(coord_map[i1][j1]->img, GRID_COLS * GRID_ROWS * 5);
             lv_obj_move_to_index(coord_map[i2][j2]->img, GRID_COLS * GRID_ROWS * 5 + 1); //调整动画层级，防止遮挡
 			
 					  lv_obj_set_pos(coord_map[i1][j1]->img,FIELD_X+i1*CELL_LENG,FIELD_Y+j1*CELL_LENG);  //把图片也换过去
             lv_obj_set_pos(coord_map[i2][j2]->img,FIELD_X+i2*CELL_LENG,FIELD_Y+j2*CELL_LENG);
             
-					  lv_obj_invalidate(coord_map[i1][j1]->img);
+					  lv_obj_invalidate(coord_map[i1][j1]->img);   //刷新一下
             lv_obj_invalidate(coord_map[i2][j2]->img);	
             
 					if (data->cell_a->bomb!=BOMB_NONE && data->cell_b->bomb!=BOMB_NONE)
@@ -492,7 +492,6 @@ void swap_cell_coordinates(uint8_t i1, uint8_t j1, uint8_t i2, uint8_t j2) {  //
     coord_map[cell[i2][j2].x][cell[i2][j2].y] = &cell[i2][j2];
 }
 
-//=====================================================111
 void clear_coord_map_at(uint8_t x, uint8_t y) {  //清除索引
     if(x < GRID_COLS && y < GRID_ROWS) {
         coord_map[x][y] = NULL;

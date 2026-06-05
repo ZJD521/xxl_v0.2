@@ -44,12 +44,12 @@ void game_bg_load(lv_obj_t *scr ){       //加载背景
 
 void screen_cb(lv_event_t*e)    //游戏回调
 {
+	  game_bg_load(scr_game);
     game_fall_stop_all();       //新局开始前清下落链
     game_init_fall_system();
-    game_bg_load(scr_game);
     game_score_label_create(scr_game);
-    game_init_data();
-    game_level_data_init();
+    game_init_data();   //数据初始化
+    game_level_data_init();   //关卡要求
     if(gametime != NULL) {
         lv_timer_del(gametime);
         gametime = NULL;

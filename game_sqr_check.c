@@ -56,8 +56,7 @@ void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
             lv_obj_set_pos(frame[col][row], FIELD_X + col*CELL_LENG, FIELD_Y + row*CELL_LENG); // 摆放位置
             lv_obj_clear_flag(frame[col][row], LV_OBJ_FLAG_CLICKABLE); // 格子不能点击
             lv_obj_move_to_index(frame[col][row],1); // 放在下层
-
-            // 方块图片================================================
+						
             cell[col][row].img = lv_img_create(scr);     //创建图片资源
             lv_img_set_src(cell[col][row].img, &cell_struct[cell[col][row].type]);    //方块设置图片资源
             lv_obj_set_pos(cell[col][row].img, FIELD_X + col*CELL_LENG, FIELD_Y + row*CELL_LENG);   //图片放到正确的位置
@@ -65,10 +64,11 @@ void game_sqr_field_init(lv_obj_t* scr)  //游戏棋盘初始化
             lv_obj_add_flag(cell[col][row].img, LV_OBJ_FLAG_CLICKABLE);    //允许点击
             lv_obj_move_foreground(cell[col][row].img);    //最上层
             lv_obj_set_user_data(cell[col][row].img, &cell[col][row]);    //把图片和数据绑到一起
-			lv_obj_move_to_index(cell[col][row].img,GRID_ROWS*row+col+GRID_COLS*GRID_ROWS);
-            cell[col][row].x = col;
+						lv_obj_move_to_index(cell[col][row].img,GRID_ROWS*row+col+GRID_COLS*GRID_ROWS);     //（显示层级）
+            
+						cell[col][row].x = col;
             cell[col][row].y = row;
-			cell[col][row].bomb=BOMB_NONE;
+		      	cell[col][row].bomb=BOMB_NONE;
             cell[col][row].moved=0;			
             lv_obj_add_event_cb(cell[col][row].img, cell_cb, LV_EVENT_ALL, &cell[col][row]);  //给方块绑定回调函数
 						
